@@ -7,19 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA5D56F5292E924C00264CC2 /* ImagesListCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D56F4292E924C00264CC2 /* ImagesListCells.swift */; };
+		BA5D852A292AAA34000D3168 /* YS Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BA5D8528292AAA34000D3168 /* YS Display-Bold.ttf */; };
+		BA5D852B292AAA34000D3168 /* YS Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BA5D8529292AAA34000D3168 /* YS Display-Medium.ttf */; };
 		BA6F4E5F2929171D0026FC74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6F4E5E2929171D0026FC74 /* AppDelegate.swift */; };
 		BA6F4E612929171D0026FC74 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6F4E602929171D0026FC74 /* SceneDelegate.swift */; };
-		BA6F4E632929171D0026FC74 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6F4E622929171D0026FC74 /* ViewController.swift */; };
+		BA6F4E632929171D0026FC74 /* ImagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6F4E622929171D0026FC74 /* ImagesListViewController.swift */; };
 		BA6F4E662929171D0026FC74 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA6F4E642929171D0026FC74 /* Main.storyboard */; };
 		BA6F4E682929171E0026FC74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA6F4E672929171E0026FC74 /* Assets.xcassets */; };
 		BA6F4E6B2929171E0026FC74 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA6F4E692929171E0026FC74 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BA5D56F4292E924C00264CC2 /* ImagesListCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCells.swift; sourceTree = "<group>"; };
+		BA5D8528292AAA34000D3168 /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Bold.ttf"; sourceTree = "<group>"; };
+		BA5D8529292AAA34000D3168 /* YS Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Medium.ttf"; sourceTree = "<group>"; };
 		BA6F4E5B2929171D0026FC74 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA6F4E5E2929171D0026FC74 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA6F4E602929171D0026FC74 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		BA6F4E622929171D0026FC74 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BA6F4E622929171D0026FC74 /* ImagesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListViewController.swift; sourceTree = "<group>"; };
 		BA6F4E652929171D0026FC74 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BA6F4E672929171E0026FC74 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BA6F4E6A2929171E0026FC74 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -37,6 +43,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BA5D56F6292E927300264CC2 /* ImageList */ = {
+			isa = PBXGroup;
+			children = (
+				BA6F4E622929171D0026FC74 /* ImagesListViewController.swift */,
+				BA5D56F4292E924C00264CC2 /* ImagesListCells.swift */,
+			);
+			path = ImageList;
+			sourceTree = "<group>";
+		};
+		BA5D8525292AA954000D3168 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BA5D8527292AA9E2000D3168 /* Fonts */,
+				BA6F4E692929171E0026FC74 /* LaunchScreen.storyboard */,
+				BA6F4E672929171E0026FC74 /* Assets.xcassets */,
+				BA6F4E6C2929171E0026FC74 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		BA5D8526292AA990000D3168 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				BA6F4E642929171D0026FC74 /* Main.storyboard */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		BA5D8527292AA9E2000D3168 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				BA5D8528292AAA34000D3168 /* YS Display-Bold.ttf */,
+				BA5D8529292AAA34000D3168 /* YS Display-Medium.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		BA6F4E522929171D0026FC74 = {
 			isa = PBXGroup;
 			children = (
@@ -56,15 +99,21 @@
 		BA6F4E5D2929171D0026FC74 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				BAD976712931209D005AE48F /* Models */,
+				BA5D56F6292E927300264CC2 /* ImageList */,
+				BA5D8526292AA990000D3168 /* Presentation */,
+				BA5D8525292AA954000D3168 /* Resources */,
 				BA6F4E5E2929171D0026FC74 /* AppDelegate.swift */,
 				BA6F4E602929171D0026FC74 /* SceneDelegate.swift */,
-				BA6F4E622929171D0026FC74 /* ViewController.swift */,
-				BA6F4E642929171D0026FC74 /* Main.storyboard */,
-				BA6F4E672929171E0026FC74 /* Assets.xcassets */,
-				BA6F4E692929171E0026FC74 /* LaunchScreen.storyboard */,
-				BA6F4E6C2929171E0026FC74 /* Info.plist */,
 			);
 			path = ImageFeed;
+			sourceTree = "<group>";
+		};
+		BAD976712931209D005AE48F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,6 +177,8 @@
 				BA6F4E6B2929171E0026FC74 /* LaunchScreen.storyboard in Resources */,
 				BA6F4E682929171E0026FC74 /* Assets.xcassets in Resources */,
 				BA6F4E662929171D0026FC74 /* Main.storyboard in Resources */,
+				BA5D852A292AAA34000D3168 /* YS Display-Bold.ttf in Resources */,
+				BA5D852B292AAA34000D3168 /* YS Display-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +189,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA6F4E632929171D0026FC74 /* ViewController.swift in Sources */,
+				BA6F4E632929171D0026FC74 /* ImagesListViewController.swift in Sources */,
 				BA6F4E5F2929171D0026FC74 /* AppDelegate.swift in Sources */,
+				BA5D56F5292E924C00264CC2 /* ImagesListCells.swift in Sources */,
 				BA6F4E612929171D0026FC74 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,7 +341,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 253UYY58R5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ImageFeed/Info.plist;
+				INFOPLIST_FILE = ImageFeed/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -321,7 +373,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 253UYY58R5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ImageFeed/Info.plist;
+				INFOPLIST_FILE = ImageFeed/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
