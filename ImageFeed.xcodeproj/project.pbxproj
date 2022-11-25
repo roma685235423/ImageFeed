@@ -99,7 +99,6 @@
 		BA6F4E5D2929171D0026FC74 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
-				BAD976712931209D005AE48F /* Models */,
 				BA5D56F6292E927300264CC2 /* ImageList */,
 				BA5D8526292AA990000D3168 /* Presentation */,
 				BA5D8525292AA954000D3168 /* Resources */,
@@ -107,13 +106,6 @@
 				BA6F4E602929171D0026FC74 /* SceneDelegate.swift */,
 			);
 			path = ImageFeed;
-			sourceTree = "<group>";
-		};
-		BAD976712931209D005AE48F /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
