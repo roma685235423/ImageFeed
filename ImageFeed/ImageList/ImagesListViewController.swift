@@ -6,17 +6,22 @@
 //
 
 import UIKit
-//
+
 class ImagesListViewController: UIViewController {
-    
+    // MARK: - Properties
     private var photosName = [String]()
+    
+    // MARK: - Outlets
     @IBOutlet weak var imageListTableView: UITableView!
+    
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         photosName = Array(0..<20).map{"\($0)"}
     }
     
+    // MARK: - Helpers
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -27,6 +32,7 @@ class ImagesListViewController: UIViewController {
 
 
 
+// MARK: - Extensions
 extension ImagesListViewController: UITableViewDelegate {
     
     // This method is responsible for the action that is performed when tapping on a table cell.
