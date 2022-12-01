@@ -21,83 +21,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="CEi-rX-dd9">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" name="backgroung"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" alpha="0.0" tag="1" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="ImagesListCell" focusStyle="custom" rowHeight="274" id="Sb7-cc-kzT" customClass="ImagesListCell" customModule="ImageFeed" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="414" height="274"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Sb7-cc-kzT" id="rjR-Gs-A6X">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="274"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="81C-qV-Jog" userLabel="Cell Image">
-                                                    <rect key="frame" x="20" y="11" width="374" height="252"/>
-                                                    <color key="backgroundColor" name="backgroung"/>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="16"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                                                    </userDefinedRuntimeAttributes>
-                                                </imageView>
-                                                <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="pMK-TB-rCW">
-                                                    <rect key="frame" x="20" y="232" width="374" height="31"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27 Августа 2022" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pNJ-SL-J15" userLabel="Date Label">
-                                                            <rect key="frame" x="8" y="8" width="103" height="15"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                            <color key="textColor" name="white"/>
-                                                            <color key="highlightedColor" name="backgroung"/>
-                                                        </label>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient" translatesAutoresizingMaskIntoConstraints="NO" id="KNk-ma-dfg">
-                                                            <rect key="frame" x="0.0" y="-5" width="374" height="41"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="41" id="0Vy-RA-c6o"/>
-                                                            </constraints>
-                                                        </imageView>
-                                                    </subviews>
-                                                    <constraints>
-                                                        <constraint firstItem="pNJ-SL-J15" firstAttribute="centerY" secondItem="pMK-TB-rCW" secondAttribute="centerY" id="9Ac-ar-jJg"/>
-                                                        <constraint firstItem="KNk-ma-dfg" firstAttribute="centerY" secondItem="pNJ-SL-J15" secondAttribute="centerY" id="EGf-cj-K5w"/>
-                                                        <constraint firstItem="KNk-ma-dfg" firstAttribute="centerX" secondItem="pMK-TB-rCW" secondAttribute="centerX" id="Jhe-9w-rhd"/>
-                                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="pNJ-SL-J15" secondAttribute="trailing" constant="20" symbolic="YES" id="bAf-Wt-Ix1"/>
-                                                        <constraint firstItem="pNJ-SL-J15" firstAttribute="leading" secondItem="pMK-TB-rCW" secondAttribute="leading" constant="8" id="hCp-S6-hPt"/>
-                                                        <constraint firstItem="KNk-ma-dfg" firstAttribute="top" secondItem="pMK-TB-rCW" secondAttribute="top" constant="-5" id="ktn-jZ-Lzn"/>
-                                                        <constraint firstItem="KNk-ma-dfg" firstAttribute="width" secondItem="pMK-TB-rCW" secondAttribute="width" id="mXz-Ky-HTY"/>
-                                                        <constraint firstAttribute="bottom" secondItem="pNJ-SL-J15" secondAttribute="bottom" constant="8" id="tXU-OO-QXZ"/>
-                                                    </constraints>
-                                                </view>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XXd-vy-WeQ" userLabel="Like Button">
-                                                    <rect key="frame" x="352" y="11" width="42" height="42"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="42" id="8kP-Bo-HfQ"/>
-                                                        <constraint firstAttribute="height" constant="42" id="BqM-4t-Ght"/>
-                                                    </constraints>
-                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                    <state key="normal" image="like_button_on"/>
-                                                </button>
-                                            </subviews>
-                                            <color key="backgroundColor" name="backgroung"/>
-                                            <color key="tintColor" systemColor="tintColor"/>
-                                            <constraints>
-                                                <constraint firstItem="XXd-vy-WeQ" firstAttribute="top" secondItem="81C-qV-Jog" secondAttribute="top" id="5Cl-Wv-a40"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="81C-qV-Jog" secondAttribute="trailing" id="Fq1-AV-6E1"/>
-                                                <constraint firstItem="pMK-TB-rCW" firstAttribute="bottom" secondItem="81C-qV-Jog" secondAttribute="bottom" id="Isn-qo-7Q7"/>
-                                                <constraint firstItem="XXd-vy-WeQ" firstAttribute="trailing" secondItem="pMK-TB-rCW" secondAttribute="trailing" id="NEK-Lf-NtR"/>
-                                                <constraint firstItem="81C-qV-Jog" firstAttribute="top" secondItem="rjR-Gs-A6X" secondAttribute="topMargin" id="Oln-3o-4lp"/>
-                                                <constraint firstItem="pMK-TB-rCW" firstAttribute="width" secondItem="81C-qV-Jog" secondAttribute="width" id="WJr-rL-mXt"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="81C-qV-Jog" secondAttribute="bottom" id="azg-DC-PiD"/>
-                                                <constraint firstItem="81C-qV-Jog" firstAttribute="leading" secondItem="rjR-Gs-A6X" secondAttribute="leadingMargin" id="jrn-fM-T1L"/>
-                                                <constraint firstItem="pMK-TB-rCW" firstAttribute="leading" secondItem="81C-qV-Jog" secondAttribute="leading" id="pPY-vU-vG0"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" name="backgroung"/>
-                                        <connections>
-                                            <outlet property="imagesListCellImage" destination="81C-qV-Jog" id="j0F-S8-Quy"/>
-                                            <outlet property="imagesListCellLikeButton" destination="XXd-vy-WeQ" id="ePk-cS-3p6"/>
-                                            <outlet property="imagesListCellTextLabel" destination="pNJ-SL-J15" id="4HC-tL-783"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="dyM-7Q-zSF"/>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="2jw-SW-5vP"/>
@@ -115,7 +38,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="imageListTableView" destination="CEi-rX-dd9" id="45X-yw-kfB"/>
+                        <outlet property="imagesListTableView" destination="CEi-rX-dd9" id="7dR-4m-ZAH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -125,17 +48,11 @@
     </scenes>
     <color key="tintColor" name="backgroung"/>
     <resources>
-        <image name="0" width="200" height="132"/>
-        <image name="gradient" width="343" height="30"/>
-        <image name="like_button_on" width="42" height="42"/>
         <namedColor name="backgroung">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="black">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="white">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="tintColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

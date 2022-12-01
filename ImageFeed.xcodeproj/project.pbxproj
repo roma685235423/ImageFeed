@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BA5D56F5292E924C00264CC2 /* ImagesListCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D56F4292E924C00264CC2 /* ImagesListCells.swift */; };
+		BA5D56F5292E924C00264CC2 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D56F4292E924C00264CC2 /* ImagesListCell.swift */; };
 		BA5D852A292AAA34000D3168 /* YS Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BA5D8528292AAA34000D3168 /* YS Display-Bold.ttf */; };
 		BA5D852B292AAA34000D3168 /* YS Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BA5D8529292AAA34000D3168 /* YS Display-Medium.ttf */; };
 		BA6F4E5F2929171D0026FC74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6F4E5E2929171D0026FC74 /* AppDelegate.swift */; };
@@ -16,10 +16,11 @@
 		BA6F4E662929171D0026FC74 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA6F4E642929171D0026FC74 /* Main.storyboard */; };
 		BA6F4E682929171E0026FC74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA6F4E672929171E0026FC74 /* Assets.xcassets */; };
 		BA6F4E6B2929171E0026FC74 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA6F4E692929171E0026FC74 /* LaunchScreen.storyboard */; };
+		BA77C5622937F666008CEA65 /* ImagesListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA77C5612937F666008CEA65 /* ImagesListCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		BA5D56F4292E924C00264CC2 /* ImagesListCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCells.swift; sourceTree = "<group>"; };
+		BA5D56F4292E924C00264CC2 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		BA5D8528292AAA34000D3168 /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Bold.ttf"; sourceTree = "<group>"; };
 		BA5D8529292AAA34000D3168 /* YS Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Medium.ttf"; sourceTree = "<group>"; };
 		BA6F4E5B2929171D0026FC74 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -30,6 +31,7 @@
 		BA6F4E672929171E0026FC74 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BA6F4E6A2929171E0026FC74 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA6F4E6C2929171E0026FC74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA77C5612937F666008CEA65 /* ImagesListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImagesListCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,8 +48,8 @@
 		BA5D56F6292E927300264CC2 /* ImageList */ = {
 			isa = PBXGroup;
 			children = (
+				BA77C5632937FACD008CEA65 /* ImageListCell */,
 				BA6F4E622929171D0026FC74 /* ImagesListViewController.swift */,
-				BA5D56F4292E924C00264CC2 /* ImagesListCells.swift */,
 			);
 			path = ImageList;
 			sourceTree = "<group>";
@@ -106,6 +108,15 @@
 				BA6F4E602929171D0026FC74 /* SceneDelegate.swift */,
 			);
 			path = ImageFeed;
+			sourceTree = "<group>";
+		};
+		BA77C5632937FACD008CEA65 /* ImageListCell */ = {
+			isa = PBXGroup;
+			children = (
+				BA5D56F4292E924C00264CC2 /* ImagesListCell.swift */,
+				BA77C5612937F666008CEA65 /* ImagesListCell.xib */,
+			);
+			path = ImageListCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -171,6 +182,7 @@
 				BA6F4E662929171D0026FC74 /* Main.storyboard in Resources */,
 				BA5D852A292AAA34000D3168 /* YS Display-Bold.ttf in Resources */,
 				BA5D852B292AAA34000D3168 /* YS Display-Medium.ttf in Resources */,
+				BA77C5622937F666008CEA65 /* ImagesListCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,7 +195,7 @@
 			files = (
 				BA6F4E632929171D0026FC74 /* ImagesListViewController.swift in Sources */,
 				BA6F4E5F2929171D0026FC74 /* AppDelegate.swift in Sources */,
-				BA5D56F5292E924C00264CC2 /* ImagesListCells.swift in Sources */,
+				BA5D56F5292E924C00264CC2 /* ImagesListCell.swift in Sources */,
 				BA6F4E612929171D0026FC74 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

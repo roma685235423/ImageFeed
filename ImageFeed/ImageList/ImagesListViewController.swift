@@ -12,7 +12,12 @@ class ImagesListViewController: UIViewController {
     private var photosName = [String]()
     
     // MARK: - Outlets
-    @IBOutlet weak var imageListTableView: UITableView!
+    @IBOutlet weak var imagesListTableView: UITableView! {
+        didSet {
+            let id =  String(describing: ImagesListCell.self)
+            imagesListTableView.register(UINib(nibName: id, bundle: nil), forCellReuseIdentifier: id)
+        }
+    }
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -53,34 +58,37 @@ extension ImagesListViewController: UITableViewDataSource {
     
     // This method is responsible for the actions that will be performed when tapping on a table cell.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reusedIdentifier, for: indexPath)
         
-        guard let imageListCell = cell as? ImagesListCell else {
+        let id =  String(describing: ImagesListCell.self)
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: id, for: indexPath) as? ImagesListCell else {
             return UITableViewCell()
         }
-        configCell(for: imageListCell, with: indexPath)
-        return imageListCell
+        
+        let image = UIImage(named: photosName[indexPath.row])
+        let date = dateFormatter.string(from: Date())
+        let isLikedImage = indexPath.row % 2 == 1
+        
+        cell.configureCell(image: image, date: date, isLiked: isLikedImage)
+        //configCell(for: imageListCell, with: indexPath)
+        return cell
+        
     }
     
 }
 
 
 
-extension ImagesListViewController {
+/*extension ImagesListViewController {
     
-    // This method is responsible for configutation of cell
+
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         guard let image = UIImage(named: photosName[indexPath.row]) else {
             print("Image \(photosName[indexPath.row]) not found ❌")
             return
         }
         
-        cell.imagesListCellImage.image = image
-        cell.imagesListCellTextLabel.text = dateFormatter.string(from: Date())
-        
-        let isLikedImage = indexPath.row % 2 == 1
-        let likeButtonImage = isLikedImage ? UIImage(named: "like_button_on"): UIImage(named: "like_button_off")
-        cell.imagesListCellLikeButton.setImage(likeButtonImage, for: .normal)
     }
     
 }
+*/
