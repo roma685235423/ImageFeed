@@ -11,6 +11,7 @@ import UIKit
 class SingleImageViewController: UIViewController {
     
     // MARK: - Properties
+    
     var image: UIImage! {
         didSet {
             guard isViewLoaded else { return }
@@ -19,10 +20,20 @@ class SingleImageViewController: UIViewController {
     }
     
     //MARK: - Outlets
+    
     @IBOutlet weak var imageView: UIImageView!
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    //MARK: - Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         imageView.image = image
     }
+    
+    @IBAction func didTapBackButton(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
