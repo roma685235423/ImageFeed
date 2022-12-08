@@ -147,13 +147,16 @@
                                     </imageView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="8JS-ZF-gcc" secondAttribute="trailing" id="0Wg-9Q-9Tk"/>
-                                    <constraint firstItem="8JS-ZF-gcc" firstAttribute="top" secondItem="HO5-K4-tbm" secondAttribute="top" id="EJg-Ji-4HF"/>
-                                    <constraint firstAttribute="bottom" secondItem="8JS-ZF-gcc" secondAttribute="bottom" id="YYG-ri-Sjw"/>
-                                    <constraint firstItem="8JS-ZF-gcc" firstAttribute="leading" secondItem="txy-yh-Rlu" secondAttribute="leading" id="Yn6-B1-e90"/>
+                                    <constraint firstAttribute="trailing" secondItem="8JS-ZF-gcc" secondAttribute="trailing" id="11f-iU-hoh"/>
+                                    <constraint firstItem="8JS-ZF-gcc" firstAttribute="leading" secondItem="txy-yh-Rlu" secondAttribute="leading" id="EEz-SS-E0p"/>
+                                    <constraint firstItem="8JS-ZF-gcc" firstAttribute="top" secondItem="txy-yh-Rlu" secondAttribute="top" id="HyJ-mP-HL2"/>
+                                    <constraint firstAttribute="bottom" secondItem="8JS-ZF-gcc" secondAttribute="bottom" id="w6L-wT-xEO"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="HO5-K4-tbm"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="8Vv-4c-dir"/>
+                                <connections>
+                                    <outlet property="delegate" destination="ojc-FU-vQ5" id="vmh-C0-7LS"/>
+                                </connections>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ak-cg-UfS" userLabel="Backward Button">
                                 <rect key="frame" x="8" y="56" width="48" height="48"/>
@@ -174,11 +177,11 @@
                         <color key="backgroundColor" name="black"/>
                         <constraints>
                             <constraint firstItem="2ak-cg-UfS" firstAttribute="top" secondItem="3Sj-Ts-iEi" secondAttribute="top" constant="8" id="7TK-rN-cbm"/>
-                            <constraint firstItem="txy-yh-Rlu" firstAttribute="trailing" secondItem="3Sj-Ts-iEi" secondAttribute="trailing" id="9YV-Ow-IaB"/>
-                            <constraint firstItem="txy-yh-Rlu" firstAttribute="leading" secondItem="3Sj-Ts-iEi" secondAttribute="leading" id="FzE-og-AFW"/>
+                            <constraint firstItem="txy-yh-Rlu" firstAttribute="leading" secondItem="3Sj-Ts-iEi" secondAttribute="leading" id="ARi-3L-xN6"/>
+                            <constraint firstAttribute="bottom" secondItem="txy-yh-Rlu" secondAttribute="bottom" id="MGL-mk-Vgk"/>
+                            <constraint firstItem="txy-yh-Rlu" firstAttribute="top" secondItem="XDz-F0-mg9" secondAttribute="top" id="OED-5i-XhK"/>
                             <constraint firstItem="2ak-cg-UfS" firstAttribute="leading" secondItem="XDz-F0-mg9" secondAttribute="leading" constant="8" id="W7O-1c-ymb"/>
-                            <constraint firstItem="txy-yh-Rlu" firstAttribute="top" secondItem="XDz-F0-mg9" secondAttribute="top" id="b4k-Sm-xSa"/>
-                            <constraint firstAttribute="bottom" secondItem="txy-yh-Rlu" secondAttribute="bottom" id="fd7-Cb-4vC"/>
+                            <constraint firstItem="txy-yh-Rlu" firstAttribute="trailing" secondItem="3Sj-Ts-iEi" secondAttribute="trailing" id="bWv-qi-tnr"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="urV-lL-Gyt"/>
