@@ -43,6 +43,16 @@ class SingleImageViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func didTapShaeButton(_ sender: Any) {
+        let shareMenu = UIActivityViewController(
+            activityItems: [image],
+            applicationActivities: nil
+        )
+        present(shareMenu, animated: true)
+        
+    }
+    
+    
     
     
     private func rescaleAndCenterInScrollView(image: UIImage) {
