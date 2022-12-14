@@ -16,6 +16,8 @@ final class ImagesListCell: UITableViewCell {
     
     @IBOutlet private weak var imagesListCellLikeButton: UIButton!
     
+    @IBOutlet private weak var imagesListCellGradient: UIView!
+    
 }
 
 
@@ -30,6 +32,16 @@ extension ImagesListCell {
         imagesListCellTextLabel.text = date
         let likeButtonImage = isLiked ? UIImage(named: "like_button_on"): UIImage(named: "like_button_off")
         imagesListCellLikeButton.setImage(likeButtonImage, for: .normal)
+        
+        let gradient = CAGradientLayer()
+        
+        let colorTop = UIColor(named: "gradientTop")?.cgColor
+        let colorBottom = UIColor(named: "gradientBottom")?.cgColor
+        
+        gradient.colors = [colorTop, colorBottom]
+        gradient.frame = imagesListCellGradient.bounds
+        
+        imagesListCellGradient.layer.addSublayer(gradient)
         
     }
 }

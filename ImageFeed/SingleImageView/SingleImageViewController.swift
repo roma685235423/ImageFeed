@@ -43,12 +43,16 @@ class SingleImageViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func didTapShaeButton(_ sender: Any) {
+    @IBAction func didTapShareButton(_ sender: Any) {
+        guard let unwrapImage = image else {
+            print("Nothing to share❌")
+            return
+        }
         let shareMenu = UIActivityViewController(
-            activityItems: [image],
+            activityItems: [unwrapImage],
             applicationActivities: nil
         )
-        present(shareMenu, animated: true)
+        present(shareMenu, animated: false)
         
     }
     
@@ -89,5 +93,13 @@ class SingleImageViewController: UIViewController {
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView
+    }
+   
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        rescaleAndCenterInScrollView(image: image)
+    }
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        rescaleAndCenterInScrollView(image: image)
     }
 }
