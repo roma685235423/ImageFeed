@@ -91,7 +91,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" name="backgroung"/>
                                         <connections>
-                                            <outlet property="ImagesListCellGradient" destination="1Iw-oY-wry" id="1hO-K2-2nI"/>
+                                            <outlet property="imagesListCellGradient" destination="1Iw-oY-wry" id="eUm-8X-wDW"/>
                                             <outlet property="imagesListCellImage" destination="wQJ-YG-yKX" id="ICq-72-G1U"/>
                                             <outlet property="imagesListCellLikeButton" destination="0m3-a5-vPa" id="yjR-Wa-zn3"/>
                                             <outlet property="imagesListCellTextLabel" destination="obV-KL-rui" id="SkR-lN-a2v"/>

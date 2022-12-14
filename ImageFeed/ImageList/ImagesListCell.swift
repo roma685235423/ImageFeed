@@ -16,7 +16,7 @@ final class ImagesListCell: UITableViewCell {
     
     @IBOutlet private weak var imagesListCellLikeButton: UIButton!
     
-    @IBOutlet private weak var ImagesListCellGradient: UIView!
+    @IBOutlet private weak var imagesListCellGradient: UIView!
     
 }
 
@@ -37,7 +37,7 @@ extension ImagesListCell {
         let colorTop = UIColor(named: "gradientTop")?.cgColor
         let colorBottom = UIColor(named: "gradientBottom")?.cgColor
         gradient.colors = [colorTop, colorBottom]
-        gradient.frame = ImagesListCellGradient.bounds
-        ImagesListCellGradient.layer.addSublayer(gradient)
+        gradient.frame = imagesListCellGradient.bounds
+        imagesListCellGradient.layer.addSublayer(gradient)
     }
 }
