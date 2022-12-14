@@ -34,10 +34,14 @@ extension ImagesListCell {
         imagesListCellLikeButton.setImage(likeButtonImage, for: .normal)
         
         let gradient = CAGradientLayer()
+        
         let colorTop = UIColor(named: "gradientTop")?.cgColor
         let colorBottom = UIColor(named: "gradientBottom")?.cgColor
+        
         gradient.colors = [colorTop, colorBottom]
         gradient.frame = imagesListCellGradient.bounds
+        
         imagesListCellGradient.layer.addSublayer(gradient)
+        
     }
 }
