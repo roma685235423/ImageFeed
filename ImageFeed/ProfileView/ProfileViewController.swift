@@ -101,10 +101,7 @@ extension ProfileViewController {
         let logoutButton: UIButton
         let logoutButtonImage = UIImage(named: "logout")
         
-        guard let unwrappedImage = logoutButtonImage else {
-            print("Image for loguot button don't find ❌")
-            return
-        }
+        guard let unwrappedImage = logoutButtonImage else { return }
         
         logoutButton = UIButton.systemButton(with: unwrappedImage, target: self, action: #selector(Self.didTapLogoutButton))
         
@@ -122,7 +119,6 @@ extension ProfileViewController {
     }
     
     @objc
-    // This method is responsible for action of logout button.
     private func didTapLogoutButton() {
     
     }
