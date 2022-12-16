@@ -7,24 +7,39 @@
 
 import WebKit
 import UIKit
-//MARK: - Properties
+
+//MARK: - fileprivate Properties
+
 fileprivate let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+fileprivate var progress = Float()
+
 
 
 //MARK: - Protocols
+
 protocol WebViewViewControllerDelegate: AnyObject {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String)
     func webViewViewControllerDidCancel(_ vc: WebViewViewController)
 }
 
 
+
+//MARK: - WebViewViewController
 class WebViewViewController: UIViewController {
     
     weak var delegate: WebViewViewControllerDelegate?
     
     @IBOutlet private var webView: WKWebView!
+    @IBOutlet weak var progressView: UIProgressView!
+    
     
 //MARK: - LifeCicle
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +57,30 @@ class WebViewViewController: UIViewController {
         let request = URLRequest(url: url)
         webView.load(request)
         
+        updateProgress()
+    }
+    
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
+        updateProgress()
+    }
+    
+    
+//MARK: - Methods
+    
+    override func observeValue(forKeyPath keyPath: String?,of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == #keyPath(WKWebView.estimatedProgress) {
+            updateProgress()
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
+    }
+    
+    private func updateProgress() {
+        progressView.progress = Float(webView.estimatedProgress)
+        progressView.isHidden = fabs(webView.estimatedProgress - 1.0)  <= 0.0001
     }
     
     
@@ -52,6 +91,7 @@ class WebViewViewController: UIViewController {
     }
     
 }
+
 
 
 //MARK: - Extension

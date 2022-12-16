@@ -76,7 +76,11 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ker-FB-zCu">
-                                <rect key="frame" x="16" y="59" width="9" height="22"/>
+                                <rect key="frame" x="0.0" y="47" width="64" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="64" id="KsJ-PY-jQD"/>
+                                    <constraint firstAttribute="height" constant="44" id="evw-Bt-N4z"/>
+                                </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="nav_back_button"/>
                                 <connections>
@@ -84,14 +88,21 @@
                                     <action selector="didTapBackButton:" destination="C42-Pw-H0c" eventType="touchUpInside" id="TKV-mY-1Bl"/>
                                 </connections>
                             </button>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qt9-ZD-dPG">
+                                <rect key="frame" x="0.0" y="91" width="428" height="4"/>
+                                <color key="progressTintColor" name="backgroung"/>
+                            </progressView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="JCa-Qx-6BQ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="ker-FB-zCu" firstAttribute="top" secondItem="bPz-YD-m44" secondAttribute="top" constant="59" id="N4n-hL-rAD"/>
+                            <constraint firstItem="JCa-Qx-6BQ" firstAttribute="trailing" secondItem="qt9-ZD-dPG" secondAttribute="trailing" id="Dvg-um-ODB"/>
+                            <constraint firstItem="qt9-ZD-dPG" firstAttribute="top" secondItem="ker-FB-zCu" secondAttribute="bottom" id="Hez-Zf-mok"/>
+                            <constraint firstItem="ker-FB-zCu" firstAttribute="top" secondItem="JCa-Qx-6BQ" secondAttribute="top" id="N4n-hL-rAD"/>
                             <constraint firstAttribute="bottom" secondItem="bPz-YD-m44" secondAttribute="bottom" id="VxE-qN-ac0"/>
                             <constraint firstItem="JCa-Qx-6BQ" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ker-FB-zCu" secondAttribute="trailing" symbolic="YES" id="ZAG-ee-Gbm"/>
-                            <constraint firstItem="ker-FB-zCu" firstAttribute="leading" secondItem="JCa-Qx-6BQ" secondAttribute="leading" constant="16" id="cRe-pL-RdS"/>
+                            <constraint firstItem="ker-FB-zCu" firstAttribute="leading" secondItem="JCa-Qx-6BQ" secondAttribute="leading" id="cRe-pL-RdS"/>
+                            <constraint firstItem="qt9-ZD-dPG" firstAttribute="leading" secondItem="JCa-Qx-6BQ" secondAttribute="leading" id="iT9-k1-lk1"/>
                             <constraint firstAttribute="trailing" secondItem="bPz-YD-m44" secondAttribute="trailing" id="nXR-4O-RdZ"/>
                             <constraint firstItem="bPz-YD-m44" firstAttribute="leading" secondItem="RNz-Iq-qCD" secondAttribute="leading" id="rPX-sz-9db"/>
                             <constraint firstItem="bPz-YD-m44" firstAttribute="top" secondItem="RNz-Iq-qCD" secondAttribute="top" id="u54-Y9-hhH"/>
@@ -99,6 +110,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="XLO-1m-trx"/>
                     <connections>
+                        <outlet property="progressView" destination="qt9-ZD-dPG" id="pos-Es-OPT"/>
                         <outlet property="webView" destination="bPz-YD-m44" id="gbb-Jr-DlM"/>
                     </connections>
                 </viewController>
