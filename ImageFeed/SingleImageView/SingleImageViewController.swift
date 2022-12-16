@@ -44,10 +44,7 @@ class SingleImageViewController: UIViewController {
     }
     
     @IBAction func didTapShareButton(_ sender: Any) {
-        guard let unwrapImage = image else {
-            print("Nothing to share❌")
-            return
-        }
+        guard let unwrapImage = image else { return }
         let shareMenu = UIActivityViewController(
             activityItems: [unwrapImage],
             applicationActivities: nil
