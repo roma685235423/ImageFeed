@@ -110,14 +110,19 @@ extension WebViewViewController: WKNavigationDelegate {
     }
     
     private func code(from navigationAction: WKNavigationAction) -> String? {
-        if let url = navigationAction.request.url,
-           let urlComponents = URLComponents(string: url.absoluteString),
-           urlComponents.path == "oauth/authorize/native",
-           let items = urlComponents.queryItems,
-           let codeItem = items.first(where: {$0.name == "code"}) {
-            return codeItem.value
+        
+        let url = navigationAction.request.url
+        let urlComponents = URLComponents(string: url?.absoluteString ?? "")
+        let items = urlComponents?.queryItems
+        let codeItem = items?.first(where: {$0.name == "code"})
+        if (url != nil) && (urlComponents != nil) && (items != nil) && (codeItem != nil) && urlComponents?.path == "/oauth/authorize/native"
+        {
+            print("\n✅\n URL ---> \(url)\n urlComponents ---> \(urlComponents)\n items ---> \(items)\n codeItem ---> \(codeItem)\n")
+            return codeItem?.value
         } else {
+            print("\n❌\n URL ---> \(url)\n urlComponents ---> \(urlComponents)\n items ---> \(items)\n codeItem ---> \(codeItem)\n")
             return nil
         }
     }
+    
 }

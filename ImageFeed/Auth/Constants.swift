@@ -7,8 +7,8 @@
 
 import Foundation
 
-let AccessKey = "MObmlTg9GOfZiWgpArGKH788dQ3e221cI-0pYF1BEFc"
-let SecretKey = "yItIR_JNM7SbG7tSmuMXIzW98ivnBIacUbO3hlX8u4Q"
+let AccessKey = "lHCFEGnBP871ogZAWrA69LFt22cYqyPvWoJxF6s9FjQ"
+let SecretKey = "UZKBl9pKXc8rTM8Qmk32rNaozH6XJeifpn3M8huP4es"
 
 let RedirectURI = "urn:ietf:wg:oauth:2.0:oob"
 //White-listed addresses to redirect to after authentication success OR failure (e.g. https://mysite.com/callback)
