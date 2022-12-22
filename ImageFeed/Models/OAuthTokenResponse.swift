@@ -8,21 +8,21 @@
 import Foundation
 
 
-enum CodingCase: String, CodingKey {
-    case accessToken, typeOfToken, scope, createdAt
+enum CodingKeys: String, CodingKey {
+    case access_token, token_type, scope, created_at
 }
 
 struct OAuthTokenResponseBody: Codable {
-    let accessToken: String
-    let typeOfToken: String
+    let access_token: String
+    let token_type: String
     let scope: String
-    let createdAt: String
+    let created_at: String
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        accessToken = try container.decode(String.self, forKey: .accessToken)
-        typeOfToken = try container.decode(String.self, forKey: .typeOfToken)
+        access_token = try container.decode(String.self, forKey: .access_token)
+        token_type = try container.decode(String.self, forKey: .token_type)
         scope = try container.decode(String.self, forKey: .scope)
-        createdAt = try container.decode(String.self, forKey: .createdAt)
+        created_at = try container.decode(String.self, forKey: .created_at)
     }
 }

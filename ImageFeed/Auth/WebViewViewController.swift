@@ -48,15 +48,15 @@ class WebViewViewController: UIViewController {
         var urlComponents = URLComponents(string: UnsplashAuthorizeURLString)!
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: AccessKey),
-            URLQueryItem(name: "redirect_url", value: RedirectURI),
-            URLQueryItem(name: "responce_type", value: "code"),
+            URLQueryItem(name: "redirect_uri", value: RedirectURI),
+            URLQueryItem(name: "response_type", value: "code"),
             URLQueryItem(name: "scope", value: AccessScope)
         ]
         let url = urlComponents.url!
-        
+
         let request = URLRequest(url: url)
         webView.load(request)
-        
+
         updateProgress()
     }
     
@@ -101,6 +101,7 @@ extension WebViewViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView,
                  decidePolicyFor navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        
         if let code = code(from: navigationAction) {
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
             decisionHandler(.cancel)
@@ -111,18 +112,19 @@ extension WebViewViewController: WKNavigationDelegate {
     
     private func code(from navigationAction: WKNavigationAction) -> String? {
         
-        let url = navigationAction.request.url
-        let urlComponents = URLComponents(string: url?.absoluteString ?? "")
-        let items = urlComponents?.queryItems
-        let codeItem = items?.first(where: {$0.name == "code"})
-        if (url != nil) && (urlComponents != nil) && (items != nil) && (codeItem != nil) && urlComponents?.path == "/oauth/authorize/native"
+        if
+            let url = navigationAction.request.url,
+            let urlComponents = URLComponents(string: url.absoluteString ),
+            let items = urlComponents.queryItems,
+            let codeItem = items.first(where: {$0.name == "code"}),
+            urlComponents.path == "/oauth/authorize/native"
         {
-            print("\n✅\n URL ---> \(url)\n urlComponents ---> \(urlComponents)\n items ---> \(items)\n codeItem ---> \(codeItem)\n")
-            return codeItem?.value
+            return codeItem.value
         } else {
-            print("\n❌\n URL ---> \(url)\n urlComponents ---> \(urlComponents)\n items ---> \(items)\n codeItem ---> \(codeItem)\n")
             return nil
         }
     }
     
 }
+
+
