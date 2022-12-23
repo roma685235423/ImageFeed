@@ -7,12 +7,8 @@
 
 import Foundation
 
-protocol OAuth2ServiceDelegate {
-    func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void)
-}
 
-
-class OAuth2Service: OAuth2ServiceDelegate {
+class OAuth2Service {
     
     //MARK: - Enumerations
     private enum NetworkError: Error {

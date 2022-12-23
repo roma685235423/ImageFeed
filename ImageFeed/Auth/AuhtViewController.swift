@@ -12,9 +12,9 @@ class AuthViewController: UIViewController {
     
     private let ShowWebViewSegueIdentifier = "ShowWebView"
     
-    var oAuth2ServiceDelegate: OAuth2ServiceDelegate?
+    private let oAuth2Service = OAuth2Service()
     
-    var tokenStorage: OAuth2TokenStorageDelegate?
+    private var tokenStorage = OAuth2TokenStorage()
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -32,16 +32,16 @@ extension AuthViewController: WebViewViewControllerDelegate {
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         
-        print("\n⏩️✅\nCode is: ===> \(code)\n")
-        self.oAuth2ServiceDelegate?.fetchAuthToken(code: code){ result in
+        self.oAuth2Service.fetchAuthToken(code: code){ [self] result in
                 switch result {
                 case .success(let bearerToken):
-                    self.tokenStorage?.token = bearerToken
-                    print(bearerToken)
-                    print(code)
+                    print("\n✅✅✅\nSUCCESS. Token value is \n \(bearerToken) ")
+                    tokenStorage.token = bearerToken
+                    let result = tokenStorage.token
+                    print("\n✅✅✅\nSUCCESS. Token stored to User Defaults. Value is \n \(String(describing: result)) ")
                 case .failure(let error):
-                    print(error)
-                    print(code)
+                    print("\n❌\nERROR ===> \(error)\n")
+                    return
             }
         }
     }
