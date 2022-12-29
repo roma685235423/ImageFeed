@@ -10,18 +10,18 @@ import Foundation
 
 final class OAuth2TokenStorage {
     
-    private enum Keys: String {
+    private enum CodingKeys: String, CodingKey {
         case token
     }
     
     private let userDefaults = UserDefaults.standard
     
-    var token: String {
+    var token: String? {
         get {
-            return userDefaults.string(forKey: Keys.token.rawValue) ?? ""
+            return userDefaults.string(forKey: CodingKeys.token.rawValue)
         }
         set {
-            userDefaults.set(newValue, forKey: Keys.token.rawValue)
+            userDefaults.set(newValue, forKey: CodingKeys.token.rawValue)
         }
     }
 }

@@ -15,7 +15,7 @@ fileprivate var progress = Float()
 
 
 
-//MARK: - Protocols
+//MARK: - Protocol
 
 protocol WebViewViewControllerDelegate: AnyObject {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String)
@@ -27,19 +27,17 @@ protocol WebViewViewControllerDelegate: AnyObject {
 //MARK: - WebViewViewController
 class WebViewViewController: UIViewController {
     
+    //MARK: - Propertie
     weak var delegate: WebViewViewControllerDelegate?
+    private let tokenStorage = OAuth2TokenStorage()
     
+    
+    //MARK: - Outlets
     @IBOutlet private var webView: WKWebView!
     @IBOutlet weak var progressView: UIProgressView!
     
     
-//MARK: - LifeCicle
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
-    }
-    
+    //MARK: - LifeCicle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,22 +51,31 @@ class WebViewViewController: UIViewController {
             URLQueryItem(name: "scope", value: AccessScope)
         ]
         let url = urlComponents.url!
-
+        
         let request = URLRequest(url: url)
         webView.load(request)
-
+        updateProgress()
+        setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
         updateProgress()
     }
     
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
-        updateProgress()
     }
     
     
-//MARK: - Methods
+    //MARK: - Methods
     
     override func observeValue(forKeyPath keyPath: String?,of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(WKWebView.estimatedProgress) {
@@ -84,14 +91,12 @@ class WebViewViewController: UIViewController {
     }
     
     
-//MARK: - Actions
+    //MARK: - Action
     
     @IBAction func didTapBackButton(_ sender: Any?) {
         delegate?.webViewViewControllerDidCancel(self)
     }
-    
 }
-
 
 
 //MARK: - Extension
@@ -101,7 +106,6 @@ extension WebViewViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView,
                  decidePolicyFor navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        
         if let code = code(from: navigationAction) {
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
             decisionHandler(.cancel)
@@ -110,8 +114,8 @@ extension WebViewViewController: WKNavigationDelegate {
         }
     }
     
+    
     private func code(from navigationAction: WKNavigationAction) -> String? {
-        
         if
             let url = navigationAction.request.url,
             let urlComponents = URLComponents(string: url.absoluteString ),
@@ -119,12 +123,10 @@ extension WebViewViewController: WKNavigationDelegate {
             let codeItem = items.first(where: {$0.name == "code"}),
             urlComponents.path == "/oauth/authorize/native"
         {
+            tokenStorage.token = codeItem.value
             return codeItem.value
         } else {
             return nil
         }
     }
-    
 }
-
-

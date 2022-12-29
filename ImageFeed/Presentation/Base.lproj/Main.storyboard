@@ -39,7 +39,7 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="C42-Pw-H0c" kind="presentation" identifier="ShowWebView" modalPresentationStyle="fullScreen" id="obH-hu-jqQ"/>
+                                    <segue destination="C42-Pw-H0c" kind="presentation" identifier="ShowWebView" modalPresentationStyle="overFullScreen" id="obH-hu-jqQ"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -57,7 +57,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mbs-0n-wU2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="436" y="-1492"/>
+            <point key="canvasLocation" x="506" y="-1492"/>
         </scene>
         <!--Web View View Controller-->
         <scene sceneID="0ic-4G-FNO">
@@ -327,7 +327,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="xhS-QJ-1Y1">
             <objects>
-                <tabBarController id="WyC-2N-yff" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarViewController" id="WyC-2N-yff" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="UzA-hS-tah">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -356,6 +356,9 @@
                         <viewLayoutGuide key="safeArea" id="mra-d1-uTf"/>
                         <color key="backgroundColor" name="backgroung"/>
                     </view>
+                    <connections>
+                        <segue destination="fQN-zj-FKx" kind="presentation" identifier="ShowAuthenticationScreen" modalPresentationStyle="fullScreen" id="Upb-Lc-0ep"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oVB-Ov-69P" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

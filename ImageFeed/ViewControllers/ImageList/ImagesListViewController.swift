@@ -22,6 +22,17 @@ final class ImagesListViewController: UIViewController {
         photosName = Array(0..<20).map{"\($0)"}
     }
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
+    
+    
     // MARK: - Helpers
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()

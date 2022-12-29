@@ -26,7 +26,18 @@ class ProfileViewController: UIViewController {
         configureLogoutButon()
         
     }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNeedsStatusBarAppearanceUpdate()
+    }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
 }
+
 
 
 // MARK: - Extension
