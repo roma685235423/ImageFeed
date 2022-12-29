@@ -1,5 +1,4 @@
 # ImageFeed
-Image Feed
 
 Ссылки
 
