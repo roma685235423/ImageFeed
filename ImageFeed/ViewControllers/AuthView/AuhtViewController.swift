@@ -15,15 +15,12 @@ protocol AuthViewControllerDelegate: AnyObject {
 
 class AuthViewController: UIViewController {
     
-//MARK: - Properties
+    //MARK: - Properties
     private let ShowWebViewSegueIdentifier = "ShowWebView"
     weak var delegate: AuthViewControllerDelegate?
     
     
     //MARK: - LifeCicle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -35,7 +32,7 @@ class AuthViewController: UIViewController {
     }
     
     
-//MARK: - Methods
+    //MARK: - Methods
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowWebViewSegueIdentifier {
             guard let webViewViewController = segue.destination as? WebViewViewController
@@ -54,9 +51,9 @@ class AuthViewController: UIViewController {
 extension AuthViewController: WebViewViewControllerDelegate {
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-            delegate?.authViewController(self, didAuthenticateWithCode: code)
-            }
-
+        delegate?.authViewController(self, didAuthenticateWithCode: code)
+    }
+    
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true)
     }

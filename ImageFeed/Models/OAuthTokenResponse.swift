@@ -13,16 +13,16 @@ enum CodingKeys: String, CodingKey {
 }
 
 struct OAuthTokenResponseBody: Codable {
-    let access_token: String
-    let token_type: String
+    let accessToken: String
+    let tokenType: String
     let scope: String
-    let created_at: Int
+    let createdAt: Int
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        access_token = try container.decode(String.self, forKey: .access_token)
-        token_type = try container.decode(String.self, forKey: .token_type)
+        accessToken = try container.decode(String.self, forKey: .accessToken)
+        tokenType = try container.decode(String.self, forKey: .tokenType)
         scope = try container.decode(String.self, forKey: .scope)
-        created_at = try container.decode(Int.self, forKey: .created_at)
+        createdAt = try container.decode(Int.self, forKey: .createdAt)
     }
 }

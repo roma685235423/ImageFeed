@@ -9,7 +9,7 @@ import UIKit
 
 
 final class ImagesListCell: UITableViewCell {
-
+    
     @IBOutlet private weak var imagesListCellImage: UIImageView!
     
     @IBOutlet private weak var imagesListCellTextLabel: UILabel!
