@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import ProgressHUD
 
 class ProfileViewController: UIViewController {
     
@@ -15,17 +14,20 @@ class ProfileViewController: UIViewController {
     private let nameLabel = UILabel()
     private let loginNameLabel = UILabel()
     private let descriptionLabel = UILabel()
+    private let tokenStorage = OAuth2TokenStorage()
+    var userProfileData: Profile?
+    
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        ProgressHUD.dismiss()
+        let bearerToken = self.tokenStorage.bearerToken ?? "NO BEARER TOKEN!!!!!"
         configureAvatarImageView()
         configureNameLabel()
         configureLoginNameLabel()
         configureDescriptionLabel()
         configureLogoutButon()
+        fetchProfile(token: bearerToken)
         
     }
     
@@ -68,8 +70,7 @@ extension ProfileViewController {
     private func configureNameLabel() {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
-        
-        nameLabel.text = "Екатерина Новикова"
+        nameLabel.text = "Name"
         nameLabel.textColor = UIColor(named: "white")
         nameLabel.font = UIFont(name: "YSDisplay-Medium", size: 23.0)
         
@@ -84,7 +85,7 @@ extension ProfileViewController {
         loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loginNameLabel)
         
-        loginNameLabel.text = "@ekaterina_nov"
+        loginNameLabel.text = "@username"
         loginNameLabel.textColor = UIColor(named: "gray")
         loginNameLabel.font = UIFont.systemFont(ofSize: 13.0)
         
@@ -99,7 +100,7 @@ extension ProfileViewController {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(descriptionLabel)
         
-        descriptionLabel.text = "Hello, world"
+        descriptionLabel.text = "bio"
         descriptionLabel.textColor = UIColor(named: "white")
         descriptionLabel.font = UIFont.systemFont(ofSize: 13.0)
         
@@ -134,6 +135,29 @@ extension ProfileViewController {
     @objc
     private func didTapLogoutButton() {
         
+    }
+}
+
+
+
+
+extension ProfileViewController {
+    
+    private func fetchProfile (token: String) {
+        ProfileService().fetchProfile(token) { result in
+            switch result {
+            case .success (let profile):
+                self.userProfileData = profile
+                self.nameLabel.text = profile.name
+                self.loginNameLabel.text = profile.loginName
+                self.descriptionLabel.text = profile.bio
+                return
+            case .failure(let error):
+                print("❌ FAIL ((((((((\n\(error)")
+                return
+            }
+            
+        }
     }
 }
 

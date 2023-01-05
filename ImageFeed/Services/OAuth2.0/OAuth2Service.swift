@@ -51,6 +51,7 @@ final class OAuth2Service {
                 do {
                     let jsonData = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
                     completion(.success(jsonData.accessToken))
+                    OAuth2TokenStorage().bearerToken = jsonData.accessToken
                     self.task = nil
                 } catch let error {
                     completion(.failure(error))
