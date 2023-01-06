@@ -114,7 +114,7 @@ extension WebViewViewController: WKNavigationDelegate {
         }
     }
     
-    
+    // Function to get code
     private func code(from navigationAction: WKNavigationAction) -> String? {
         if
             let url = navigationAction.request.url,

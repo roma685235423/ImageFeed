@@ -31,7 +31,7 @@ final class OAuth2Service {
         lastCode = code
         
         let request = makeRequest(code: code)
-        let task  = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task  = urlSession.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 if let error = error {
                     completion(.failure(error))

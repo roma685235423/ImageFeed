@@ -15,19 +15,24 @@ class ProfileViewController: UIViewController {
     private let loginNameLabel = UILabel()
     private let descriptionLabel = UILabel()
     private let tokenStorage = OAuth2TokenStorage()
-    var userProfileData: Profile?
+    private let profileService = ProfileService.shared
     
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        let bearerToken = self.tokenStorage.bearerToken ?? "NO BEARER TOKEN!!!!!"
+
         configureAvatarImageView()
         configureNameLabel()
         configureLoginNameLabel()
         configureDescriptionLabel()
         configureLogoutButon()
-        fetchProfile(token: bearerToken)
+        let bearerToken = self.tokenStorage.bearerToken ?? "NO BEARER TOKEN"
+        
+        guard let profile = profileService.profile else {
+            return
+        }
+        updateProfileDetails(profile: profile)
         
     }
     
@@ -143,21 +148,10 @@ extension ProfileViewController {
 
 extension ProfileViewController {
     
-    private func fetchProfile (token: String) {
-        ProfileService().fetchProfile(token) { result in
-            switch result {
-            case .success (let profile):
-                self.userProfileData = profile
-                self.nameLabel.text = profile.name
-                self.loginNameLabel.text = profile.loginName
-                self.descriptionLabel.text = profile.bio
-                return
-            case .failure(let error):
-                print("❌ FAIL ((((((((\n\(error)")
-                return
-            }
-            
-        }
+    private func updateProfileDetails(profile: Profile) {
+        self.nameLabel.text = profile.name
+        self.loginNameLabel.text = profile.loginName
+        self.descriptionLabel.text = profile.bio
     }
 }
 

@@ -15,14 +15,23 @@ final class ProfileService {
     private enum NetworkError: Error {
         case codeError
     }
-
+    
+    //MARK: - Properties
     fileprivate let profileInfoURLString = "https://api.unsplash.com/me"
     private let session = URLSession.shared
     private var task: URLSessionTask?
     private var lastToken: String?
+    var profile: Profile?
     
+    
+    //MARK: - Singleton
+    static let shared = ProfileService()
+    
+    
+    
+    //MARK: - Methods
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
-        
+
         assert(Thread.isMainThread)
         if lastToken == token { return }
         task?.cancel()
@@ -47,7 +56,11 @@ final class ProfileService {
                 
                 do {
                     let jsonData = try JSONDecoder().decode(ProfileResult.self, from: data)
-                    let profile = self.convertProfileResultToProfile(profileResult: jsonData)
+                    self.profile = self.convertProfileResultToProfile(profileResult: jsonData)
+                    guard let profile = self.profile else {
+                        self.lastToken = nil
+                        return
+                    }
                     completion(.success(profile))
                     self.task = nil
                 } catch let error {
@@ -63,6 +76,7 @@ final class ProfileService {
 
 
 
+//MARK: - Extensions
 extension ProfileService {
     
     func convertProfileResultToProfile(profileResult: ProfileResult) -> Profile {
