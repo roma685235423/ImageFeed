@@ -8,7 +8,6 @@
 import Foundation
 
 
-
 final class ProfileService {
     
     //MARK: - Enumerations
@@ -62,6 +61,7 @@ final class ProfileService {
                         return
                     }
                     completion(.success(profile))
+                    print("\n✅\nSUCCESS: \(profile)\n")
                     self.task = nil
                 } catch let error {
                     completion(.failure(error))

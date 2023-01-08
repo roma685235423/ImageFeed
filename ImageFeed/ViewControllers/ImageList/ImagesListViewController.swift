@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProgressHUD
 
 final class ImagesListViewController: UIViewController {
     
@@ -18,6 +19,8 @@ final class ImagesListViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        UIBlockingProgressHUD.dismiss()
         
         photosName = Array(0..<20).map{"\($0)"}
     }
@@ -97,8 +100,3 @@ extension ImagesListViewController: UITableViewDataSource {
     }
     
 }
-
-
-
-
-// TEST

@@ -31,14 +31,17 @@ class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let token = tokenStorage.bearerToken ?? "nil"
-        print("\n📌\nSplashViewController.token = \(tokenStorage.bearerToken)")
         if tokenStorage.bearerToken != nil && tokenStorage.token != nil {
+            UIBlockingProgressHUD.show()
+            DispatchQueue.main.async {
                 self.fetchProfile(token: token)
-            UIBlockingProgressHUD.dismiss()
-            switchToTabBarController()
+                if self.profileService.profile != nil {
+                    self.switchToTabBarController()
+                }
+            }
         } else {
-            UIBlockingProgressHUD.dismiss()
             performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
+            UIBlockingProgressHUD.dismiss()
         }
     }
     
@@ -76,40 +79,41 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        UIBlockingProgressHUD.show()
         dismiss(animated: true) { [weak self] in
+            DispatchQueue.main.async {
+                UIBlockingProgressHUD.show()
                 guard let self = self else { return }
                 self.fetchOAuthToken(code)
-            UIBlockingProgressHUD.dismiss()
+            }
         }
     }
     
     private func fetchOAuthToken (_ code: String) {
-        print("\n📌\nSplashViewController.fetchOAuthToken(code) = \(code)")
         oauth2Service.fetchAuthToken(code: code) { result in
+            DispatchQueue.main.async {
                 switch result {
                 case .success(let token):
                     self.fetchProfile(token: token)
                 case .failure:
-                    UIBlockingProgressHUD.dismiss()
                     // TODO: Sprint 11 Показать ошибку
                     break
+                }
             }
         }
     }
     
     private func fetchProfile (token: String) {
-        profileService.fetchProfile(token) { result in
+        DispatchQueue.main.async {
+            self.profileService.fetchProfile(token) { result in
                 switch result {
                 case .success(let profile):
                     self.profileService.setProfile(profile: profile)
-                    UIBlockingProgressHUD.dismiss()
                     self.switchToTabBarController()
                     return
                 case .failure:
-                    UIBlockingProgressHUD.dismiss()
                     // TODO: Sprint 11 Показать ошибку
                     break
+                }
             }
         }
     }
