@@ -21,14 +21,8 @@ class ProfileViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        configureAvatarImageView()
-        configureNameLabel()
-        configureLoginNameLabel()
-        configureDescriptionLabel()
-        configureLogoutButon()
-        let bearerToken = self.tokenStorage.bearerToken ?? "NO BEARER TOKEN"
         
+        print("\n🔔\nbearerToken =  \(self.tokenStorage.bearerToken) \n")
         guard let profile = profileService.profile else {
             return
         }
@@ -149,6 +143,13 @@ extension ProfileViewController {
 extension ProfileViewController {
     
     private func updateProfileDetails(profile: Profile) {
+        
+        configureAvatarImageView()
+        configureNameLabel()
+        configureLoginNameLabel()
+        configureDescriptionLabel()
+        configureLogoutButon()
+        
         self.nameLabel.text = profile.name
         self.loginNameLabel.text = profile.loginName
         self.descriptionLabel.text = profile.bio

@@ -21,7 +21,7 @@ final class ProfileService {
     private let session = URLSession.shared
     private var task: URLSessionTask?
     private var lastToken: String?
-    var profile: Profile?
+    private(set) var profile: Profile?
     
     
     //MARK: - Singleton
@@ -95,5 +95,9 @@ extension ProfileService {
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
         return request
+    }
+    
+    func setProfile (profile: Profile) {
+        self.profile = profile
     }
 }
