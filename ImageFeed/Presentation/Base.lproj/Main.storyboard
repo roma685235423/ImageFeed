@@ -13,7 +13,7 @@
         <!--Authenticator View Controller-->
         <scene sceneID="zbj-xc-oj6">
             <objects>
-                <viewController id="Wym-h9-3Sx" userLabel="Authenticator View Controller" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" modalPresentationStyle="fullScreen" id="Wym-h9-3Sx" userLabel="Authenticator View Controller" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dK2-wY-GfO">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -39,7 +39,7 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="C42-Pw-H0c" kind="presentation" identifier="ShowWebView" modalPresentationStyle="overFullScreen" id="obH-hu-jqQ"/>
+                                    <segue destination="C42-Pw-H0c" kind="presentation" identifier="ShowWebView" id="obH-hu-jqQ"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -53,6 +53,7 @@
                             <constraint firstItem="vfK-My-bgV" firstAttribute="leading" secondItem="Zxz-r4-tHf" secondAttribute="leading" constant="16" id="qG9-FE-dnp"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" id="wdS-Ov-Lji"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mbs-0n-wU2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -62,7 +63,7 @@
         <!--Web View View Controller-->
         <scene sceneID="0ic-4G-FNO">
             <objects>
-                <viewController id="C42-Pw-H0c" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController wantsFullScreenLayout="YES" extendedLayoutIncludesOpaqueBars="YES" definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" modalPresentationStyle="fullScreen" id="C42-Pw-H0c" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RNz-Iq-qCD">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -368,7 +369,7 @@
         <!--Navigation Controller-->
         <scene sceneID="gQz-uj-rca">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fQN-zj-FKx" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" modalPresentationStyle="fullScreen" id="fQN-zj-FKx" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="m7G-JP-X00">
                         <rect key="frame" x="0.0" y="47" width="428" height="44"/>

@@ -20,18 +20,6 @@ class AuthViewController: UIViewController {
     weak var delegate: AuthViewControllerDelegate?
     
     
-    //MARK: - LifeCicle
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
-    }
-    
-    
     //MARK: - Methods
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowWebViewSegueIdentifier {
@@ -51,7 +39,7 @@ class AuthViewController: UIViewController {
 extension AuthViewController: WebViewViewControllerDelegate {
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-            self.delegate?.authViewController(self, didAuthenticateWithCode: code)
+        self.delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {

@@ -16,29 +16,20 @@ class SplashViewController: UIViewController {
     private let tokenStorage = OAuth2TokenStorage()
     private let oauth2Service = OAuth2Service()
     private let profileService = ProfileService.shared
-    
+    private let profileImageService = ProfileImageService.shared
     
     //MARK: - LifeCicle
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
-    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let token = tokenStorage.bearerToken ?? "nil"
+        
         if tokenStorage.bearerToken != nil && tokenStorage.token != nil {
             UIBlockingProgressHUD.show()
             DispatchQueue.main.async {
                 self.fetchProfile(token: token)
-                if self.profileService.profile != nil {
-                    self.switchToTabBarController()
-                }
             }
+            self.switchToTabBarController()
         } else {
             performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
             UIBlockingProgressHUD.dismiss()
@@ -108,6 +99,18 @@ extension SplashViewController: AuthViewControllerDelegate {
                 switch result {
                 case .success(let profile):
                     self.profileService.setProfile(profile: profile)
+                    DispatchQueue.main.async {
+                        ProfileImageService.shared.fetchProfileImageURL(
+                            username: self.profileService.profile?.username ?? "NIL") { result in
+                                switch result {
+                                case .success(let avatarURL):
+                                    self.profileImageService.setAvatarUrlString(avatarUrl: avatarURL)
+                                case .failure:
+                                    return
+                                }
+                            }
+                        
+                    }
                     self.switchToTabBarController()
                     return
                 case .failure:

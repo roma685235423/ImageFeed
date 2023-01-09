@@ -15,27 +15,38 @@ class ProfileViewController: UIViewController {
     private let loginNameLabel = UILabel()
     private let descriptionLabel = UILabel()
     private let tokenStorage = OAuth2TokenStorage()
-    private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
     
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-            guard let profile = self.profileService.profile else {
-                return
+        
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(forName: ProfileImageService.DidChangeNotification,
+                         object: nil,
+                         queue: .main
+            ){[weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
             }
-            self.updateProfileDetails(profile: profile)
+        updateAvatar()
+        
+        guard let profile = ProfileService.shared.profile else {
+            return
+        }
+        self.updateProfileDetails(profile: profile)
     }
     
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        // TODO [Sprint 11] Обновить аватар, используя Kingfisher
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
-    }
 }
 
 
@@ -45,13 +56,23 @@ extension ProfileViewController {
     
     // This method is responsible for configure user profile avatar.
     private func configureAvatarImageView() {
-        let image = UIImage(named: "mock_userpick")
         
-        view.addSubview(avatarImageView)
-        avatarImageView.translatesAutoresizingMaskIntoConstraints = false
+        var image: UIImage?
         
-        avatarImageView.image = image
-        
+      //  guard let userAvatarUrlString = profileImageService.avatarURL else { return }
+      //      let userAvatarUrl = URL(string: userAvatarUrlString)!
+      //
+      //      do {
+      //          let imageData: Data = try Data(contentsOf: userAvatarUrl)
+      //          image = UIImage(data: imageData)
+      //      } catch {
+      //          print("\n❌\nCan't shov avatar image \(error)\n")
+      //      }
+            self.view.addSubview(self.avatarImageView)
+            self.avatarImageView.translatesAutoresizingMaskIntoConstraints = false
+            
+            self.avatarImageView.image = image
+
         NSLayoutConstraint.activate([
             avatarImageView.heightAnchor.constraint(equalToConstant: 70),
             avatarImageView.widthAnchor.constraint(equalToConstant: 70),
@@ -140,7 +161,7 @@ extension ProfileViewController {
 extension ProfileViewController {
     
     private func updateProfileDetails(profile: Profile) {
-        
+
         configureAvatarImageView()
         configureNameLabel()
         configureLoginNameLabel()

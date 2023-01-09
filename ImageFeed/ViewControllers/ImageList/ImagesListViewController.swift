@@ -26,16 +26,6 @@ final class ImagesListViewController: UIViewController {
     }
     
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
-    }
-    
-    
     // MARK: - Helpers
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()

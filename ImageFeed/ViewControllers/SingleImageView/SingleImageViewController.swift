@@ -37,16 +37,6 @@ class SingleImageViewController: UIViewController {
     }
     
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
-    }
-    
-    
     //MARK: - Actions
     
     @IBAction func didTapBackButton(_ sender: Any) {
