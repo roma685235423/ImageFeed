@@ -26,7 +26,18 @@ class ProfileViewController: UIViewController {
         configureLogoutButon()
         
     }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
 }
+
 
 
 // MARK: - Extension
@@ -42,10 +53,10 @@ extension ProfileViewController {
         avatarImageView.image = image
         
         NSLayoutConstraint.activate([
-        avatarImageView.heightAnchor.constraint(equalToConstant: 70),
-        avatarImageView.widthAnchor.constraint(equalToConstant: 70),
-        avatarImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-        avatarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 76)
+            avatarImageView.heightAnchor.constraint(equalToConstant: 70),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 70),
+            avatarImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            avatarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 76)
         ])
         
         avatarImageView.layer.cornerRadius = avatarImageView.layer.borderWidth / 2
@@ -59,7 +70,7 @@ extension ProfileViewController {
         nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = UIColor(named: "white")
         nameLabel.font = UIFont(name: "YSDisplay-Medium", size: 23.0)
-                    
+        
         NSLayoutConstraint.activate([
             nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
             nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8),
@@ -120,7 +131,7 @@ extension ProfileViewController {
     
     @objc
     private func didTapLogoutButton() {
-    
+        
     }
 }
 

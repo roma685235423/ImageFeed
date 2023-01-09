@@ -37,6 +37,16 @@ class SingleImageViewController: UIViewController {
     }
     
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
+    
+    
     //MARK: - Actions
     
     @IBAction func didTapBackButton(_ sender: Any) {
@@ -44,10 +54,7 @@ class SingleImageViewController: UIViewController {
     }
     
     @IBAction func didTapShareButton(_ sender: Any) {
-        guard let unwrapImage = image else {
-            print("Nothing to share❌")
-            return
-        }
+        guard let unwrapImage = image else { return }
         let shareMenu = UIActivityViewController(
             activityItems: [unwrapImage],
             applicationActivities: nil
@@ -94,7 +101,7 @@ extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView
     }
-   
+    
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         rescaleAndCenterInScrollView(image: image)
     }
