@@ -20,7 +20,7 @@ final class ImagesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UIBlockingProgressHUD.dismiss()
+        //UIBlockingProgressHUD.dismiss()
         
         photosName = Array(0..<20).map{"\($0)"}
     }

@@ -29,7 +29,6 @@ class SplashViewController: UIViewController {
             DispatchQueue.main.async {
                 self.fetchProfile(token: token)
             }
-            self.switchToTabBarController()
         } else {
             performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
             UIBlockingProgressHUD.dismiss()
@@ -80,13 +79,14 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     private func fetchOAuthToken (_ code: String) {
-        oauth2Service.fetchAuthToken(code: code) { result in
+        self.oauth2Service.fetchAuthToken(code: code) { [weak self] result in
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
-                case .success(let token):
-                    self.fetchProfile(token: token)
+                case .success(let bearerToken):
+                    self.fetchProfile(token: bearerToken)
                 case .failure:
-                    // TODO: Sprint 11 Показать ошибку
+                    self.showAlertPresenter()
                     break
                 }
             }
@@ -94,31 +94,35 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     private func fetchProfile (token: String) {
-        DispatchQueue.main.async {
-            self.profileService.fetchProfile(token) { result in
-                switch result {
-                case .success(let profile):
+        profileService.fetchProfile(token) {[weak self] result in
+            guard let self = self else {return}
+            switch result {
+            case .success(let profile):
+                DispatchQueue.main.async {
                     self.profileService.setProfile(profile: profile)
-                    DispatchQueue.main.async {
-                        ProfileImageService.shared.fetchProfileImageURL(
-                            username: self.profileService.profile?.username ?? "NIL") { result in
-                                switch result {
-                                case .success(let avatarURL):
-                                    self.profileImageService.setAvatarUrlString(avatarUrl: avatarURL)
-                                case .failure:
-                                    return
-                                }
-                            }
-                        
-                    }
+                    UIBlockingProgressHUD.dismiss()
                     self.switchToTabBarController()
-                    return
-                case .failure:
-                    // TODO: Sprint 11 Показать ошибку
-                    break
                 }
+                ProfileImageService.shared.fetchProfileImageURL(
+                    username: self.profileService.profile?.username ?? "NIL") { result in
+                        switch result {
+                        case .success(let avatarURL):
+                            self.profileImageService.setAvatarUrlString(avatarUrl: avatarURL)
+                        case .failure:
+                            self.showAlertPresenter()
+                            return
+                        }
+                    }
+                self.switchToTabBarController()
+                return
+            case .failure:
+                self.showAlertPresenter()
+                break
             }
         }
     }
+    
+    private func showAlertPresenter() {
+        SplashViewAlertPresenter().show(in: self)
+    }
 }
-

@@ -37,35 +37,19 @@ final class ProfileService {
         lastToken = token
         
         let request = self.makeRequest(token: token)
-        let task = session.dataTask(with: request) { data, response, error in
+        let task = self.session.objectTask(for: request) { [weak self]
+            (result: Result<ProfileResult, Error>) in
+            guard let self = self else { return }
             DispatchQueue.main.async {
-                if let error = error {
-                    completion(.failure(error))
-                    self.lastToken = nil
-                    return
-                }
-                if let response = response as? HTTPURLResponse,
-                   response.statusCode < 200 || response.statusCode > 299 {
-                    completion(.failure(NetworkError.codeError))
-                    self.lastToken = nil
-                    return
-                }
-                
-                guard let data = data else { return }
-                
-                do {
-                    let jsonData = try JSONDecoder().decode(ProfileResult.self, from: data)
+                switch result {
+                case .success(let jsonData):
                     self.profile = self.convertProfileResultToProfile(profileResult: jsonData)
-                    guard let profile = self.profile else {
-                        self.lastToken = nil
-                        return
-                    }
+                    guard let profile = self.profile else {return}
                     completion(.success(profile))
-                    print("\n✅\nSUCCESS: \(profile)\n")
                     self.task = nil
-                } catch let error {
-                    completion(.failure(error))
+                case .failure:
                     self.lastToken = nil
+                    return
                 }
             }
         }
@@ -79,7 +63,7 @@ final class ProfileService {
 //MARK: - Extensions
 extension ProfileService {
     
-    func convertProfileResultToProfile(profileResult: ProfileResult) -> Profile {
+    private func convertProfileResultToProfile(profileResult: ProfileResult) -> Profile {
         return Profile(
             username: profileResult.userName,
             name: profileResult.firstName + " " + profileResult.lastName,
@@ -88,7 +72,7 @@ extension ProfileService {
         )
     }
     
-    func makeRequest (token: String) -> URLRequest {
+    private func makeRequest (token: String) -> URLRequest {
         
         let url = URL(string: profileInfoURLString)!
         var request = URLRequest(url: url)

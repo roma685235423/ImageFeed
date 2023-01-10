@@ -18,9 +18,10 @@ final class OAuth2Service {
     
     //MARK: - Properties
     let unsplashAuthorizePostURLString = "https://unsplash.com/oauth/token"
-    private let urlSession = URLSession.shared
+    private let session = URLSession.shared
     private var task: URLSessionTask?
     private var lastCode: String?
+    
     
     //MARK: - Methods
     func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void){
@@ -31,40 +32,26 @@ final class OAuth2Service {
         lastCode = code
         
         let request = makeRequest(code: code)
-        let task  = urlSession.dataTask(with: request) { data, response, error in
+        
+        let task = self.session.objectTask(for: request) { [weak self]
+            (result: Result<OAuthTokenResponseBody, Error>) in
+            guard let self = self else {return}
             DispatchQueue.main.async {
-                if let error = error {
-                    completion(.failure(error))
-                    self.lastCode = nil
-                    return
-                }
-                
-                if let response = response as? HTTPURLResponse,
-                   response.statusCode < 200 || response.statusCode >= 300 {
-                    completion(.failure(NetworkError.codeError))
-                    self.lastCode = nil
-                    return
-                }
-                
-                guard let data = data else { return }
-                
-                do {
-                    let jsonData = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-                    completion(.success(jsonData.accessToken))
+                switch result {
+                case .success(let jsonData):
                     OAuth2TokenStorage().bearerToken = jsonData.accessToken
+                    completion(.success(jsonData.accessToken))
                     self.task = nil
-                } catch let error {
-                    completion(.failure(error))
+                case .failure:
                     self.lastCode = nil
                 }
             }
         }
-        self.task = task
-        task.resume()
+            self.task = task
+            task.resume()
     }
     
-    
-    private func makeRequest (code: String) -> URLRequest {
+    func makeRequest (code: String) -> URLRequest {
         
         var urlComponents = URLComponents(string: self.unsplashAuthorizePostURLString)!
         urlComponents.queryItems = [

@@ -27,6 +27,8 @@ final class ProfileImageService {
     
     private let token = OAuth2TokenStorage().bearerToken
     
+    let queue = DispatchQueue(label: "profileImage.service.queue", qos: .unspecified)
+    
     //MARK: - Singleton
     private (set) var avatarURL: String?
     
@@ -38,46 +40,22 @@ final class ProfileImageService {
     //MARK: - Methods
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         
-        assert(Thread.isMainThread)
-        if profileImageUrl != nil { return }
-        task?.cancel()
         guard let token = token else { return }
         
         let request = self.makeRequest(username: username, token: token)
-        let task = session.dataTask(with: request) { data, response, error in
-            NotificationCenter.default
-                .post(name: ProfileImageService.DidChangeNotification,
-                      object: self,
-                      userInfo: ["URL": self.profileImageUrl as Any]
-                )
-            DispatchQueue.main.async {
-                
-                if let error = error {
+        let task = session.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
+            guard let self = self else { return }
+            self.queue.async {
+                switch result {
+                case .success(let result):
+                    self.profileImageUrl = result.profileImage.small
+                    completion(.success(result.profileImage.small))
+                case .failure(let error):
                     completion(.failure(error))
                     return
-                }
-                
-                if let response = response as? HTTPURLResponse,
-                   response.statusCode < 200 || response.statusCode > 299 {
-                    completion(.failure(NetworkError.codeError))
-                    return
-                }
-                
-                guard let data = data else { return }
-                
-                do {
-                    let jsonData = try JSONDecoder().decode(UserResult.self, from: data)
-                    let avatarURL = jsonData.profileImage.medium
-                    completion(.success(avatarURL))
-                    
-                    print("\n✅🆒\nSUCCESS: \(avatarURL)\n")
-                    self.task = nil
-                } catch let error {
-                    completion(.failure(error))
                 }
             }
         }
-        self.task = task
         task.resume()
     }
 }
@@ -86,7 +64,7 @@ final class ProfileImageService {
 //MARK: - Extension
 extension ProfileImageService {
     
-    func makeRequest (username: String, token: String) -> URLRequest {
+    private func makeRequest (username: String, token: String) -> URLRequest {
         
         let usernameURLString = userImagesURLString
         let url = URL(string: usernameURLString)!

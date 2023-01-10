@@ -65,9 +65,10 @@ class WebViewViewController: UIViewController {
             URLQueryItem(name: "scope", value: constants.AccessScope)
         ]
         let url = urlComponents.url!
-        
-        let request = URLRequest(url: url)
-        webView.load(request)
+        DispatchQueue.main.async {
+            let request = URLRequest(url: url)
+            self.webView.load(request)
+        }
     }
     
     
