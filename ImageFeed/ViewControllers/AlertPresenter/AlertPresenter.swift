@@ -17,12 +17,7 @@ final class SplashViewAlertPresenter {
                 preferredStyle: .alert)
             
             alertController.view.accessibilityIdentifier = "error_alert"
-            let action = UIAlertAction(
-                title: "Ок",
-                style: .default
-            ) { _ in
-                //
-            }
+        let action = UIAlertAction(title: "Ок", style: .default) 
             alertController.addAction(action)
             vc.present(alertController, animated: true)
     }

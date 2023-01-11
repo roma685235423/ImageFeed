@@ -58,16 +58,7 @@ extension ProfileViewController {
     private func configureAvatarImageView() {
         
         var image: UIImage?
-        
-      //  guard let userAvatarUrlString = profileImageService.avatarURL else { return }
-      //      let userAvatarUrl = URL(string: userAvatarUrlString)!
-      //
-      //      do {
-      //          let imageData: Data = try Data(contentsOf: userAvatarUrl)
-      //          image = UIImage(data: imageData)
-      //      } catch {
-      //          print("\n❌\nCan't shov avatar image \(error)\n")
-      //      }
+
             self.view.addSubview(self.avatarImageView)
             self.avatarImageView.translatesAutoresizingMaskIntoConstraints = false
             

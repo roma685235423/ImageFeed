@@ -42,7 +42,8 @@ final class OAuth2Service {
                     OAuth2TokenStorage().bearerToken = jsonData.accessToken
                     completion(.success(jsonData.accessToken))
                     self.task = nil
-                case .failure:
+                case .failure(let error):
+                    completion(.failure(error))
                     self.lastCode = nil
                 }
             }
