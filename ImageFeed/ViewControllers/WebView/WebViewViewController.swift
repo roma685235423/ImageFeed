@@ -54,7 +54,7 @@ class WebViewViewController: UIViewController {
              changeHandler: { [ weak self] _, _ in
                  guard let self = self else {return}
                  self.updateProgress()
-            })
+             })
         webView.navigationDelegate = self
         
         var urlComponents = URLComponents(string: UnsplashAuthorizeURLString)!

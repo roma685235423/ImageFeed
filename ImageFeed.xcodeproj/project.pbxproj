@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		BA027564296E1A2C00CC3A34 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA027563296E1A2C00CC3A34 /* AlertPresenter.swift */; };
 		BA027566296EAEB200CC3A34 /* CustomErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA027565296EAEB200CC3A34 /* CustomErrors.swift */; };
+		BA252DA929702C7900C9333D /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA252DA829702C7900C9333D /* AlertModel.swift */; };
 		BA384B952955894500000CCE /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA384B942955894500000CCE /* SplashViewController.swift */; };
 		BA5703EF295068F800FAC403 /* OAuthTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5703EE295068F800FAC403 /* OAuthTokenResponse.swift */; };
 		BA5703F229506BD600FAC403 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5703F129506BD600FAC403 /* OAuth2Service.swift */; };
@@ -40,6 +41,7 @@
 /* Begin PBXFileReference section */
 		BA027563296E1A2C00CC3A34 /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 		BA027565296EAEB200CC3A34 /* CustomErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrors.swift; sourceTree = "<group>"; };
+		BA252DA829702C7900C9333D /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		BA384B942955894500000CCE /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		BA5703EE295068F800FAC403 /* OAuthTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponse.swift; sourceTree = "<group>"; };
 		BA5703F129506BD600FAC403 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				BAE3E1472964954E002E1B69 /* Profile.swift */,
 				BABA7DD6296B569B00D22A20 /* UserResult.swift */,
 				BA027565296EAEB200CC3A34 /* CustomErrors.swift */,
+				BA252DA829702C7900C9333D /* AlertModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 				BA384B952955894500000CCE /* SplashViewController.swift in Sources */,
 				BA73290F294C8CBB00B5768B /* AuhtViewController.swift in Sources */,
 				BA73290C294C676C00B5768B /* Constants.swift in Sources */,
+				BA252DA929702C7900C9333D /* AlertModel.swift in Sources */,
 				BA5703EF295068F800FAC403 /* OAuthTokenResponse.swift in Sources */,
 				BABA7DD7296B569B00D22A20 /* UserResult.swift in Sources */,
 				BAB09AA3293E013A0032032B /* SingleImageViewController.swift in Sources */,

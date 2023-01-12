@@ -27,7 +27,7 @@ final class ProfileImageService {
     
     private let token = OAuth2TokenStorage().bearerToken
     
-    let queue = DispatchQueue(label: "profileImage.service.queue", qos: .unspecified)
+    let queueProfileImage = DispatchQueue(label: "profileImage.service.queue", qos: .userInitiated)
     
     //MARK: - Singleton
     private (set) var avatarURL: String?
@@ -45,7 +45,7 @@ final class ProfileImageService {
         let request = self.makeRequest(username: username, token: token)
         let task = session.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
             guard let self = self else { return }
-            self.queue.async {
+            self.queueProfileImage.async {
                 switch result {
                 case .success(let result):
                     self.profileImageUrl = result.profileImage.small
@@ -70,7 +70,6 @@ extension ProfileImageService {
         let url = URL(string: usernameURLString)!
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        print(request)
         return request
     }
     

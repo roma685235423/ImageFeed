@@ -66,10 +66,10 @@ extension ProfileService {
     
     private func convertProfileResultToProfile(profileResult: ProfileResult) -> Profile {
         return Profile(
-            username: profileResult.userName,
-            name: profileResult.firstName + " " + profileResult.lastName,
-            loginName: "@" + profileResult.userName,
-            bio: profileResult.bio
+            username: profileResult.userName ?? "",
+            name: (profileResult.firstName ?? "") + " " + (profileResult.lastName ?? ""),
+            loginName: "@" + (profileResult.userName ?? ""),
+            bio: profileResult.bio ?? ""
         )
     }
     
@@ -78,7 +78,6 @@ extension ProfileService {
         let url = URL(string: profileInfoURLString)!
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
         return request
     }
     

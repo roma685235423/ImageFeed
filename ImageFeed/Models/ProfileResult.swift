@@ -12,17 +12,17 @@ enum CodingKeysForProfileResult: String, CodingKey {
 }
 
 struct ProfileResult: Codable {
-    let userName: String
-    let firstName: String
-    let lastName: String
-    let bio: String
+    let userName: String?
+    let firstName: String?
+    let lastName: String?
+    let bio: String?
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeysForProfileResult.self)
-        userName = try container.decode(String.self, forKey: .username)
-        firstName = try container.decode(String.self, forKey: .first_name)
-        lastName = try container.decode(String.self, forKey: .last_name)
-        bio = try container.decode(String.self, forKey: .bio)
+        userName = try container.decode(String?.self, forKey: .username)
+        firstName = try container.decode(String?.self, forKey: .first_name)
+        lastName = try container.decode(String?.self, forKey: .last_name)
+        bio = try container.decode(String?.self, forKey: .bio)
     }
 }
 

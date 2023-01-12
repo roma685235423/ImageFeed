@@ -7,18 +7,21 @@
 
 import UIKit
 
-
 final class SplashViewAlertPresenter {
     
-    func show(in vc: UIViewController) {
-            let alertController = UIAlertController(
-                title: "Что-то пошло не так",
-                message: "Не удалось войти в систему",
-                preferredStyle: .alert)
-            
-            alertController.view.accessibilityIdentifier = "error_alert"
-        let action = UIAlertAction(title: "Ок", style: .default) 
-            alertController.addAction(action)
+    static func show(in vc: UIViewController, model: AlertModel) {
+        let alertController = UIAlertController(
+            title: model.title,
+            message: model.message,
+            preferredStyle: .alert)
+        
+        alertController.view.accessibilityIdentifier = "error_alert"
+        
+        let action = UIAlertAction(title: model.buttonText, style: .default
+        ){ _ in
+            model.completion()
+        }
+        alertController.addAction(action)
             vc.present(alertController, animated: true)
     }
 }

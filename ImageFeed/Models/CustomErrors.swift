@@ -32,7 +32,7 @@ extension NetworkError: LocalizedError {
         case .decodeError:
             return NSLocalizedString("Decode data error", comment: "Failed to decode received data")
         case .incorrectStatusCode(let code):
-            return NSLocalizedString("Wrong response code", comment: "Received an invalid response code: \(code)")
+            return NSLocalizedString("Wrong response code: \(code)", comment: "Received an invalid response code: \(code)")
         }
     }
 }

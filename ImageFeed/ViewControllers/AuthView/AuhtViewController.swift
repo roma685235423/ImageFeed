@@ -13,7 +13,7 @@ protocol AuthViewControllerDelegate: AnyObject {
 }
 
 
-class AuthViewController: UIViewController {
+final class AuthViewController: UIViewController {
     
     //MARK: - Properties
     private let ShowWebViewSegueIdentifier = "ShowWebView"
@@ -31,7 +31,6 @@ class AuthViewController: UIViewController {
         }
     }
 }
-
 
 
 //MARK: - Extension

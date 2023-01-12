@@ -107,14 +107,18 @@ extension ProfileViewController {
     private func configureDescriptionLabel() {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(descriptionLabel)
-        
-        descriptionLabel.text = "bio"
+                
         descriptionLabel.textColor = UIColor(named: "white")
         descriptionLabel.font = UIFont.systemFont(ofSize: 13.0)
+
+        descriptionLabel.minimumScaleFactor = 0.5
+        descriptionLabel.numberOfLines = 0
+        descriptionLabel.lineBreakMode = .byWordWrapping
         
         NSLayoutConstraint.activate([
             descriptionLabel.leadingAnchor.constraint(equalTo: loginNameLabel.leadingAnchor),
-            descriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8)
+            descriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8),
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
     }
     
@@ -126,10 +130,8 @@ extension ProfileViewController {
         guard let unwrappedImage = logoutButtonImage else { return }
         
         logoutButton = UIButton.systemButton(with: unwrappedImage, target: self, action: #selector(Self.didTapLogoutButton))
-        
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoutButton)
-        
         logoutButton.tintColor = UIColor(named: "red")
         
         NSLayoutConstraint.activate([
