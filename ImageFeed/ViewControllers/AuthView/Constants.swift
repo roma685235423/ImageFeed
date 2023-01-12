@@ -16,9 +16,3 @@ enum constants {
     static let DefaultBaseURL = URL(string: "https://api.unsplash.com")!
     
 }
-
-
-
-
-
-

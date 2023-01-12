@@ -14,28 +14,39 @@ class ProfileViewController: UIViewController {
     private let nameLabel = UILabel()
     private let loginNameLabel = UILabel()
     private let descriptionLabel = UILabel()
+    private let tokenStorage = OAuth2TokenStorage()
+    private let profileImageService = ProfileImageService.shared
+    
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureAvatarImageView()
-        configureNameLabel()
-        configureLoginNameLabel()
-        configureDescriptionLabel()
-        configureLogoutButon()
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(forName: ProfileImageService.DidChangeNotification,
+                         object: nil,
+                         queue: .main
+            ){[weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
         
+        guard let profile = ProfileService.shared.profile else {
+            return
+        }
+        self.updateProfileDetails(profile: profile)
     }
     
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        // TODO [Sprint 11] Обновить аватар, используя Kingfisher
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
-    }
 }
 
 
@@ -45,13 +56,14 @@ extension ProfileViewController {
     
     // This method is responsible for configure user profile avatar.
     private func configureAvatarImageView() {
-        let image = UIImage(named: "mock_userpick")
         
-        view.addSubview(avatarImageView)
-        avatarImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        avatarImageView.image = image
-        
+        var image: UIImage?
+
+            self.view.addSubview(self.avatarImageView)
+            self.avatarImageView.translatesAutoresizingMaskIntoConstraints = false
+            
+            self.avatarImageView.image = image
+
         NSLayoutConstraint.activate([
             avatarImageView.heightAnchor.constraint(equalToConstant: 70),
             avatarImageView.widthAnchor.constraint(equalToConstant: 70),
@@ -66,8 +78,7 @@ extension ProfileViewController {
     private func configureNameLabel() {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
-        
-        nameLabel.text = "Екатерина Новикова"
+        nameLabel.text = "Name"
         nameLabel.textColor = UIColor(named: "white")
         nameLabel.font = UIFont(name: "YSDisplay-Medium", size: 23.0)
         
@@ -82,7 +93,7 @@ extension ProfileViewController {
         loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loginNameLabel)
         
-        loginNameLabel.text = "@ekaterina_nov"
+        loginNameLabel.text = "@username"
         loginNameLabel.textColor = UIColor(named: "gray")
         loginNameLabel.font = UIFont.systemFont(ofSize: 13.0)
         
@@ -97,7 +108,7 @@ extension ProfileViewController {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(descriptionLabel)
         
-        descriptionLabel.text = "Hello, world"
+        descriptionLabel.text = "bio"
         descriptionLabel.textColor = UIColor(named: "white")
         descriptionLabel.font = UIFont.systemFont(ofSize: 13.0)
         
@@ -131,6 +142,26 @@ extension ProfileViewController {
     
     @objc
     private func didTapLogoutButton() {
+        
+    }
+}
+
+
+
+
+extension ProfileViewController {
+    
+    private func updateProfileDetails(profile: Profile) {
+
+        configureAvatarImageView()
+        configureNameLabel()
+        configureLoginNameLabel()
+        configureDescriptionLabel()
+        configureLogoutButon()
+        
+        self.nameLabel.text = profile.name
+        self.loginNameLabel.text = profile.loginName
+        self.descriptionLabel.text = profile.bio
         
     }
 }

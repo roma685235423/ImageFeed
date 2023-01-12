@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProgressHUD
 
 final class ImagesListViewController: UIViewController {
     
@@ -19,17 +20,9 @@ final class ImagesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        UIBlockingProgressHUD.dismiss()
+        
         photosName = Array(0..<20).map{"\($0)"}
-    }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
     }
     
     
@@ -97,8 +90,3 @@ extension ImagesListViewController: UITableViewDataSource {
     }
     
 }
-
-
-
-
-// TEST
