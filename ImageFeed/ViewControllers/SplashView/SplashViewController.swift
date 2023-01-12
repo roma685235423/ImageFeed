@@ -118,6 +118,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                                     }
                                     
                                 case .failure:
+                                    
                                     // TODO: нужно добавить алерт для неудачной загрузки картинки профиля и передать её в экран профиля
                                     return
                                 }
