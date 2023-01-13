@@ -6,11 +6,12 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ProfileViewController: UIViewController {
     
     //MARK: - UI elements
-    private let avatarImageView = UIImageView()
+    private var avatarImageView = UIImageView()
     private let nameLabel = UILabel()
     private let loginNameLabel = UILabel()
     private let descriptionLabel = UILabel()
@@ -31,7 +32,6 @@ class ProfileViewController: UIViewController {
                 guard let self = self else { return }
                 self.updateAvatar()
             }
-        updateAvatar()
         
         guard let profile = ProfileService.shared.profile else {
             return
@@ -39,14 +39,10 @@ class ProfileViewController: UIViewController {
         self.updateProfileDetails(profile: profile)
     }
     
-    private func updateAvatar() {
-        guard
-            let profileImageURL = ProfileImageService.shared.avatarURL,
-            let url = URL(string: profileImageURL)
-        else { return }
-        // TODO [Sprint 11] Обновить аватар, используя Kingfisher
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateAvatar()
     }
-    
 }
 
 
@@ -56,22 +52,16 @@ extension ProfileViewController {
     
     // This method is responsible for configure user profile avatar.
     private func configureAvatarImageView() {
+        view.addSubview(self.avatarImageView)
+
+        avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        var image: UIImage?
-
-            self.view.addSubview(self.avatarImageView)
-            self.avatarImageView.translatesAutoresizingMaskIntoConstraints = false
-            
-            self.avatarImageView.image = image
-
         NSLayoutConstraint.activate([
             avatarImageView.heightAnchor.constraint(equalToConstant: 70),
             avatarImageView.widthAnchor.constraint(equalToConstant: 70),
             avatarImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             avatarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 76)
         ])
-        
-        avatarImageView.layer.cornerRadius = avatarImageView.layer.borderWidth / 2
     }
     
     // This method is responsible for configure user name label.
@@ -107,10 +97,10 @@ extension ProfileViewController {
     private func configureDescriptionLabel() {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(descriptionLabel)
-                
+        
         descriptionLabel.textColor = UIColor(named: "white")
         descriptionLabel.font = UIFont.systemFont(ofSize: 13.0)
-
+        
         descriptionLabel.minimumScaleFactor = 0.5
         descriptionLabel.numberOfLines = 0
         descriptionLabel.lineBreakMode = .byWordWrapping
@@ -142,6 +132,22 @@ extension ProfileViewController {
         ])
     }
     
+    // This method is responsible for upload user avatar.
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        
+        let processor = RoundCornerImageProcessor(cornerRadius: 35, roundingCorners: .all, backgroundColor: UIColor(named: "background"))
+        
+        avatarImageView.kf.indicatorType = .activity
+        avatarImageView.kf.setImage(with: url,
+                                    placeholder: UIImage(named: "userpick_placeholder"),
+                                    options: [.processor(processor)])
+    }
+    
+    
     @objc
     private func didTapLogoutButton() {
         
@@ -154,7 +160,7 @@ extension ProfileViewController {
 extension ProfileViewController {
     
     private func updateProfileDetails(profile: Profile) {
-
+        
         configureAvatarImageView()
         configureNameLabel()
         configureLoginNameLabel()
