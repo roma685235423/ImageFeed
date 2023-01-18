@@ -24,7 +24,7 @@ final class ProfileImageService {
     private let session = URLSession.shared
     private var task: URLSessionTask?
     
-    var tokenStorage = OAuth2TokenStorage()
+    var keychainWrapper = SwiftKeychainWrapper()
     
     let queueProfileImage = DispatchQueue(label: "profileImage.service.queue", qos: .userInitiated)
     
@@ -39,7 +39,7 @@ final class ProfileImageService {
     //MARK: - Methods
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         
-        guard let token = tokenStorage.bearerToken else { return }
+        guard let token = keychainWrapper.getBearerToken() else { return }
         
         let request = self.makeRequest(username: username, token: token)
         let task = session.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in

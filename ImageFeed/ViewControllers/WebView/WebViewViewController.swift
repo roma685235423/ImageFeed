@@ -112,7 +112,7 @@ extension WebViewViewController: WKNavigationDelegate {
             let codeItem = items.first(where: {$0.name == "code"}),
             urlComponents.path == "/oauth/authorize/native"
         {
-            profileImageService.tokenStorage.token = codeItem.value
+            profileImageService.keychainWrapper.setAuthToken(token: codeItem.value)
             return codeItem.value
         } else {
             return nil

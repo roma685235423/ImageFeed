@@ -24,8 +24,10 @@ class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if self.profileImageService.tokenStorage.bearerToken != nil && self.profileImageService.tokenStorage.token != nil {
-            let token = profileImageService.tokenStorage.bearerToken ?? "nil"
+        if self.profileImageService.keychainWrapper.getBearerToken() != nil &&
+            self.profileImageService.keychainWrapper.getAuthToken() != nil {
+            
+            let token = profileImageService.keychainWrapper.getBearerToken() ?? "nil"
             UIBlockingProgressHUD.show()
             self.fetchProfile(token: token)
         } else {
@@ -87,7 +89,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
             switch result {
             case .success(let bearerToken):
-                self.profileImageService.tokenStorage.bearerToken = bearerToken
+                self.profileImageService.keychainWrapper.setBearerToken(token: bearerToken)
                 DispatchQueue.main.async {
                     self.fetchProfile(token: bearerToken)
                 }
