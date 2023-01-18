@@ -104,29 +104,27 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else {return}
             switch result {
             case .success(let profile):
-                DispatchQueue.main.async {
+                self.queue.sync {
                     self.profileService.setProfile(profile: profile)
-                    
-                    self.queue.async {
-                        ProfileImageService.shared.fetchProfileImageURL(
-                            username: self.profileService.profile?.username ?? "NIL") { result in
-                                switch result {
-                                case .success(let avatarURL):
-                                    
-                                    DispatchQueue.main.async {
-                                        self.profileImageService.setAvatarUrlString(avatarUrl: avatarURL)
-                                    }
-                                    
-                                case .failure:
-                                    
-                                    // TODO: нужно добавить алерт для неудачной загрузки картинки профиля и передать её в экран профиля
-                                    return
-                                }
-                            }
-                    }
-                    self.switchToTabBarController()
-                    return
                 }
+                self.queue.sync {
+                    ProfileImageService.shared.fetchProfileImageURL(
+                        username: self.profileService.profile?.username ?? "NIL") { result in
+                            switch result {
+                            case .success(let avatarURL):
+                                DispatchQueue.main.async {
+                                    self.profileImageService.setAvatarUrlString(avatarUrl: avatarURL)
+                                }
+                            case .failure:
+                                
+                                // TODO: нужно добавить алерт для неудачной загрузки картинки профиля и передать её в экран профиля
+                                return
+                            }
+                        }
+                }
+                self.switchToTabBarController()
+                return
+                
             case .failure(let errorCode):
                 self.showAlert(error: errorCode)
                 return

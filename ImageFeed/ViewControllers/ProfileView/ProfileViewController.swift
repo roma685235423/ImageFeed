@@ -129,18 +129,21 @@ extension ProfileViewController {
     
     // This method is responsible for upload user avatar.
     private func updateAvatar() {
-        guard
-            let profileImageURL = ProfileImageService.shared.avatarURL,
-            let url = URL(string: profileImageURL)
-        else { return }
-        
-        let processor = RoundCornerImageProcessor(cornerRadius: 35,backgroundColor: .clear)
-        
-        avatarImageView.kf.indicatorType = .activity
-        avatarImageView.kf.setImage(with: url,
-                                    placeholder: UIImage(named: "userpick_placeholder"),
-                                    options: [.processor(processor),
-                                              .cacheSerializer(FormatIndicatedCacheSerializer.png)])
+        DispatchQueue.main.async {
+            guard
+                
+                let profileImageURL = ProfileImageService.shared.avatarURL,
+                let url = URL(string: profileImageURL)
+            else { return }
+            
+            let processor = RoundCornerImageProcessor(cornerRadius: 35,backgroundColor: .clear)
+            
+            self.avatarImageView.kf.indicatorType = .activity
+            self.avatarImageView.kf.setImage(with: url,
+                                        placeholder: UIImage(named: "userpick_placeholder"),
+                                        options: [.processor(processor),
+                                                  .cacheSerializer(FormatIndicatedCacheSerializer.png)])
+        }
         
     }
     

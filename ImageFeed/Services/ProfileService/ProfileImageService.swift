@@ -53,10 +53,14 @@ final class ProfileImageService {
             self.queueProfileImage.async {
                 switch result {
                 case .success(let result):
-                    self.profileImageUrl = result.profileImage.small
-                    completion(.success(result.profileImage.small))
+                    DispatchQueue.main.async {
+                        self.profileImageUrl = result.profileImage.small
+                        completion(.success(result.profileImage.small))
+                    }
                 case .failure(let error):
-                    completion(.failure(error))
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
                     return
                 }
             }
