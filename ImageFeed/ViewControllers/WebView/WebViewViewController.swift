@@ -30,7 +30,7 @@ class WebViewViewController: UIViewController {
     
     //MARK: - Propertie
     weak var delegate: WebViewViewControllerDelegate?
-    private let tokenStorage = OAuth2TokenStorage()
+    private let profileImageService = ProfileImageService.shared
     
     
     //MARK: - Outlets
@@ -112,7 +112,7 @@ extension WebViewViewController: WKNavigationDelegate {
             let codeItem = items.first(where: {$0.name == "code"}),
             urlComponents.path == "/oauth/authorize/native"
         {
-            tokenStorage.token = codeItem.value
+            profileImageService.tokenStorage.token = codeItem.value
             return codeItem.value
         } else {
             return nil

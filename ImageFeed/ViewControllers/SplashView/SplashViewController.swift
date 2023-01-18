@@ -13,7 +13,6 @@ class SplashViewController: UIViewController {
     //MARK: - Properties
     
     private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
-    private let tokenStorage = OAuth2TokenStorage()
     private let oauth2Service = OAuth2Service()
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
@@ -25,8 +24,8 @@ class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let token = tokenStorage.bearerToken ?? "nil"
-        if self.tokenStorage.bearerToken != nil && self.tokenStorage.token != nil {
+        if self.profileImageService.tokenStorage.bearerToken != nil && self.profileImageService.tokenStorage.token != nil {
+            let token = profileImageService.tokenStorage.bearerToken ?? "nil"
             UIBlockingProgressHUD.show()
             self.fetchProfile(token: token)
         } else {
@@ -88,6 +87,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
             switch result {
             case .success(let bearerToken):
+                self.profileImageService.tokenStorage.bearerToken = bearerToken
                 DispatchQueue.main.async {
                     self.fetchProfile(token: bearerToken)
                 }

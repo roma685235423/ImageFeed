@@ -39,7 +39,6 @@ final class OAuth2Service {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let jsonData):
-                    OAuth2TokenStorage().bearerToken = jsonData.accessToken
                     completion(.success(jsonData.accessToken))
                     self.task = nil
                 case .failure(let error):
