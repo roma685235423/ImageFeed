@@ -23,7 +23,6 @@ class ProfileViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(forName: ProfileImageService.DidChangeNotification,
                          object: nil,
@@ -32,16 +31,12 @@ class ProfileViewController: UIViewController {
                 guard let self = self else { return }
                 self.updateAvatar()
             }
+        self.updateAvatar()
         
         guard let profile = ProfileService.shared.profile else {
             return
         }
         self.updateProfileDetails(profile: profile)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        updateAvatar()
     }
 }
 
@@ -53,7 +48,7 @@ extension ProfileViewController {
     // This method is responsible for configure user profile avatar.
     private func configureAvatarImageView() {
         view.addSubview(self.avatarImageView)
-
+        
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -139,13 +134,16 @@ extension ProfileViewController {
             let url = URL(string: profileImageURL)
         else { return }
         
-        let processor = RoundCornerImageProcessor(cornerRadius: 35, roundingCorners: .all, backgroundColor: UIColor(named: "background"))
+        let processor = RoundCornerImageProcessor(cornerRadius: 35,backgroundColor: .clear)
         
         avatarImageView.kf.indicatorType = .activity
         avatarImageView.kf.setImage(with: url,
                                     placeholder: UIImage(named: "userpick_placeholder"),
-                                    options: [.processor(processor)])
+                                    options: [.processor(processor),
+                                              .cacheSerializer(FormatIndicatedCacheSerializer.png)])
+        
     }
+    
     
     
     @objc

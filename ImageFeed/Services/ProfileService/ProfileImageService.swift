@@ -45,6 +45,11 @@ final class ProfileImageService {
         let request = self.makeRequest(username: username, token: token)
         let task = session.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
             guard let self = self else { return }
+            NotificationCenter.default.post(name: ProfileImageService.DidChangeNotification,
+                                            object: self,
+                                            userInfo: ["URL": self.profileImageUrl ?? ""]
+            )
+            
             self.queueProfileImage.async {
                 switch result {
                 case .success(let result):

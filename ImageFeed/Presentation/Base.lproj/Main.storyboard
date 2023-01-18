@@ -44,7 +44,8 @@
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Zxz-r4-tHf"/>
-                        <color key="backgroundColor" name="backgroung"/>
+                        <color key="backgroundColor" name="background"/>
+                        <color key="tintColor" name="background"/>
                         <constraints>
                             <constraint firstItem="ZxG-jo-IDI" firstAttribute="top" secondItem="dK2-wY-GfO" secondAttribute="top" constant="280" id="Bpy-pN-fCr"/>
                             <constraint firstAttribute="bottom" secondItem="vfK-My-bgV" secondAttribute="bottom" constant="124" id="Dtv-gs-Zde"/>
@@ -252,6 +253,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
                                     </imageView>
                                 </subviews>
+                                <color key="tintColor" name="background"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="8JS-ZF-gcc" secondAttribute="trailing" id="11f-iU-hoh"/>
                                     <constraint firstItem="8JS-ZF-gcc" firstAttribute="leading" secondItem="txy-yh-Rlu" secondAttribute="leading" id="EEz-SS-E0p"/>
@@ -318,7 +320,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="iM3-xz-0DK"/>
-                        <color key="backgroundColor" name="backgroung"/>
+                        <color key="backgroundColor" name="background"/>
+                        <color key="tintColor" name="background"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="profile_active" id="TFj-8S-KdE"/>
                 </viewController>
@@ -356,7 +359,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="mra-d1-uTf"/>
-                        <color key="backgroundColor" name="backgroung"/>
+                        <color key="backgroundColor" name="background"/>
+                        <color key="tintColor" name="background"/>
                     </view>
                     <connections>
                         <segue destination="fQN-zj-FKx" kind="presentation" identifier="ShowAuthenticationScreen" modalPresentationStyle="fullScreen" id="Upb-Lc-0ep"/>
@@ -395,6 +399,9 @@
         <image name="profile_active" width="24" height="24"/>
         <image name="share_button" width="51" height="51"/>
         <image name="tab_editorial_active" width="20" height="22"/>
+        <namedColor name="background">
+            <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="backgroung">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
