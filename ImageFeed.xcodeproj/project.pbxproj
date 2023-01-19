@@ -38,6 +38,7 @@
 		BAE3E1482964954E002E1B69 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE3E1472964954E002E1B69 /* Profile.swift */; };
 		BAED9C6A2978841300634A26 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = BAED9C692978841300634A26 /* SwiftKeychainWrapper */; };
 		BAED9C6C297885D600634A26 /* SwiftKeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED9C6B297885D600634A26 /* SwiftKeychainWrapper.swift */; };
+		BAED9C6F29791B5200634A26 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED9C6E29791B5200634A26 /* TabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +72,7 @@
 		BAE3E145296490D8002E1B69 /* ProfileResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResult.swift; sourceTree = "<group>"; };
 		BAE3E1472964954E002E1B69 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		BAED9C6B297885D600634A26 /* SwiftKeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftKeychainWrapper.swift; sourceTree = "<group>"; };
+		BAED9C6E29791B5200634A26 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 		BA1B8608295DBB4F0082B485 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				BAED9C6D29791B4500634A26 /* TabBarController */,
 				BA027562296E1A1000CC3A34 /* AlertPresenter */,
 				BA5D56F6292E927300264CC2 /* ImageList */,
 				BAB09AA4293E01CF0032032B /* SingleImageView */,
@@ -275,6 +278,14 @@
 			path = ProfileService;
 			sourceTree = "<group>";
 		};
+		BAED9C6D29791B4500634A26 /* TabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				BAED9C6E29791B5200634A26 /* TabBarController.swift */,
+			);
+			path = TabBarController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -367,6 +378,7 @@
 				BA5703F229506BD600FAC403 /* OAuth2Service.swift in Sources */,
 				BA027564296E1A2C00CC3A34 /* AlertPresenter.swift in Sources */,
 				BA027566296EAEB200CC3A34 /* CustomErrors.swift in Sources */,
+				BAED9C6F29791B5200634A26 /* TabBarController.swift in Sources */,
 				BA384B952955894500000CCE /* SplashViewController.swift in Sources */,
 				BA73290F294C8CBB00B5768B /* AuhtViewController.swift in Sources */,
 				BA73290C294C676C00B5768B /* Constants.swift in Sources */,
