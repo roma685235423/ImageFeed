@@ -171,6 +171,8 @@ extension ProfileViewController {
         self.loginNameLabel.text = profile.loginName
         self.descriptionLabel.text = profile.bio
         
+        view.backgroundColor = UIColor(named: "black")
+        
     }
 }
 

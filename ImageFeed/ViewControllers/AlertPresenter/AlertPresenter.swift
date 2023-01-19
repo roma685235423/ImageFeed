@@ -7,9 +7,9 @@
 
 import UIKit
 
-final class SplashViewAlertPresenter {
+class AlertPresenter {
     
-    static func show(in vc: UIViewController, model: AlertModel) {
+    func show(in vc: UIViewController, model: AlertModel) {
         let alertController = UIAlertController(
             title: model.title,
             message: model.message,

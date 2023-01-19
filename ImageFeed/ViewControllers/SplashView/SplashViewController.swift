@@ -97,8 +97,8 @@ extension SplashViewController: AuthViewControllerDelegate {
                 DispatchQueue.main.async {
                     self.fetchProfile(token: bearerToken)
                 }
-            case .failure(let error):
-                self.showAlert(error: error)
+            case .failure:
+                self.showAlert()
                 return
             }
         }
@@ -122,8 +122,6 @@ extension SplashViewController: AuthViewControllerDelegate {
                                     self.profileImageService.setAvatarUrlString(avatarUrl: avatarURL)
                                 }
                             case .failure:
-                                
-                                // TODO: нужно добавить алерт для неудачной загрузки картинки профиля и передать её в экран профиля
                                 return
                             }
                         }
@@ -131,22 +129,23 @@ extension SplashViewController: AuthViewControllerDelegate {
                 self.switchToTabBarController()
                 return
                 
-            case .failure(let errorCode):
-                self.showAlert(error: errorCode)
+            case .failure:
+                self.showAlert()
                 return
             }
         }
     }
     
-    func showAlert(error: Error) {
-        let alerModel = AlertModel(title: "Что-то пошло не так",
-                                   message: "Не удалось войти в систему\n\(error.localizedDescription)",
+    func showAlert() {
+        let alerModel = AlertModel(title: "Что-то пошло не так(",
+                                   message: "Не удалось войти в систему",
                                    buttonText: "Ок"
         ){
             self.viewDidAppear(false)
         }
         DispatchQueue.main.async {
-            SplashViewAlertPresenter.show(in: self, model: alerModel)
+            let alertPresenter = AlertPresenter()
+            alertPresenter.show(in: self, model: alerModel)
             UIBlockingProgressHUD.dismiss()
         }
     }
