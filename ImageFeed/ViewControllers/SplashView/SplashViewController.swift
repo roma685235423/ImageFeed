@@ -39,13 +39,10 @@ class SplashViewController: UIViewController {
             UIBlockingProgressHUD.show()
             self.fetchProfile(token: token)
         } else {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
                 let authViewController = AuthViewController()
                 authViewController.delegate = self
                 authViewController.modalPresentationStyle = .fullScreen
-                self.present(authViewController, animated: false)
-            }
+                present(authViewController, animated: false)
         }
     }
     
