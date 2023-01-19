@@ -12,6 +12,8 @@ class SplashViewController: UIViewController {
     
     //MARK: - Properties
     
+    private var splashScreenView = UIImageView()
+    
     private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     private let oauth2Service = OAuth2Service()
     private let profileService = ProfileService.shared
@@ -21,6 +23,12 @@ class SplashViewController: UIViewController {
     let lastErroCode = Int()
     
     //MARK: - LifeCicle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureSplashScreenLogo()
+    }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -33,7 +41,10 @@ class SplashViewController: UIViewController {
         } else {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                self.performSegue(withIdentifier: self.ShowAuthenticationScreenSegueIdentifier, sender: nil)
+                let authViewController = AuthViewController()
+                authViewController.delegate = self
+                authViewController.modalPresentationStyle = .fullScreen
+                self.present(authViewController, animated: false)
             }
         }
     }
@@ -48,28 +59,24 @@ class SplashViewController: UIViewController {
         UIBlockingProgressHUD.dismiss()
         window.rootViewController = tabBarController
     }
+    
+    
+    private func configureSplashScreenLogo(){
+        view.addSubview(splashScreenView)
+        
+        splashScreenView.translatesAutoresizingMaskIntoConstraints = false
+        
+        splashScreenView.image = UIImage(named: "vector")
+        NSLayoutConstraint.activate([
+            splashScreenView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            splashScreenView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
 }
 
 
 
 //MARK: - Extensions
-
-extension SplashViewController {
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
-            guard
-                let navigationController = segue.destination as? UINavigationController,
-                let viewController = navigationController.viewControllers[0] as? AuthViewController
-            else {fatalError("Failed to prepare for \(ShowAuthenticationScreenSegueIdentifier)")}
-            viewController.delegate = self
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
-    }
-}
-
-
 
 extension SplashViewController: AuthViewControllerDelegate {
     
