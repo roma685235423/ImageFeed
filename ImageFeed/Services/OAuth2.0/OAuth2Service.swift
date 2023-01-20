@@ -55,9 +55,9 @@ final class OAuth2Service {
         
         var urlComponents = URLComponents(string: self.unsplashAuthorizePostURLString)!
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: constants.AccessKey),
-            URLQueryItem(name: "client_secret", value: constants.SecretKey),
-            URLQueryItem(name: "redirect_uri", value: constants.RedirectURI),
+            URLQueryItem(name: "client_id", value: Constants.AccessKey),
+            URLQueryItem(name: "client_secret", value: Constants.SecretKey),
+            URLQueryItem(name: "redirect_uri", value: Constants.RedirectURI),
             URLQueryItem(name: "code", value: code),
             URLQueryItem(name: "grant_type", value: "authorization_code")
         ]

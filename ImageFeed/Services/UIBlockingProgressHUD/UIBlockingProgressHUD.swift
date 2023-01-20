@@ -17,12 +17,10 @@ final class UIBlockingProgressHUD {
     static func show() {
         window?.isUserInteractionEnabled = false
         ProgressHUD.show()
-        print("\n‼️‼️❌\nUIBlockingProgressHUD.show()\nisUserInteractionEnabled = false\n")
     }
     
     static func dismiss() {
         window?.isUserInteractionEnabled = true
         ProgressHUD.dismiss()
-        print("\n‼️‼️✅\nUIBlockingProgressHUD.dismiss()\nisUserInteractionEnabled = true\n")
     }
 }

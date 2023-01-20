@@ -19,7 +19,7 @@ class SplashViewController: UIViewController {
     
     private let queue = DispatchQueue(label: "splash.vc.queue", qos: .unspecified)
     
-    //MARK: - LifeCicle
+    //MARK: - Life Cicle
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -35,11 +35,7 @@ class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if  profileImageService.keychainWrapper.getBearerToken() != nil &&
-                profileImageService.keychainWrapper.getAuthToken() != nil
-        {
-            let token = profileImageService.keychainWrapper.getBearerToken()!
-            print("\n‼️4️⃣")
+        if let token = profileImageService.keychainWrapper.getBearerToken(){
             UIBlockingProgressHUD.show()
             self.fetchProfile(token: token)
         } else {
@@ -50,7 +46,7 @@ class SplashViewController: UIViewController {
                 return
             }
             authViewController.delegate = self
-            authViewController.modalPresentationStyle = .fullScreen
+            authViewController.modalPresentationStyle = .overFullScreen
             present(authViewController, animated: false)
         }
     }
@@ -64,17 +60,13 @@ class SplashViewController: UIViewController {
             .instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarController
         DispatchQueue.main.async {
-            print("\n5️⃣‼️")
-            UIBlockingProgressHUD.dismiss()
         }
     }
     
     
     private func configureSplashScreenLogo(){
         view.addSubview(splashScreenView)
-        
         splashScreenView.translatesAutoresizingMaskIntoConstraints = false
-        
         splashScreenView.image = UIImage(named: "vector")
         NSLayoutConstraint.activate([
             splashScreenView.centerXAnchor.constraint(equalTo: splashScreenView.superview!.centerXAnchor),
@@ -100,6 +92,7 @@ extension SplashViewController: AuthViewControllerDelegate {
     
     
     private func fetchOAuthToken (_ code: String) {
+        UIBlockingProgressHUD.show()
         self.oauth2Service.fetchAuthToken(code: code) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -139,7 +132,6 @@ extension SplashViewController: AuthViewControllerDelegate {
                 }
                 self.switchToTabBarController()
                 return
-                
             case .failure:
                 self.showAlert()
                 return
@@ -147,17 +139,18 @@ extension SplashViewController: AuthViewControllerDelegate {
         }
     }
     
+    
     func showAlert() {
-        let alerModel = AlertModel(title: "Что-то пошло не так(",
-                                   message: "Не удалось войти в систему",
-                                   buttonText: "Ок"
+        let alerModel = AlertModel(
+            title: "Что-то пошло не так(",
+            message: "Не удалось войти в систему",
+            buttonText: "Ок"
         ){
             self.viewDidAppear(false)
         }
         DispatchQueue.main.async {
             let alertPresenter = AlertPresenter()
             alertPresenter.show(in: self, model: alerModel)
-            
             UIBlockingProgressHUD.dismiss()
         }
     }

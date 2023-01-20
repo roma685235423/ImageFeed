@@ -38,7 +38,7 @@ class WebViewViewController: UIViewController {
     @IBOutlet weak var progressView: UIProgressView!
     
     
-    //MARK: - LifeCicle
+    //MARK: - Life Cicle
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .darkContent
@@ -59,10 +59,10 @@ class WebViewViewController: UIViewController {
         
         var urlComponents = URLComponents(string: UnsplashAuthorizeURLString)!
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: constants.AccessKey),
-            URLQueryItem(name: "redirect_uri", value: constants.RedirectURI),
+            URLQueryItem(name: "client_id", value: Constants.AccessKey),
+            URLQueryItem(name: "redirect_uri", value: Constants.RedirectURI),
             URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: constants.AccessScope)
+            URLQueryItem(name: "scope", value: Constants.AccessScope)
         ]
         let url = urlComponents.url!
         DispatchQueue.main.async {

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import ProgressHUD
 
 protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
@@ -18,9 +18,9 @@ final class AuthViewController: UIViewController {
     //MARK: - Properties
     private let ShowWebViewSegueIdentifier = "ShowWebView"
     weak var delegate: AuthViewControllerDelegate?
+    private let profileImageService = ProfileImageService.shared
     
-    
-    //MARK: - Lifecicle
+    //MARK: - Life Cicle
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -29,6 +29,13 @@ final class AuthViewController: UIViewController {
         super.viewDidLoad()
         setNeedsStatusBarAppearanceUpdate()
         view.backgroundColor = UIColor(named: "black")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if profileImageService.keychainWrapper.getAuthToken() != nil {
+            UIBlockingProgressHUD.show()
+        }
     }
     
     //MARK: - Methods

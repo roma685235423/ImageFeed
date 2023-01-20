@@ -13,6 +13,7 @@ final class ImagesListViewController: UIViewController {
     // MARK: - Properties
     private var photosName = [String]()
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
+    private let profileImageService = ProfileImageService.shared
     // MARK: - Outlets
     @IBOutlet weak var imagesListTableView: UITableView!
     
@@ -26,7 +27,9 @@ final class ImagesListViewController: UIViewController {
         super.viewDidLoad()
         setNeedsStatusBarAppearanceUpdate()
         photosName = Array(0..<20).map{"\($0)"}
+        UIBlockingProgressHUD.dismiss()
     }
+    
     
     // MARK: - Helpers
     private lazy var dateFormatter: DateFormatter = {
