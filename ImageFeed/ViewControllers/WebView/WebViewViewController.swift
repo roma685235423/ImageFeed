@@ -45,8 +45,8 @@ class WebViewViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        setNeedsStatusBarAppearanceUpdate()
         super.viewDidLoad()
+        setNeedsStatusBarAppearanceUpdate()
         
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,

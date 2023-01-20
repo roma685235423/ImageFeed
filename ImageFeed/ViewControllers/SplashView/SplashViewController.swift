@@ -12,37 +12,46 @@ class SplashViewController: UIViewController {
     
     //MARK: - Properties
     
-    private var splashScreenView = UIImageView()
-    
-    private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
+    private let splashScreenView = UIImageView()
     private let oauth2Service = OAuth2Service()
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     
     private let queue = DispatchQueue(label: "splash.vc.queue", qos: .unspecified)
-    let lastErroCode = Int()
     
     //MARK: - LifeCicle
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNeedsStatusBarAppearanceUpdate()
         configureSplashScreenLogo()
+        view.backgroundColor = UIColor(named: "black")
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if self.profileImageService.keychainWrapper.getBearerToken() != nil &&
-            self.profileImageService.keychainWrapper.getAuthToken() != nil {
-            
-            let token = profileImageService.keychainWrapper.getBearerToken() ?? "nil"
+        if  profileImageService.keychainWrapper.getBearerToken() != nil &&
+                profileImageService.keychainWrapper.getAuthToken() != nil
+        {
+            let token = profileImageService.keychainWrapper.getBearerToken()!
+            print("\n‼️4️⃣")
             UIBlockingProgressHUD.show()
             self.fetchProfile(token: token)
         } else {
-                let authViewController = AuthViewController()
-                authViewController.delegate = self
-                authViewController.modalPresentationStyle = .fullScreen
-                present(authViewController, animated: false)
+            let storyboard = UIStoryboard(name: "Main", bundle: .main)
+            guard let authViewController = storyboard.instantiateViewController(
+                withIdentifier: "AuthViewControllerStoryboard"
+            ) as? AuthViewController else {
+                return
+            }
+            authViewController.delegate = self
+            authViewController.modalPresentationStyle = .fullScreen
+            present(authViewController, animated: false)
         }
     }
     
@@ -53,8 +62,11 @@ class SplashViewController: UIViewController {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration")}
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarViewController")
-        UIBlockingProgressHUD.dismiss()
         window.rootViewController = tabBarController
+        DispatchQueue.main.async {
+            print("\n5️⃣‼️")
+            UIBlockingProgressHUD.dismiss()
+        }
     }
     
     
@@ -65,8 +77,8 @@ class SplashViewController: UIViewController {
         
         splashScreenView.image = UIImage(named: "vector")
         NSLayoutConstraint.activate([
-            splashScreenView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            splashScreenView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            splashScreenView.centerXAnchor.constraint(equalTo: splashScreenView.superview!.centerXAnchor),
+            splashScreenView.centerYAnchor.constraint(equalTo: splashScreenView.superview!.centerYAnchor)
         ])
     }
 }
@@ -82,7 +94,6 @@ extension SplashViewController: AuthViewControllerDelegate {
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 self.fetchOAuthToken(code)
-                UIBlockingProgressHUD.show()
             }
         }
     }
@@ -93,8 +104,8 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
             switch result {
             case .success(let bearerToken):
-                self.profileImageService.keychainWrapper.setBearerToken(token: bearerToken)
                 DispatchQueue.main.async {
+                    self.profileImageService.keychainWrapper.setBearerToken(token: bearerToken)
                     self.fetchProfile(token: bearerToken)
                 }
             case .failure:
@@ -146,6 +157,7 @@ extension SplashViewController: AuthViewControllerDelegate {
         DispatchQueue.main.async {
             let alertPresenter = AlertPresenter()
             alertPresenter.show(in: self, model: alerModel)
+            
             UIBlockingProgressHUD.dismiss()
         }
     }

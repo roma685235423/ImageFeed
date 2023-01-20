@@ -13,13 +13,13 @@
         <!--Authenticator View Controller-->
         <scene sceneID="zbj-xc-oj6">
             <objects>
-                <viewController storyboardIdentifier="AuthViewController" definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" modalPresentationStyle="fullScreen" id="Wym-h9-3Sx" userLabel="Authenticator View Controller" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthViewControllerStoryboard" definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" modalPresentationStyle="fullScreen" id="Wym-h9-3Sx" userLabel="Authenticator View Controller" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dK2-wY-GfO">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="auth_screen_logo" translatesAutoresizingMaskIntoConstraints="NO" id="ZxG-jo-IDI">
-                                <rect key="frame" x="184" y="280" width="60" height="60"/>
+                                <rect key="frame" x="184" y="433" width="60" height="60"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vfK-My-bgV">
                                 <rect key="frame" x="16" y="754" width="396" height="48"/>
@@ -47,9 +47,9 @@
                         <color key="backgroundColor" name="background"/>
                         <color key="tintColor" name="background"/>
                         <constraints>
-                            <constraint firstItem="ZxG-jo-IDI" firstAttribute="top" secondItem="dK2-wY-GfO" secondAttribute="top" constant="280" id="Bpy-pN-fCr"/>
                             <constraint firstAttribute="bottom" secondItem="vfK-My-bgV" secondAttribute="bottom" constant="124" id="Dtv-gs-Zde"/>
-                            <constraint firstItem="ZxG-jo-IDI" firstAttribute="centerX" secondItem="Zxz-r4-tHf" secondAttribute="centerX" id="ShE-yK-pHM"/>
+                            <constraint firstItem="ZxG-jo-IDI" firstAttribute="centerX" secondItem="dK2-wY-GfO" secondAttribute="centerX" id="ShE-yK-pHM"/>
+                            <constraint firstItem="ZxG-jo-IDI" firstAttribute="centerY" secondItem="dK2-wY-GfO" secondAttribute="centerY" id="eO1-Tf-BHU"/>
                             <constraint firstItem="Zxz-r4-tHf" firstAttribute="trailing" secondItem="vfK-My-bgV" secondAttribute="trailing" constant="16" id="mE4-6b-2CT"/>
                             <constraint firstItem="vfK-My-bgV" firstAttribute="leading" secondItem="Zxz-r4-tHf" secondAttribute="leading" constant="16" id="qG9-FE-dnp"/>
                         </constraints>

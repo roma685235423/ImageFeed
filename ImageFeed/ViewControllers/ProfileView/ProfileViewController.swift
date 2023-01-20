@@ -20,8 +20,14 @@ class ProfileViewController: UIViewController {
     private var profileImageServiceObserver: NSObjectProtocol?
     
     // MARK: - Life Cycle
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNeedsStatusBarAppearanceUpdate()
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(forName: ProfileImageService.DidChangeNotification,
                          object: nil,

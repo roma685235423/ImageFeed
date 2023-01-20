@@ -22,6 +22,7 @@ class AlertPresenter {
             model.completion()
         }
         alertController.addAction(action)
+        vc.view.layer.backgroundColor = UIColor(named: "black")?.cgColor
             vc.present(alertController, animated: true)
     }
 }

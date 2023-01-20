@@ -20,6 +20,17 @@ final class AuthViewController: UIViewController {
     weak var delegate: AuthViewControllerDelegate?
     
     
+    //MARK: - Lifecicle
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setNeedsStatusBarAppearanceUpdate()
+        view.backgroundColor = UIColor(named: "black")
+    }
+    
     //MARK: - Methods
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowWebViewSegueIdentifier {

@@ -17,14 +17,16 @@ final class ImagesListViewController: UIViewController {
     @IBOutlet weak var imagesListTableView: UITableView!
     
     // MARK: - Life Cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        UIBlockingProgressHUD.dismiss()
-        
-        photosName = Array(0..<20).map{"\($0)"}
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setNeedsStatusBarAppearanceUpdate()
+        photosName = Array(0..<20).map{"\($0)"}
+    }
     
     // MARK: - Helpers
     private lazy var dateFormatter: DateFormatter = {

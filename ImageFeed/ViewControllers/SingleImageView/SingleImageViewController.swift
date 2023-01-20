@@ -28,8 +28,14 @@ class SingleImageViewController: UIViewController {
     
     // MARK: - Life Cycle
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNeedsStatusBarAppearanceUpdate()
+        
         imageView.image = image
         scrollView.minimumZoomScale = 1.0
         scrollView.maximumZoomScale = 1.25
