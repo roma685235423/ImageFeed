@@ -7,10 +7,9 @@
 
 import Foundation
 
-
 enum NetworkError: Error {
-case decodeError
-case incorrectStatusCode(code: Int)
+    case decodeError
+    case incorrectStatusCode(code: Int)
 }
 
 

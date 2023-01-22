@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 final class ProfileService {
     
     //MARK: - Enumerations

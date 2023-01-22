@@ -29,11 +29,13 @@ protocol WebViewViewControllerDelegate: AnyObject {
 class WebViewViewController: UIViewController {
     
     //MARK: - Propertie
+    
     weak var delegate: WebViewViewControllerDelegate?
     private let profileImageService = ProfileImageService.shared
     
     
     //MARK: - Outlets
+    
     @IBOutlet private var webView: WKWebView!
     @IBOutlet weak var progressView: UIProgressView!
     
@@ -88,6 +90,7 @@ class WebViewViewController: UIViewController {
 }
 
 
+
 //MARK: - Extension
 
 extension WebViewViewController: WKNavigationDelegate {
@@ -103,7 +106,6 @@ extension WebViewViewController: WKNavigationDelegate {
         }
     }
     
-    // Function to get code
     private func code(from navigationAction: WKNavigationAction) -> String? {
         if
             let url = navigationAction.request.url,

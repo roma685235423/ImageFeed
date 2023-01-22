@@ -11,6 +11,7 @@ import Kingfisher
 class ProfileViewController: UIViewController {
     
     //MARK: - UI elements
+    
     private var avatarImageView = UIImageView()
     private let nameLabel = UILabel()
     private let loginNameLabel = UILabel()
@@ -18,6 +19,7 @@ class ProfileViewController: UIViewController {
     private let profileImageService = ProfileImageService.shared
     
     private var profileImageServiceObserver: NSObjectProtocol?
+    
     
     // MARK: - Life Cycle
     
@@ -29,7 +31,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setNeedsStatusBarAppearanceUpdate()
         profileImageServiceObserver = NotificationCenter.default
-            .addObserver(forName: ProfileImageService.DidChangeNotification,
+            .addObserver(forName: ProfileImageService.didChangeNotification,
                          object: nil,
                          queue: .main
             ){[weak self] _ in
@@ -46,10 +48,9 @@ class ProfileViewController: UIViewController {
 }
 
 
-
 // MARK: - Extension
+
 extension ProfileViewController {
-    
     // This method is responsible for configure user profile avatar.
     private func configureAvatarImageView() {
         view.addSubview(self.avatarImageView)
@@ -145,22 +146,18 @@ extension ProfileViewController {
             
             self.avatarImageView.kf.indicatorType = .activity
             self.avatarImageView.kf.setImage(with: url,
-                                        placeholder: UIImage(named: "userpick_placeholder"),
-                                        options: [.processor(processor),
-                                                  .cacheSerializer(FormatIndicatedCacheSerializer.png)])
+                                             placeholder: UIImage(named: "userpick_placeholder"),
+                                             options: [.processor(processor),
+                                                       .cacheSerializer(FormatIndicatedCacheSerializer.png)])
         }
         
     }
-    
-    
     
     @objc
     private func didTapLogoutButton() {
         
     }
 }
-
-
 
 
 extension ProfileViewController {

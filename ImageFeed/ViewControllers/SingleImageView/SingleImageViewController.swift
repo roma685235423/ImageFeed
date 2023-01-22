@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class SingleImageViewController: UIViewController {
     
     // MARK: - Properties
@@ -20,11 +19,13 @@ class SingleImageViewController: UIViewController {
         }
     }
     
+    
     //MARK: - Outlets
     
     @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var scrollView: UIScrollView!
+    
     
     // MARK: - Life Cycle
     
@@ -60,7 +61,7 @@ class SingleImageViewController: UIViewController {
     }
     
     
-    
+    //MARK: - Methods
     
     private func rescaleAndCenterInScrollView(image: UIImage) {
         
@@ -92,6 +93,9 @@ class SingleImageViewController: UIViewController {
     }
 }
 
+
+
+//MARK: - Extensions
 
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {

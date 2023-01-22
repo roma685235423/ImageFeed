@@ -7,22 +7,23 @@
 
 import Foundation
 
-enum CodingKeysForProfileResult: String, CodingKey {
+fileprivate enum CodingKeys: String, CodingKey {
     case username, first_name, last_name, bio
 }
 
-struct ProfileResult: Codable {
+
+struct ProfileResult: Decodable {
     let userName: String?
     let firstName: String?
     let lastName: String?
     let bio: String?
     
     init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeysForProfileResult.self)
-        userName = try container.decode(String?.self, forKey: .username)
-        firstName = try container.decode(String?.self, forKey: .first_name)
-        lastName = try container.decode(String?.self, forKey: .last_name)
-        bio = try container.decode(String?.self, forKey: .bio)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.userName = try container.decode(String?.self, forKey: .username)
+        self.firstName = try container.decode(String?.self, forKey: .first_name)
+        self.lastName = try container.decode(String?.self, forKey: .last_name)
+        self.bio = try container.decode(String?.self, forKey: .bio)
     }
 }
 

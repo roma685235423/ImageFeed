@@ -23,6 +23,6 @@ class AlertPresenter {
         }
         alertController.addAction(action)
         vc.view.layer.backgroundColor = UIColor(named: "black")?.cgColor
-            vc.present(alertController, animated: true)
+        vc.present(alertController, animated: true)
     }
 }

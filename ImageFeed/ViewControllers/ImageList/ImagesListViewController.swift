@@ -6,16 +6,19 @@
 //
 
 import UIKit
-import ProgressHUD
 
 final class ImagesListViewController: UIViewController {
     
     // MARK: - Properties
+    
     private var photosName = [String]()
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
     private let profileImageService = ProfileImageService.shared
+    
     // MARK: - Outlets
+    
     @IBOutlet weak var imagesListTableView: UITableView!
+    
     
     // MARK: - Life Cycle
     
@@ -27,11 +30,11 @@ final class ImagesListViewController: UIViewController {
         super.viewDidLoad()
         setNeedsStatusBarAppearanceUpdate()
         photosName = Array(0..<20).map{"\($0)"}
-        UIBlockingProgressHUD.dismiss()
     }
     
     
     // MARK: - Helpers
+    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -39,7 +42,9 @@ final class ImagesListViewController: UIViewController {
         return formatter
     }()
     
+    
     //MARK: - Methods
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == ShowSingleImageSegueIdentifier {
@@ -56,8 +61,8 @@ final class ImagesListViewController: UIViewController {
 
 
 // MARK: - Extensions
+
 extension ImagesListViewController: UITableViewDelegate {
-    
     // This method is responsible for the action that is performed when tapping on a table cell.
     func tableView (_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -65,7 +70,6 @@ extension ImagesListViewController: UITableViewDelegate {
     }
     
 }
-
 
 
 extension ImagesListViewController: UITableViewDataSource {
@@ -93,5 +97,4 @@ extension ImagesListViewController: UITableViewDataSource {
         
         return cell
     }
-    
 }

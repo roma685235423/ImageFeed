@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import ProgressHUD
 
 class SplashViewController: UIViewController {
     
@@ -18,6 +17,7 @@ class SplashViewController: UIViewController {
     private let profileImageService = ProfileImageService.shared
     
     private let queue = DispatchQueue(label: "splash.vc.queue", qos: .unspecified)
+    
     
     //MARK: - Life Cicle
     
@@ -32,11 +32,32 @@ class SplashViewController: UIViewController {
         view.backgroundColor = UIColor(named: "black")
     }
     
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        bearerTokenAvailabilityCheck()
+    }
+    
+    
+    //MARK: - Methods
+    private func switchToTabBarController() {
+        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration")}
+        let tabBarController = UIStoryboard(name: "Main", bundle: .main)
+            .instantiateViewController(withIdentifier: "TabBarViewController")
+        window.rootViewController = tabBarController
+    }
+    
+    private func configureSplashScreenLogo(){
+        view.addSubview(splashScreenView)
+        splashScreenView.translatesAutoresizingMaskIntoConstraints = false
+        splashScreenView.image = UIImage(named: "vector")
+        NSLayoutConstraint.activate([
+            splashScreenView.centerXAnchor.constraint(equalTo: splashScreenView.superview!.centerXAnchor),
+            splashScreenView.centerYAnchor.constraint(equalTo: splashScreenView.superview!.centerYAnchor)
+        ])
+    }
+    
+    private func bearerTokenAvailabilityCheck() {
         if let token = profileImageService.keychainWrapper.getBearerToken(){
-            UIBlockingProgressHUD.show()
             self.fetchProfile(token: token)
         } else {
             let storyboard = UIStoryboard(name: "Main", bundle: .main)
@@ -49,29 +70,6 @@ class SplashViewController: UIViewController {
             authViewController.modalPresentationStyle = .overFullScreen
             present(authViewController, animated: false)
         }
-    }
-    
-    
-    
-    //MARK: - Methods
-    private func switchToTabBarController() {
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration")}
-        let tabBarController = UIStoryboard(name: "Main", bundle: .main)
-            .instantiateViewController(withIdentifier: "TabBarViewController")
-        window.rootViewController = tabBarController
-        DispatchQueue.main.async {
-        }
-    }
-    
-    
-    private func configureSplashScreenLogo(){
-        view.addSubview(splashScreenView)
-        splashScreenView.translatesAutoresizingMaskIntoConstraints = false
-        splashScreenView.image = UIImage(named: "vector")
-        NSLayoutConstraint.activate([
-            splashScreenView.centerXAnchor.constraint(equalTo: splashScreenView.superview!.centerXAnchor),
-            splashScreenView.centerYAnchor.constraint(equalTo: splashScreenView.superview!.centerYAnchor)
-        ])
     }
 }
 
@@ -110,6 +108,7 @@ extension SplashViewController: AuthViewControllerDelegate {
     
     
     private func fetchProfile (token: String) {
+        UIBlockingProgressHUD.show()
         profileService.fetchProfile(token) {[weak self] result in
             guard let self = self else {return}
             switch result {
@@ -131,6 +130,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                         }
                 }
                 self.switchToTabBarController()
+                UIBlockingProgressHUD.dismiss()
                 return
             case .failure:
                 self.showAlert()
@@ -146,7 +146,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             message: "Не удалось войти в систему",
             buttonText: "Ок"
         ){
-            self.viewDidAppear(false)
+            self.bearerTokenAvailabilityCheck()
         }
         DispatchQueue.main.async {
             let alertPresenter = AlertPresenter()

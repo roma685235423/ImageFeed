@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class ImagesListCell: UITableViewCell {
     
     @IBOutlet private weak var imagesListCellImage: UIImageView!
@@ -23,8 +22,8 @@ final class ImagesListCell: UITableViewCell {
 
 
 // MARK: - Extension
+
 extension ImagesListCell {
-    
     // This method is responsible for configutation of cell
     func configureCell(image: UIImage?, date: String?, isLiked: Bool) {
         

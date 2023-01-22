@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 final class ProfileImageService {
     
     //MARK: - Enumerations
@@ -24,16 +23,15 @@ final class ProfileImageService {
     private let session = URLSession.shared
     private var task: URLSessionTask?
     
-    var keychainWrapper = SwiftKeychainWrapper()
+    var keychainWrapper = KeychainAuthStorage()
     
     let queueProfileImage = DispatchQueue(label: "profileImage.service.queue", qos: .userInitiated)
     
-    //MARK: - Singleton
     private (set) var avatarURL: String?
     
     
     //MARK: - Notification
-    static let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
+    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
     
     //MARK: - Methods
@@ -45,7 +43,7 @@ final class ProfileImageService {
         let task = session.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
             guard let self = self else { return }
             NotificationCenter.default.post(
-                name: ProfileImageService.DidChangeNotification,
+                name: ProfileImageService.didChangeNotification,
                 object: self,
                 userInfo: ["URL": self.profileImageUrl ?? ""]
             )

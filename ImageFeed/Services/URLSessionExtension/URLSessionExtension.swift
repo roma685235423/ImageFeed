@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 extension URLSession {
     
     //MARK: - Generic method
