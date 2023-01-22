@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum constants {
+enum Constants {
     
     static let AccessKey = "lHCFEGnBP871ogZAWrA69LFt22cYqyPvWoJxF6s9FjQ"
     static let SecretKey = "UZKBl9pKXc8rTM8Qmk32rNaozH6XJeifpn3M8huP4es"
@@ -16,9 +16,3 @@ enum constants {
     static let DefaultBaseURL = URL(string: "https://api.unsplash.com")!
     
 }
-
-
-
-
-
-

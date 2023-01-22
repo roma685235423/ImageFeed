@@ -12,6 +12,7 @@ import UIKit
 
 fileprivate let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
 fileprivate var progress = Float()
+private var estimatedProgressObservation: NSKeyValueObservation?
 
 
 
@@ -28,62 +29,52 @@ protocol WebViewViewControllerDelegate: AnyObject {
 class WebViewViewController: UIViewController {
     
     //MARK: - Propertie
+    
     weak var delegate: WebViewViewControllerDelegate?
-    private let tokenStorage = OAuth2TokenStorage()
+    private let profileImageService = ProfileImageService.shared
     
     
     //MARK: - Outlets
+    
     @IBOutlet private var webView: WKWebView!
     @IBOutlet weak var progressView: UIProgressView!
     
     
-    //MARK: - LifeCicle
+    //MARK: - Life Cicle
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNeedsStatusBarAppearanceUpdate()
+        
+        estimatedProgressObservation = webView.observe(
+            \.estimatedProgress,
+             options: [],
+             changeHandler: { [ weak self] _, _ in
+                 guard let self = self else {return}
+                 self.updateProgress()
+             })
         webView.navigationDelegate = self
         
         var urlComponents = URLComponents(string: UnsplashAuthorizeURLString)!
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: constants.AccessKey),
-            URLQueryItem(name: "redirect_uri", value: constants.RedirectURI),
+            URLQueryItem(name: "client_id", value: Constants.AccessKey),
+            URLQueryItem(name: "redirect_uri", value: Constants.RedirectURI),
             URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: constants.AccessScope)
+            URLQueryItem(name: "scope", value: Constants.AccessScope)
         ]
         let url = urlComponents.url!
-        
-        let request = URLRequest(url: url)
-        webView.load(request)
-        updateProgress()
-        setNeedsStatusBarAppearanceUpdate()
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .darkContent
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
-        updateProgress()
-    }
-    
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), context: nil)
+        DispatchQueue.main.async {
+            let request = URLRequest(url: url)
+            self.webView.load(request)
+        }
     }
     
     
     //MARK: - Methods
-    
-    override func observeValue(forKeyPath keyPath: String?,of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == #keyPath(WKWebView.estimatedProgress) {
-            updateProgress()
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
-    }
     
     private func updateProgress() {
         progressView.progress = Float(webView.estimatedProgress)
@@ -97,6 +88,7 @@ class WebViewViewController: UIViewController {
         delegate?.webViewViewControllerDidCancel(self)
     }
 }
+
 
 
 //MARK: - Extension
@@ -114,7 +106,6 @@ extension WebViewViewController: WKNavigationDelegate {
         }
     }
     
-    
     private func code(from navigationAction: WKNavigationAction) -> String? {
         if
             let url = navigationAction.request.url,
@@ -123,7 +114,7 @@ extension WebViewViewController: WKNavigationDelegate {
             let codeItem = items.first(where: {$0.name == "code"}),
             urlComponents.path == "/oauth/authorize/native"
         {
-            tokenStorage.token = codeItem.value
+            profileImageService.keychainWrapper.setAuthToken(token: codeItem.value)
             return codeItem.value
         } else {
             return nil

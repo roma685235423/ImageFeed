@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class SingleImageViewController: UIViewController {
     
     // MARK: - Properties
@@ -20,30 +19,28 @@ class SingleImageViewController: UIViewController {
         }
     }
     
+    
     //MARK: - Outlets
     
     @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var scrollView: UIScrollView!
     
+    
     // MARK: - Life Cycle
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNeedsStatusBarAppearanceUpdate()
+        
         imageView.image = image
         scrollView.minimumZoomScale = 1.0
         scrollView.maximumZoomScale = 1.25
         rescaleAndCenterInScrollView(image: image)
-    }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
     }
     
     
@@ -64,7 +61,7 @@ class SingleImageViewController: UIViewController {
     }
     
     
-    
+    //MARK: - Methods
     
     private func rescaleAndCenterInScrollView(image: UIImage) {
         
@@ -96,6 +93,9 @@ class SingleImageViewController: UIViewController {
     }
 }
 
+
+
+//MARK: - Extensions
 
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {

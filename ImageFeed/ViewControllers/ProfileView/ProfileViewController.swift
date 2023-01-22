@@ -6,51 +6,56 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ProfileViewController: UIViewController {
     
     //MARK: - UI elements
-    private let avatarImageView = UIImageView()
+    
+    private var avatarImageView = UIImageView()
     private let nameLabel = UILabel()
     private let loginNameLabel = UILabel()
     private let descriptionLabel = UILabel()
+    private let profileImageService = ProfileImageService.shared
+    
+    private var profileImageServiceObserver: NSObjectProtocol?
+    
     
     // MARK: - Life Cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        configureAvatarImageView()
-        configureNameLabel()
-        configureLoginNameLabel()
-        configureDescriptionLabel()
-        configureLogoutButon()
-        
-    }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
-    }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
+        return .lightContent
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setNeedsStatusBarAppearanceUpdate()
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(forName: ProfileImageService.didChangeNotification,
+                         object: nil,
+                         queue: .main
+            ){[weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        self.updateAvatar()
+        
+        guard let profile = ProfileService.shared.profile else {
+            return
+        }
+        self.updateProfileDetails(profile: profile)
     }
 }
 
 
-
 // MARK: - Extension
+
 extension ProfileViewController {
-    
     // This method is responsible for configure user profile avatar.
     private func configureAvatarImageView() {
-        let image = UIImage(named: "mock_userpick")
+        view.addSubview(self.avatarImageView)
         
-        view.addSubview(avatarImageView)
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        avatarImageView.image = image
         
         NSLayoutConstraint.activate([
             avatarImageView.heightAnchor.constraint(equalToConstant: 70),
@@ -58,16 +63,13 @@ extension ProfileViewController {
             avatarImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             avatarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 76)
         ])
-        
-        avatarImageView.layer.cornerRadius = avatarImageView.layer.borderWidth / 2
     }
     
     // This method is responsible for configure user name label.
     private func configureNameLabel() {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
-        
-        nameLabel.text = "Екатерина Новикова"
+        nameLabel.text = "Name"
         nameLabel.textColor = UIColor(named: "white")
         nameLabel.font = UIFont(name: "YSDisplay-Medium", size: 23.0)
         
@@ -82,7 +84,7 @@ extension ProfileViewController {
         loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loginNameLabel)
         
-        loginNameLabel.text = "@ekaterina_nov"
+        loginNameLabel.text = "@username"
         loginNameLabel.textColor = UIColor(named: "gray")
         loginNameLabel.font = UIFont.systemFont(ofSize: 13.0)
         
@@ -97,13 +99,17 @@ extension ProfileViewController {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(descriptionLabel)
         
-        descriptionLabel.text = "Hello, world"
         descriptionLabel.textColor = UIColor(named: "white")
         descriptionLabel.font = UIFont.systemFont(ofSize: 13.0)
         
+        descriptionLabel.minimumScaleFactor = 0.5
+        descriptionLabel.numberOfLines = 0
+        descriptionLabel.lineBreakMode = .byWordWrapping
+        
         NSLayoutConstraint.activate([
             descriptionLabel.leadingAnchor.constraint(equalTo: loginNameLabel.leadingAnchor),
-            descriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8)
+            descriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8),
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
     }
     
@@ -115,10 +121,8 @@ extension ProfileViewController {
         guard let unwrappedImage = logoutButtonImage else { return }
         
         logoutButton = UIButton.systemButton(with: unwrappedImage, target: self, action: #selector(Self.didTapLogoutButton))
-        
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoutButton)
-        
         logoutButton.tintColor = UIColor(named: "red")
         
         NSLayoutConstraint.activate([
@@ -129,8 +133,48 @@ extension ProfileViewController {
         ])
     }
     
+    // This method is responsible for upload user avatar.
+    private func updateAvatar() {
+        DispatchQueue.main.async {
+            guard
+                
+                let profileImageURL = ProfileImageService.shared.avatarURL,
+                let url = URL(string: profileImageURL)
+            else { return }
+            
+            let processor = RoundCornerImageProcessor(cornerRadius: 35,backgroundColor: .clear)
+            
+            self.avatarImageView.kf.indicatorType = .activity
+            self.avatarImageView.kf.setImage(with: url,
+                                             placeholder: UIImage(named: "userpick_placeholder"),
+                                             options: [.processor(processor),
+                                                       .cacheSerializer(FormatIndicatedCacheSerializer.png)])
+        }
+        
+    }
+    
     @objc
     private func didTapLogoutButton() {
+        
+    }
+}
+
+
+extension ProfileViewController {
+    
+    private func updateProfileDetails(profile: Profile) {
+        
+        configureAvatarImageView()
+        configureNameLabel()
+        configureLoginNameLabel()
+        configureDescriptionLabel()
+        configureLogoutButon()
+        
+        self.nameLabel.text = profile.name
+        self.loginNameLabel.text = profile.loginName
+        self.descriptionLabel.text = profile.bio
+        
+        view.backgroundColor = UIColor(named: "black")
         
     }
 }

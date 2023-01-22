@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 final class ImagesListCell: UITableViewCell {
     
     @IBOutlet private weak var imagesListCellImage: UIImageView!
@@ -23,8 +22,8 @@ final class ImagesListCell: UITableViewCell {
 
 
 // MARK: - Extension
+
 extension ImagesListCell {
-    
     // This method is responsible for configutation of cell
     func configureCell(image: UIImage?, date: String?, isLiked: Bool) {
         
@@ -38,7 +37,7 @@ extension ImagesListCell {
         let colorTop = UIColor(named: "gradientTop")?.cgColor
         let colorBottom = UIColor(named: "gradientBottom")?.cgColor
         
-        gradient.colors = [colorTop, colorBottom]
+        gradient.colors = [colorTop!, colorBottom!]
         gradient.frame = imagesListCellGradient.bounds
         
         imagesListCellGradient.layer.addSublayer(gradient)
