@@ -34,13 +34,6 @@ final class AuthViewController: UIViewController {
         view.backgroundColor = UIColor(named: "black")
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if profileImageService.keychainWrapper.getAuthToken() != nil {
-            //UIBlockingProgressHUD.show()
-        }
-    }
-    
     
     //MARK: - Methods
     
