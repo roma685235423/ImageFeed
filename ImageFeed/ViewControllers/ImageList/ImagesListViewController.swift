@@ -14,6 +14,8 @@ final class ImagesListViewController: UIViewController {
     private var photosName = [String]()
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
     private let profileImageService = ProfileImageService.shared
+    private var imageListService = ImagesListService.shared
+    var i: Int = 0
     
     // MARK: - Outlets
     
@@ -96,5 +98,17 @@ extension ImagesListViewController: UITableViewDataSource {
         cell.configureCell(image: image, date: date, isLiked: isLikedImage)
         
         return cell
+    }
+    
+    // This method is responsible for call fetchPhotosNextPage
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        print("\n❤️💙\nindexPath.row: \(indexPath.row)\n")
+        if indexPath.row == imageListService.photos.count {
+            DispatchQueue.main.async {
+                self.i = self.i + 1
+                print("\n🟢\nImagesListService.fetchPhotosNextPage() CALLED\n\(self.i) Times‼️")
+                self.imageListService.fetchPhotosNextPage()
+            }
+        }
     }
 }

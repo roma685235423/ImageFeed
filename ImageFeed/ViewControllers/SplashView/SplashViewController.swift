@@ -99,8 +99,8 @@ extension SplashViewController: AuthViewControllerDelegate {
                     self.profileImageService.keychainWrapper.setBearerToken(token: bearerToken)
                     self.fetchProfile(token: bearerToken)
                 }
-            case .failure:
-                self.showAlert()
+            case .failure(let error):
+                self.showAlert(error: error.localizedDescription)
                 return
             }
         }
@@ -132,18 +132,18 @@ extension SplashViewController: AuthViewControllerDelegate {
                 self.switchToTabBarController()
                 UIBlockingProgressHUD.dismiss()
                 return
-            case .failure:
-                self.showAlert()
+            case .failure(let error):
+                self.showAlert(error: error.localizedDescription)
                 return
             }
         }
     }
     
     
-    func showAlert() {
+    func showAlert(error: String) {
         let alerModel = AlertModel(
             title: "Что-то пошло не так(",
-            message: "Не удалось войти в систему",
+            message: "Не удалось войти в систему\n\(error)",
             buttonText: "Ок"
         ){
             self.bearerTokenAvailabilityCheck()

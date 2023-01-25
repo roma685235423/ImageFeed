@@ -10,11 +10,13 @@ import Foundation
 final class ProfileImageService {
     
     //MARK: - Enumerations
+    
     private enum NetworkError: Error {
         case codeError
     }
     
     //MARK: - Properties
+    
     private let userImagesURLString  = "https://api.unsplash.com/me"
     
     static let shared = ProfileImageService()
@@ -31,10 +33,12 @@ final class ProfileImageService {
     
     
     //MARK: - Notification
+    
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
     
     //MARK: - Methods
+    
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         
         guard let token = keychainWrapper.getBearerToken() else { return }
@@ -69,12 +73,11 @@ final class ProfileImageService {
 
 
 //MARK: - Extension
+
 extension ProfileImageService {
     
     private func makeRequest (username: String, token: String) -> URLRequest {
-        
-        let usernameURLString = userImagesURLString
-        let url = URL(string: usernameURLString)!
+        let url = URL(string: self.userImagesURLString)!
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
