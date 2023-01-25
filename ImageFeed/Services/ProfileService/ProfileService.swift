@@ -46,6 +46,7 @@ final class ProfileService {
                     guard let profile = self.profile else {return}
                     completion(.success(profile))
                     self.task = nil
+                    return
                 case .failure(let error):
                     completion(.failure(error))
                     self.lastToken = nil
