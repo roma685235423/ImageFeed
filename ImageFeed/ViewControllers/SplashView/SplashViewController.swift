@@ -130,7 +130,6 @@ extension SplashViewController: AuthViewControllerDelegate {
                         }
                 }
                 self.switchToTabBarController()
-                UIBlockingProgressHUD.dismiss()
                 return
             case .failure(let error):
                 self.showAlert(error: error.localizedDescription)

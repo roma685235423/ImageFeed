@@ -137,7 +137,6 @@ extension ProfileViewController {
     private func updateAvatar() {
         DispatchQueue.main.async {
             guard
-                
                 let profileImageURL = ProfileImageService.shared.avatarURL,
                 let url = URL(string: profileImageURL)
             else { return }

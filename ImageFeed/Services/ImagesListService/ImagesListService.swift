@@ -39,7 +39,6 @@ final class ImagesListService {
         let nextPage = self.lastLoadedPage == nil
         ? 1
         : self.lastLoadedPage! + 1
-        print("🇧🇲\nnextPage = \(nextPage)\nlastLoadedPage = \(self.lastLoadedPage)")
         
         
         let request = makeRequest(token: token, nextPage: nextPage)
@@ -50,13 +49,8 @@ final class ImagesListService {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let result):
-                    print("‼️⬆️🔃\n\(result)\n🟢")
                     self.lastLoadedPage = nextPage
                     self.addNewPhotosToArray(photoResults: result)
-                    print("‼️⬆️🔴\nself.lastLoadedPage: \(self.lastLoadedPage)\n🟢")
-                    print("⬆️🟢🇧🇬\nphotos: \(self.photos)\n🇳🇬🇵🇷🇷🇴")
-                    print("⬆️🟢🇧🇬\nphotos: \(self.photos.count)\n🇳🇬🇵🇷🇷🇴")
-                    print("⬆️🟢🇧🇬\nphotos: \(self.photos[self.photos.count - 1])\n🇳🇬🇵🇷🇷🇴")
                     self.task = nil
                 case .failure(let error):
                     print("‼️\n\(error)\n❌")
