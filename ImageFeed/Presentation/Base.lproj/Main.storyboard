@@ -140,7 +140,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="428" height="274"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="wQJ-YG-yKX" userLabel="Cell Image">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wQJ-YG-yKX" userLabel="Cell Image">
                                                     <rect key="frame" x="20" y="3" width="388" height="268"/>
                                                     <color key="backgroundColor" name="backgroung"/>
                                                     <userDefinedRuntimeAttributes>

@@ -12,10 +12,8 @@ final class ImagesListViewController: UIViewController {
     
     // MARK: - Properties
     
-    private var photosName = [String]()
     private var photos = [Photo]()
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
-    private let profileImageService = ProfileImageService.shared
     private var imagesListService = ImagesListService.shared
     
     private var imagesListViewControllerObserver: NSObjectProtocol?
@@ -66,7 +64,8 @@ final class ImagesListViewController: UIViewController {
         if segue.identifier == ShowSingleImageSegueIdentifier {
             let viewController = segue.destination as! SingleImageViewController
             let indexPath = sender as! IndexPath
-            let image = UIImage(named: photosName[indexPath.row])
+            let cell = self.imagesListTableView.cellForRow(at: indexPath) as! ImagesListCell
+            let image = cell.getImageFromCell()
             viewController.image = image
         } else {
             super.prepare(for: segue, sender: sender)
@@ -103,7 +102,7 @@ extension ImagesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        configureCell(cell: cell, indexPath: indexPath)
+        self.configureCell(cell: cell, indexPath: indexPath)
         
         return cell
     }

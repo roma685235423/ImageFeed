@@ -36,7 +36,8 @@ final class ImagesListCell: UITableViewCell {
 extension ImagesListCell {
     
     func configureCurrentCellContent(photo: Photo, completion: @escaping () -> Void) {
-        self.imageView?.image = nil
+        self.layer.bounds.size = photo.size
+        self.imagesListCellImage.layer.bounds.size = photo.size
         let createdAt = dateFormatter.string(from: photo.createdAt ?? Date())
         guard let thumbImageUrl = URL(string: photo.thumbImageURL),
               let placeholderImage = UIImage(named: "card") else {
@@ -70,7 +71,17 @@ extension ImagesListCell {
     }
     
     
+    private func configureImagesCellSize(photo: Photo) {
+        self.layer.bounds.size = photo.size
+    }
+    
+    func getImageFromCell() -> UIImage {
+        return self.imagesListCellImage.image ?? UIImage()
+    }
+    
+    
     override func prepareForReuse() {
+        super.prepareForReuse()
         self.imageView?.kf.cancelDownloadTask()
     }
 }
