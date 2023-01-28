@@ -115,6 +115,10 @@ extension ImagesListViewController: UITableViewDataSource {
             self.imagesListService.fetchPhotosNextPage()
         }
     }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return photos[indexPath.row].size.height
+    }
 }
 
 
