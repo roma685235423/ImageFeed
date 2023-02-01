@@ -155,9 +155,10 @@ extension ImagesListViewController {
 
 extension ImagesListViewController: ImagesListCellDelegate {
     
-    func imageCellDidTapLikeButton(cell: ImagesListCell) {
+    func imageListCellDidTapLike(cell: ImagesListCell) {
         guard let indexPath = imagesListTableView.indexPath(for: cell) else {return}
         let photo = photos[indexPath.row]
+        UIBlockingProgressHUD.show()
         imagesListService.changeLike(photoId: photo.id, isLike: photo.isLiked) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -165,8 +166,11 @@ extension ImagesListViewController: ImagesListCellDelegate {
                 DispatchQueue.main.async {
                     self.photos[indexPath.row].isLiked.toggle()
                     cell.changeLikeButtonImage(isLiked: self.photos[indexPath.row].isLiked)
+                    UIBlockingProgressHUD.dismiss()
                 }
             case.failure:
+                // TODO: Показать ошибку с использованием UIAlertController
+                UIBlockingProgressHUD.dismiss()
                 return
             }
         }

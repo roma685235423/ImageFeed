@@ -9,14 +9,14 @@ import UIKit
 import Kingfisher
 
 protocol ImagesListCellDelegate: AnyObject {
-    func imageCellDidTapLikeButton(cell: ImagesListCell)
+    func imageListCellDidTapLike(cell: ImagesListCell)
 }
 
 final class ImagesListCell: UITableViewCell {
     
     // MARK: - Properties
     
-    var delegate: ImagesListCellDelegate?
+    weak var delegate: ImagesListCellDelegate?
     
     
     // MARK: - Layout
@@ -28,7 +28,7 @@ final class ImagesListCell: UITableViewCell {
     
     // MARK: - Actions
     @IBAction func didTapLikeButton(_ sender: Any) {
-        didTapLikeButton()
+        likeButtonClicked()
     }
     
 }
@@ -77,7 +77,7 @@ extension ImagesListCell {
         self.imageView?.kf.cancelDownloadTask()
     }
     
-    @objc private func didTapLikeButton(){
-        delegate?.imageCellDidTapLikeButton(cell: self)
+    @objc private func likeButtonClicked(){
+        delegate?.imageListCellDidTapLike(cell: self)
     }
 }
