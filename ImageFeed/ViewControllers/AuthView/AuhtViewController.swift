@@ -16,14 +16,12 @@ protocol AuthViewControllerDelegate: AnyObject {
 final class AuthViewController: UIViewController {
     
     //MARK: - Properties
-    
     private let ShowWebViewSegueIdentifier = "ShowWebView"
     weak var delegate: AuthViewControllerDelegate?
     private let profileImageService = ProfileImageService.shared
     
     
     //MARK: - Life Cicle
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -36,7 +34,6 @@ final class AuthViewController: UIViewController {
     
     
     //MARK: - Methods
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowWebViewSegueIdentifier {
             guard let webViewViewController = segue.destination as? WebViewViewController
@@ -51,12 +48,12 @@ final class AuthViewController: UIViewController {
 
 
 //MARK: - Extension
-
 extension AuthViewController: WebViewViewControllerDelegate {
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         self.delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
+    
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true)

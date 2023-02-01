@@ -29,14 +29,14 @@ extension URLSession {
                     return
                 }
                 guard let data = data else { return }
-                //print("\n↔️\ndata; \(String(data: data, encoding: .utf8))")
+                print("\n↔️\ndata; \(String(data: data, encoding: .utf8))")
                 do {
                     let decodedObject = try JSONDecoder().decode(T.self, from: data)
                     completion(.success(decodedObject))
                     print("\n✅🟢\ndecodedObject = \(decodedObject)\nType is: \(type(of: decodedObject))\n")
                 } catch {
                     completion(.failure(NetworkError.decodeError))
-                    //print("\n‼️❌⭕️\nNetworkError.decodeError = \(NetworkError.decodeError)")
+                    print("\n‼️❌⭕️\nNetworkError.decodeError = \(NetworkError.decodeError)")
                 }
             }
         })

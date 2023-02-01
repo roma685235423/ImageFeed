@@ -10,7 +10,6 @@ import UIKit
 class SplashViewController: UIViewController {
     
     //MARK: - Properties
-    
     private let splashScreenView = UIImageView()
     private let oauth2Service = OAuth2Service()
     private let profileService = ProfileService.shared
@@ -20,7 +19,6 @@ class SplashViewController: UIViewController {
     
     
     //MARK: - Life Cicle
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -76,7 +74,6 @@ class SplashViewController: UIViewController {
 
 
 //MARK: - Extensions
-
 extension SplashViewController: AuthViewControllerDelegate {
     
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {

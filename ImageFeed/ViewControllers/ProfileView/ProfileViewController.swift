@@ -10,8 +10,7 @@ import Kingfisher
 
 class ProfileViewController: UIViewController {
     
-    //MARK: - UI elements
-    
+    //MARK: - Layout
     private var avatarImageView = UIImageView()
     private let nameLabel = UILabel()
     private let loginNameLabel = UILabel()
@@ -22,7 +21,6 @@ class ProfileViewController: UIViewController {
     
     
     // MARK: - Life Cycle
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -49,7 +47,6 @@ class ProfileViewController: UIViewController {
 
 
 // MARK: - Extension
-
 extension ProfileViewController {
     // This method is responsible for configure user profile avatar.
     private func configureAvatarImageView() {
@@ -162,7 +159,6 @@ extension ProfileViewController {
 extension ProfileViewController {
     
     private func updateProfileDetails(profile: Profile) {
-        
         configureAvatarImageView()
         configureNameLabel()
         configureLoginNameLabel()
@@ -174,7 +170,6 @@ extension ProfileViewController {
         self.descriptionLabel.text = profile.bio
         
         view.backgroundColor = UIColor(named: "black")
-        
     }
 }
 

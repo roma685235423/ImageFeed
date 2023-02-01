@@ -11,20 +11,18 @@ import Kingfisher
 final class ImagesListViewController: UIViewController {
     
     // MARK: - Properties
-    
     private var photos = [Photo]()
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
     private var imagesListService = ImagesListService.shared
     
     private var imagesListViewControllerObserver: NSObjectProtocol?
     
-    // MARK: - Outlets
     
+    // MARK: - Layout
     @IBOutlet weak var imagesListTableView: UITableView!
     
     
     // MARK: - Helpers
-    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
@@ -34,10 +32,10 @@ final class ImagesListViewController: UIViewController {
     
     
     // MARK: - Life Cycle
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,9 +56,7 @@ final class ImagesListViewController: UIViewController {
     
     
     //MARK: - Methods
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         if segue.identifier == ShowSingleImageSegueIdentifier {
             let viewController = segue.destination as! SingleImageViewController
             let indexPath = sender as! IndexPath
@@ -76,7 +72,6 @@ final class ImagesListViewController: UIViewController {
 
 
 // MARK: - Extensions
-
 extension ImagesListViewController: UITableViewDelegate {
     // This method is responsible for the action that is performed when tapping on a table cell.
     func tableView (_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -86,8 +81,8 @@ extension ImagesListViewController: UITableViewDelegate {
 }
 
 
+
 extension ImagesListViewController: UITableViewDataSource {
-    
     // This method is responsible for determining the number of cells in the table
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return imagesListService.photos.count
@@ -96,14 +91,13 @@ extension ImagesListViewController: UITableViewDataSource {
     
     // This method is responsible for the actions that will be performed when tapping on a table cell.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let id =  String(describing: ImagesListCell.self)
         
+        let id =  String(describing: ImagesListCell.self)
         guard let cell = tableView.dequeueReusableCell(withIdentifier: id, for: indexPath) as? ImagesListCell else {
             return UITableViewCell()
         }
-        
+        cell.delegate = self
         self.configureCell(cell: cell, indexPath: indexPath)
-        
         return cell
     }
     
@@ -113,10 +107,6 @@ extension ImagesListViewController: UITableViewDataSource {
         if indexPath.row + 1 == imagesListService.photos.count {
             self.imagesListService.fetchPhotosNextPage()
         }
-    }
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return photos[indexPath.row].size.height
     }
 }
 
@@ -139,11 +129,46 @@ extension ImagesListViewController {
         }
     }
     
+    
     private func configureCell (cell: ImagesListCell, indexPath: IndexPath) {
+        
         let photo = photos[indexPath.row]
-        cell.configureCurrentCellContent(photo: photo){ [weak self] in
+        let createdAt = dateFormatter.string(from: photo.createdAt ?? Date())
+        cell.configureCurrentCellContent(photo: photo, createdAt: createdAt)
+        
+        guard let thumbImageUrl = URL(string: photo.thumbImageURL),
+              let placeholderImage = UIImage(named: "card") else {
+            return
+        }
+        cell.imagesListCellImage.kf.indicatorType = .activity
+        cell.imagesListCellImage.kf.setImage(
+            with: thumbImageUrl,
+            placeholder: placeholderImage
+        ) { [weak self] _ in
             guard let self = self else { return }
             self.imagesListTableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+    }
+}
+
+
+
+extension ImagesListViewController: ImagesListCellDelegate {
+    
+    func imageCellDidTapLikeButton(cell: ImagesListCell) {
+        guard let indexPath = imagesListTableView.indexPath(for: cell) else {return}
+        let photo = photos[indexPath.row]
+        imagesListService.changeLike(photoId: photo.id, isLike: photo.isLiked) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    self.photos[indexPath.row].isLiked.toggle()
+                    cell.changeLikeButtonImage(isLiked: self.photos[indexPath.row].isLiked)
+                }
+            case.failure:
+                return
+            }
         }
     }
 }

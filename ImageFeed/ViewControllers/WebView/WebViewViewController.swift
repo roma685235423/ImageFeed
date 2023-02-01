@@ -9,7 +9,6 @@ import WebKit
 import UIKit
 
 //MARK: - fileprivate Properties
-
 fileprivate let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
 fileprivate var progress = Float()
 private var estimatedProgressObservation: NSKeyValueObservation?
@@ -17,7 +16,6 @@ private var estimatedProgressObservation: NSKeyValueObservation?
 
 
 //MARK: - Protocol
-
 protocol WebViewViewControllerDelegate: AnyObject {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String)
     func webViewViewControllerDidCancel(_ vc: WebViewViewController)
@@ -29,19 +27,16 @@ protocol WebViewViewControllerDelegate: AnyObject {
 class WebViewViewController: UIViewController {
     
     //MARK: - Propertie
-    
     weak var delegate: WebViewViewControllerDelegate?
     private let profileImageService = ProfileImageService.shared
     
     
-    //MARK: - Outlets
-    
+    //MARK: - Layout
     @IBOutlet private var webView: WKWebView!
     @IBOutlet weak var progressView: UIProgressView!
     
     
     //MARK: - Life Cicle
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .darkContent
     }
@@ -75,7 +70,6 @@ class WebViewViewController: UIViewController {
     
     
     //MARK: - Methods
-    
     private func updateProgress() {
         progressView.progress = Float(webView.estimatedProgress)
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0)  <= 0.0001
@@ -83,7 +77,6 @@ class WebViewViewController: UIViewController {
     
     
     //MARK: - Action
-    
     @IBAction func didTapBackButton(_ sender: Any?) {
         delegate?.webViewViewControllerDidCancel(self)
     }
@@ -92,7 +85,6 @@ class WebViewViewController: UIViewController {
 
 
 //MARK: - Extension
-
 extension WebViewViewController: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView,

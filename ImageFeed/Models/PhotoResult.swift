@@ -8,7 +8,7 @@
 import Foundation
 
 fileprivate enum CodingKeys: String, CodingKey {
-case id, width, height, created_at, description, liked_by_user, urls
+case id, width, height, created_at, description, liked_by_user, urls, photo
 case raw, full, regular, small, thumb
 }
 
@@ -41,5 +41,16 @@ struct UrlsResult: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.largeImageURL = try container.decode(String.self, forKey: .regular)
         self.thumbImageURL = try container.decode(String.self, forKey: .thumb)
+    }
+}
+
+struct likeResult: Decodable {
+    let photo: PhotoResult
+    enum CodingKeys: CodingKey {
+        case photo
+    }
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.photo = try container.decode(PhotoResult.self, forKey: .photo)
     }
 }

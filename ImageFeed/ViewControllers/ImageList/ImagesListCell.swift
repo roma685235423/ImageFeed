@@ -8,25 +8,29 @@
 import UIKit
 import Kingfisher
 
+protocol ImagesListCellDelegate: AnyObject {
+    func imageCellDidTapLikeButton(cell: ImagesListCell)
+}
+
 final class ImagesListCell: UITableViewCell {
     
-    @IBOutlet private weak var imagesListCellImage: UIImageView!
+    // MARK: - Properties
     
+    var delegate: ImagesListCellDelegate?
+    
+    
+    // MARK: - Layout
+    @IBOutlet weak var imagesListCellImage: UIImageView!
     @IBOutlet private weak var imagesListCellTextLabel: UILabel!
-    
     @IBOutlet private weak var imagesListCellLikeButton: UIButton!
-    
     @IBOutlet private weak var imagesListCellGradient: UIView!
     
     
-    // MARK: - Helpers
+    // MARK: - Actions
+    @IBAction func didTapLikeButton(_ sender: Any) {
+        didTapLikeButton()
+    }
     
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        return formatter
-    }()
 }
 
 
@@ -35,29 +39,18 @@ final class ImagesListCell: UITableViewCell {
 
 extension ImagesListCell {
     
-    func configureCurrentCellContent(photo: Photo, completion: @escaping () -> Void) {
-        self.layer.bounds.size = photo.size
-        self.imagesListCellImage.layer.bounds.size = photo.size
-        let createdAt = dateFormatter.string(from: photo.createdAt ?? Date())
-        guard let thumbImageUrl = URL(string: photo.thumbImageURL),
-              let placeholderImage = UIImage(named: "card") else {
-            return
-        }
-        self.imageView?.kf.indicatorType = .activity
-        self.imageView?.kf.setImage(
-            with: thumbImageUrl,
-            placeholder: placeholderImage
-        ){ [weak self] _ in
-            guard let self = self else { return }
-            
-            self.imagesListCellTextLabel.text = createdAt
-            self.createGradient()
-            let likeButtonImage = photo.isLiked ? UIImage(named: "like_button_on"): UIImage(named: "like_button_off")
-            self.imagesListCellLikeButton.setImage(likeButtonImage, for: .normal)
-            self.prepareForReuse()
-        }
+    func configureCurrentCellContent(photo: Photo, createdAt: String) {
+        self.createGradient()
+        self.imagesListCellTextLabel.text = createdAt
+        let likeButtonImage = photo.isLiked ? UIImage(named: "like_button_on"): UIImage(named: "like_button_off")
+        self.imagesListCellLikeButton.setImage(likeButtonImage, for: .normal)
+        self.prepareForReuse()
     }
     
+    func changeLikeButtonImage(isLiked: Bool) {
+        let likeButtonImage = isLiked ? UIImage(named: "like_button_on"): UIImage(named: "like_button_off")
+        self.imagesListCellLikeButton.setImage(likeButtonImage, for: .normal)
+    }
     
     private func createGradient() {
         
@@ -67,7 +60,6 @@ extension ImagesListCell {
         gradient.colors = [colorTop!, colorBottom!]
         gradient.frame = imagesListCellGradient.bounds
         imagesListCellGradient.layer.addSublayer(gradient)
-        
     }
     
     
@@ -83,5 +75,9 @@ extension ImagesListCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.imageView?.kf.cancelDownloadTask()
+    }
+    
+    @objc private func didTapLikeButton(){
+        delegate?.imageCellDidTapLikeButton(cell: self)
     }
 }
