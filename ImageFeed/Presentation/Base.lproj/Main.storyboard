@@ -133,7 +133,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                                 <color key="backgroundColor" name="backgroung"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" alpha="0.0" tag="1" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="ImagesListCell" focusStyle="custom" rowHeight="274" id="wvq-Hw-HUd" customClass="ImagesListCell" customModule="ImageFeed" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" alpha="0.0" tag="1" contentMode="scaleToFill" restorationIdentifier="ImagesListCellReuseIdentifier" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" reuseIdentifier="ImagesListCell" focusStyle="custom" rowHeight="274" id="wvq-Hw-HUd" customClass="ImagesListCell" customModule="ImageFeed" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="428" height="274"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wvq-Hw-HUd" id="NJs-2n-xSM">

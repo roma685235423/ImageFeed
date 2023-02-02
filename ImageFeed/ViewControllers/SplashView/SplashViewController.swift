@@ -69,13 +69,27 @@ class SplashViewController: UIViewController {
             present(authViewController, animated: false)
         }
     }
+    
+    func showAlert(error: String) {
+        let alerModel = AlertModel(
+            title: "Что-то пошло не так(",
+            message: "Не удалось войти в систему\n\(error)",
+            buttonText: "Ок"
+        ){
+            self.bearerTokenAvailabilityCheck()
+        }
+        DispatchQueue.main.async {
+            let alertPresenter = AlertPresenter()
+            alertPresenter.show(in: self, model: alerModel)
+            UIBlockingProgressHUD.dismiss()
+        }
+    }
 }
 
 
 
 //MARK: - Extensions
 extension SplashViewController: AuthViewControllerDelegate {
-    
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         dismiss(animated: true) { [weak self] in
             DispatchQueue.main.async {
@@ -100,12 +114,12 @@ extension SplashViewController: AuthViewControllerDelegate {
                 self.showAlert(error: error.localizedDescription)
                 return
             }
+            UIBlockingProgressHUD.dismiss()
         }
     }
     
     
     private func fetchProfile (token: String) {
-        UIBlockingProgressHUD.show()
         profileService.fetchProfile(token) {[weak self] result in
             guard let self = self else {return}
             switch result {
@@ -132,22 +146,6 @@ extension SplashViewController: AuthViewControllerDelegate {
                 self.showAlert(error: error.localizedDescription)
                 return
             }
-        }
-    }
-    
-    
-    func showAlert(error: String) {
-        let alerModel = AlertModel(
-            title: "Что-то пошло не так(",
-            message: "Не удалось войти в систему\n\(error)",
-            buttonText: "Ок"
-        ){
-            self.bearerTokenAvailabilityCheck()
-        }
-        DispatchQueue.main.async {
-            let alertPresenter = AlertPresenter()
-            alertPresenter.show(in: self, model: alerModel)
-            UIBlockingProgressHUD.dismiss()
         }
     }
 }

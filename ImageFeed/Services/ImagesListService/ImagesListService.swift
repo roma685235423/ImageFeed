@@ -104,7 +104,6 @@ extension ImagesListService {
         enum likeError: Error {
             case searchedPhotoIndexNotFound
         }
-        
         let request = makeRequest(photoId: photoId, isLike: !isLike)
         let task = session.objectTask(for: request) { [weak self] (result: Result<likeResult, Error>) in
             guard let self = self else { return }
@@ -149,5 +148,12 @@ extension ImagesListService {
         request.httpMethod = method
         request.setValue("Bearer \(token ?? "")", forHTTPHeaderField: "Authorization")
         return request
+    }
+    
+    
+    func getLargeImageCellURL(indexPath: IndexPath) -> URL {
+        let stringUrl = photos[indexPath.row].largeImageURL
+        guard let url = URL(string: stringUrl) else { fatalError("Don't have URL for large photo")}
+        return url
     }
 }

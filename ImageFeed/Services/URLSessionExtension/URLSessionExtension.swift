@@ -19,12 +19,10 @@ extension URLSession {
             DispatchQueue.main.async {
                 if let error = error {
                     completion(.failure(error))
-                    //print("\n‼️❌🚨\nerror = \(error)")
                     return
                 }
                 if let response = response as? HTTPURLResponse,
                    response.statusCode < 200 || response.statusCode > 299 {
-                    //print("\n‼️❌\nresponse = \(response)")
                     completion(.failure(NetworkError.incorrectStatusCode(code: response.statusCode)))
                     return
                 }

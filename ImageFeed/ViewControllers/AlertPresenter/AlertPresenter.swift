@@ -25,4 +25,13 @@ class AlertPresenter {
         vc.view.layer.backgroundColor = UIColor(named: "black")?.cgColor
         vc.present(alertController, animated: true)
     }
+    
+    
+    func showError(in vc: UIViewController) {
+        let alertController = UIAlertController (
+            title: "Что-то пошло не так.",
+            message: "Попробовать ещё раз?",
+            preferredStyle: .alert)
+        let nothingAaction = UIAlertAction(title: "Не надо", style: .cancel)
+    }
 }

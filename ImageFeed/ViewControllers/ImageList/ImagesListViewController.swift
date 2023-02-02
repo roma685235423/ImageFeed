@@ -8,6 +8,8 @@
 import UIKit
 import Kingfisher
 
+
+
 final class ImagesListViewController: UIViewController {
     
     // MARK: - Properties
@@ -39,7 +41,6 @@ final class ImagesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        UIBlockingProgressHUD.show()
         setNeedsStatusBarAppearanceUpdate()
         NotificationCenter.default
             .addObserver(
@@ -58,11 +59,9 @@ final class ImagesListViewController: UIViewController {
     //MARK: - Methods
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowSingleImageSegueIdentifier {
-            let viewController = segue.destination as! SingleImageViewController
+            let vc = segue.destination as! SingleImageViewController
             let indexPath = sender as! IndexPath
-            let cell = self.imagesListTableView.cellForRow(at: indexPath) as! ImagesListCell
-            let image = cell.getImageFromCell()
-            viewController.image = image
+            vc.largeImageUrl = imagesListService.getLargeImageCellURL(indexPath: indexPath)
         } else {
             super.prepare(for: segue, sender: sender)
         }
@@ -131,7 +130,7 @@ extension ImagesListViewController {
     
     
     private func configureCell (cell: ImagesListCell, indexPath: IndexPath) {
-        
+        print("\n✅🧚🧶\n[indexPath.row] is: \(indexPath.row)\nindexPath is: \(indexPath)\n")
         let photo = photos[indexPath.row]
         let createdAt = dateFormatter.string(from: photo.createdAt ?? Date())
         cell.configureCurrentCellContent(photo: photo, createdAt: createdAt)

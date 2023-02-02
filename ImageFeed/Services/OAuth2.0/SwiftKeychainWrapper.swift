@@ -35,4 +35,10 @@ final class KeychainAuthStorage {
     func getBearerToken() -> String? {
         return keychain.string(forKey: "Bearer token")
     }
+    
+    func cleanTokensStorage() {
+        print("\n😲😵\nleanTokensStorage()")
+        keychain.removeObject(forKey: "Auth token")
+        keychain.removeObject(forKey: "Bearer token")
+    }
 }

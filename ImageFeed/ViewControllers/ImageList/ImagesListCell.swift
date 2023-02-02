@@ -12,12 +12,11 @@ protocol ImagesListCellDelegate: AnyObject {
     func imageListCellDidTapLike(cell: ImagesListCell)
 }
 
+
+
 final class ImagesListCell: UITableViewCell {
-    
     // MARK: - Properties
-    
     weak var delegate: ImagesListCellDelegate?
-    
     
     // MARK: - Layout
     @IBOutlet weak var imagesListCellImage: UIImageView!
@@ -30,27 +29,25 @@ final class ImagesListCell: UITableViewCell {
     @IBAction func didTapLikeButton(_ sender: Any) {
         likeButtonClicked()
     }
-    
 }
 
 
 
 // MARK: - Extension
-
 extension ImagesListCell {
-    
     func configureCurrentCellContent(photo: Photo, createdAt: String) {
         self.createGradient()
         self.imagesListCellTextLabel.text = createdAt
-        let likeButtonImage = photo.isLiked ? UIImage(named: "like_button_on"): UIImage(named: "like_button_off")
-        self.imagesListCellLikeButton.setImage(likeButtonImage, for: .normal)
+        self.changeLikeButtonImage(isLiked: photo.isLiked )
         self.prepareForReuse()
     }
+    
     
     func changeLikeButtonImage(isLiked: Bool) {
         let likeButtonImage = isLiked ? UIImage(named: "like_button_on"): UIImage(named: "like_button_off")
         self.imagesListCellLikeButton.setImage(likeButtonImage, for: .normal)
     }
+    
     
     private func createGradient() {
         
@@ -67,15 +64,12 @@ extension ImagesListCell {
         self.layer.bounds.size = photo.size
     }
     
-    func getImageFromCell() -> UIImage {
-        return self.imagesListCellImage.image ?? UIImage()
-    }
-    
     
     override func prepareForReuse() {
         super.prepareForReuse()
         self.imageView?.kf.cancelDownloadTask()
     }
+    
     
     @objc private func likeButtonClicked(){
         delegate?.imageListCellDidTapLike(cell: self)

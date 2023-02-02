@@ -16,7 +16,6 @@ class ProfileViewController: UIViewController {
     private let loginNameLabel = UILabel()
     private let descriptionLabel = UILabel()
     private let profileImageService = ProfileImageService.shared
-    
     private var profileImageServiceObserver: NSObjectProtocol?
     
     
@@ -91,6 +90,7 @@ extension ProfileViewController {
         ])
     }
     
+    
     // This method is responsible for configure user profile description label.
     private func configureDescriptionLabel() {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -146,12 +146,16 @@ extension ProfileViewController {
                                              options: [.processor(processor),
                                                        .cacheSerializer(FormatIndicatedCacheSerializer.png)])
         }
-        
     }
     
     @objc
     private func didTapLogoutButton() {
-        
+        WebViewViewController.clean()
+        profileImageService.keychainWrapper.cleanTokensStorage()
+        print("\n🌚🙄tokensis\n\(profileImageService.keychainWrapper.getAuthToken())\n\(profileImageService.keychainWrapper.getBearerToken())\n")
+        guard let window = UIApplication.shared.windows.first else {fatalError("Impossible to create window")}
+        window.rootViewController = SplashViewController()
+        window.makeKeyAndVisible()
     }
 }
 
