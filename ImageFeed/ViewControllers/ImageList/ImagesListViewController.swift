@@ -15,10 +15,11 @@ final class ImagesListViewController: UIViewController {
     // MARK: - Properties
     private var photos = [Photo]()
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
-    private var imagesListService = ImagesListService.shared
+    var imagesListService = ImagesListService.shared
     
     private var imagesListViewControllerObserver: NSObjectProtocol?
     
+    static let shared = ImagesListViewController()
     
     // MARK: - Layout
     @IBOutlet weak var imagesListTableView: UITableView!
@@ -130,7 +131,6 @@ extension ImagesListViewController {
     
     
     private func configureCell (cell: ImagesListCell, indexPath: IndexPath) {
-        print("\n✅🧚🧶\n[indexPath.row] is: \(indexPath.row)\nindexPath is: \(indexPath)\n")
         let photo = photos[indexPath.row]
         let createdAt = dateFormatter.string(from: photo.createdAt ?? Date())
         cell.configureCurrentCellContent(photo: photo, createdAt: createdAt)
@@ -147,6 +147,11 @@ extension ImagesListViewController {
             guard let self = self else { return }
             self.imagesListTableView.reloadRows(at: [indexPath], with: .automatic)
         }
+    }
+    
+    
+    func cleanPhotos(){
+        photos = []
     }
 }
 
@@ -168,7 +173,6 @@ extension ImagesListViewController: ImagesListCellDelegate {
                     UIBlockingProgressHUD.dismiss()
                 }
             case.failure:
-                // TODO: Показать ошибку с использованием UIAlertController
                 UIBlockingProgressHUD.dismiss()
                 return
             }

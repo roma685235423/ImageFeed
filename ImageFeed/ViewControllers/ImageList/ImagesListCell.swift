@@ -36,10 +36,12 @@ final class ImagesListCell: UITableViewCell {
 // MARK: - Extension
 extension ImagesListCell {
     func configureCurrentCellContent(photo: Photo, createdAt: String) {
-        self.createGradient()
-        self.imagesListCellTextLabel.text = createdAt
-        self.changeLikeButtonImage(isLiked: photo.isLiked )
-        self.prepareForReuse()
+        configureImageView()
+        createGradient()
+        imagesListCellTextLabel.text = createdAt
+        changeLikeButtonImage(isLiked: photo.isLiked )
+        imagesListCellImage.layer.masksToBounds = true
+        prepareForReuse()
     }
     
     
@@ -50,15 +52,41 @@ extension ImagesListCell {
     
     
     private func createGradient() {
+        let cellSize = super.bounds.size
+        let widthDif = (cellSize.width - imagesListCellImage.bounds.width)
+        let width = imagesListCellGradient.bounds.width - widthDif
+        print("\n‼️✅‼️\nwidthDif = \(widthDif)\nwidth = \(width)\ncell size = \(cellSize)")
         
         let gradient = CAGradientLayer()
         let colorTop = UIColor(named: "gradientTop")?.cgColor
-        let colorBottom = UIColor(named: "gradientBottom")?.cgColor
+        let colorBottom = UIColor(named: "red")?.cgColor
         gradient.colors = [colorTop!, colorBottom!]
-        gradient.frame = imagesListCellGradient.bounds
+        gradient.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: width,
+            height: imagesListCellGradient.frame.height)
+        
+        let maskLayer = CAShapeLayer()
+        let path = UIBezierPath(
+            roundedRect: gradient.bounds,
+            byRoundingCorners: [.bottomLeft, .bottomRight],
+            cornerRadii: CGSize(
+                width: imagesListCellImage.layer.cornerRadius,
+                height: imagesListCellImage.layer.cornerRadius))
+        maskLayer.path = path.cgPath
+        gradient.mask = maskLayer
+        
+        imagesListCellImage.layer.masksToBounds = true
         imagesListCellGradient.layer.addSublayer(gradient)
+        print("\n‼️✅‼️\nwidthDif = \(widthDif)\nwidth = \(width)\ncell size = \(cellSize)\ngradient size is: \(gradient.bounds.size)")
     }
     
+    
+    private func configureImageView() {
+        imagesListCellImage.layer.cornerRadius = 16
+        imagesListCellImage.layer.masksToBounds = true
+    }
     
     private func configureImagesCellSize(photo: Photo) {
         self.layer.bounds.size = photo.size

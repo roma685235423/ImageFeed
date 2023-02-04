@@ -143,12 +143,6 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wQJ-YG-yKX" userLabel="Cell Image">
                                                     <rect key="frame" x="20" y="3" width="388" height="268"/>
                                                     <color key="backgroundColor" name="backgroung"/>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="16"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                                                    </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="LoO-be-VCv">
                                                     <rect key="frame" x="20" y="240" width="388" height="31"/>
@@ -171,7 +165,6 @@
                                                         <constraint firstAttribute="bottom" secondItem="obV-KL-rui" secondAttribute="bottom" constant="8" id="GSW-8c-QwD"/>
                                                         <constraint firstItem="obV-KL-rui" firstAttribute="centerY" secondItem="LoO-be-VCv" secondAttribute="centerY" id="ZO0-b4-saP"/>
                                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="obV-KL-rui" secondAttribute="trailing" constant="20" symbolic="YES" id="hwT-U2-8R0"/>
-                                                        <constraint firstItem="1Iw-oY-wry" firstAttribute="width" secondItem="LoO-be-VCv" secondAttribute="width" id="oxi-hx-6P7"/>
                                                         <constraint firstItem="1Iw-oY-wry" firstAttribute="leading" secondItem="LoO-be-VCv" secondAttribute="leading" id="qS5-Bo-Qly"/>
                                                         <constraint firstAttribute="bottom" secondItem="1Iw-oY-wry" secondAttribute="bottom" id="rYz-Do-qDe"/>
                                                     </constraints>
@@ -197,7 +190,9 @@
                                                 <constraint firstItem="LoO-be-VCv" firstAttribute="leading" secondItem="wQJ-YG-yKX" secondAttribute="leading" id="EC7-2L-69J"/>
                                                 <constraint firstItem="0m3-a5-vPa" firstAttribute="top" secondItem="wQJ-YG-yKX" secondAttribute="top" id="IDH-Tl-kpZ"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="wQJ-YG-yKX" secondAttribute="trailing" id="Toa-eH-VNB"/>
+                                                <constraint firstItem="1Iw-oY-wry" firstAttribute="trailing" secondItem="wQJ-YG-yKX" secondAttribute="trailing" id="Xy1-ek-jO4"/>
                                                 <constraint firstItem="LoO-be-VCv" firstAttribute="bottom" secondItem="wQJ-YG-yKX" secondAttribute="bottom" id="eKn-ER-NiM"/>
+                                                <constraint firstItem="1Iw-oY-wry" firstAttribute="width" secondItem="wQJ-YG-yKX" secondAttribute="width" id="qjo-7u-bF5"/>
                                                 <constraint firstItem="LoO-be-VCv" firstAttribute="width" secondItem="wQJ-YG-yKX" secondAttribute="width" id="tnN-Xg-roC"/>
                                                 <constraint firstItem="wQJ-YG-yKX" firstAttribute="leading" secondItem="NJs-2n-xSM" secondAttribute="leadingMargin" id="vFA-DW-Lxx"/>
                                                 <constraint firstItem="0m3-a5-vPa" firstAttribute="trailing" secondItem="LoO-be-VCv" secondAttribute="trailing" id="z9m-gu-oc3"/>

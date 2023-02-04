@@ -17,7 +17,7 @@ class ProfileViewController: UIViewController {
     private let descriptionLabel = UILabel()
     private let profileImageService = ProfileImageService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
-    
+    private let imagesListViewController = ImagesListViewController.shared
     
     // MARK: - Life Cycle
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -152,7 +152,8 @@ extension ProfileViewController {
     private func didTapLogoutButton() {
         WebViewViewController.clean()
         profileImageService.keychainWrapper.cleanTokensStorage()
-        print("\n🌚🙄tokensis\n\(profileImageService.keychainWrapper.getAuthToken())\n\(profileImageService.keychainWrapper.getBearerToken())\n")
+        imagesListViewController.imagesListService.cleanPhotos()
+        imagesListViewController.cleanPhotos()
         guard let window = UIApplication.shared.windows.first else {fatalError("Impossible to create window")}
         window.rootViewController = SplashViewController()
         window.makeKeyAndVisible()

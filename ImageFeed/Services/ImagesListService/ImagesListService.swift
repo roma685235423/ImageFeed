@@ -156,4 +156,9 @@ extension ImagesListService {
         guard let url = URL(string: stringUrl) else { fatalError("Don't have URL for large photo")}
         return url
     }
+    
+    
+    func cleanPhotos(){
+        photos = []
+    }
 }
