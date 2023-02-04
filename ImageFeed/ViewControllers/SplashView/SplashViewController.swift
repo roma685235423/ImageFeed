@@ -56,6 +56,7 @@ class SplashViewController: UIViewController {
     
     private func bearerTokenAvailabilityCheck() {
         if let token = profileImageService.keychainWrapper.getBearerToken(){
+            UIBlockingProgressHUD.show()
             self.fetchProfile(token: token)
         } else {
             let storyboard = UIStoryboard(name: "Main", bundle: .main)

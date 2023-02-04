@@ -27,11 +27,14 @@ class AlertPresenter {
     }
     
     
-    func showError(in vc: UIViewController) {
+    static func showError(in vc: UIViewController) {
         let alertController = UIAlertController (
-            title: "Что-то пошло не так.",
+            title: "Что-то пошло не так",
             message: "Попробовать ещё раз?",
             preferredStyle: .alert)
-        let nothingAaction = UIAlertAction(title: "Не надо", style: .cancel)
+        let okAaction = UIAlertAction(title: "Ок", style: .cancel)
+        alertController.addAction(okAaction)
+        vc.present(vc, animated: true)
+        
     }
 }

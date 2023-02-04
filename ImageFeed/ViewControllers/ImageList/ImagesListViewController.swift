@@ -131,20 +131,23 @@ extension ImagesListViewController {
     
     
     private func configureCell (cell: ImagesListCell, indexPath: IndexPath) {
+        let gradient = CAGradientLayer()
         let photo = photos[indexPath.row]
         let createdAt = dateFormatter.string(from: photo.createdAt ?? Date())
         cell.configureCurrentCellContent(photo: photo, createdAt: createdAt)
+        cell.imagesListCellImage.configureGragient(gradient: gradient, cornerRadius: 16)
         
         guard let thumbImageUrl = URL(string: photo.thumbImageURL),
               let placeholderImage = UIImage(named: "card") else {
             return
         }
-        cell.imagesListCellImage.kf.indicatorType = .activity
+        //cell.imagesListCellImage.kf.indicatorType = .activity
         cell.imagesListCellImage.kf.setImage(
             with: thumbImageUrl,
             placeholder: placeholderImage
         ) { [weak self] _ in
             guard let self = self else { return }
+            cell.imagesListCellImage.removeGradient(gradient: gradient)
             self.imagesListTableView.reloadRows(at: [indexPath], with: .automatic)
         }
     }
@@ -173,6 +176,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
                     UIBlockingProgressHUD.dismiss()
                 }
             case.failure:
+                AlertPresenter.showError(in: self)
                 UIBlockingProgressHUD.dismiss()
                 return
             }

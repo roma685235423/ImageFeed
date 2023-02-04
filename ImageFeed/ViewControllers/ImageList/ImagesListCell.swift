@@ -55,7 +55,6 @@ extension ImagesListCell {
         let cellSize = super.bounds.size
         let widthDif = (cellSize.width - imagesListCellImage.bounds.width)
         let width = imagesListCellGradient.bounds.width - widthDif
-        print("\n‼️✅‼️\nwidthDif = \(widthDif)\nwidth = \(width)\ncell size = \(cellSize)")
         
         let gradient = CAGradientLayer()
         let colorTop = UIColor(named: "gradientTop")?.cgColor
