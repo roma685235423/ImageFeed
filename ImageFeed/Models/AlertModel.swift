@@ -1,10 +1,3 @@
-//
-//  AlertModel.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 1/12/23.
-//
-
 import Foundation
 
 struct AlertModel {

@@ -1,10 +1,3 @@
-//
-//  SplashViewController.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 12/23/22.
-//
-
 import UIKit
 
 class SplashViewController: UIViewController {

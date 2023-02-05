@@ -1,10 +1,3 @@
-//
-//  SingleImageViewController.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 12/5/22.
-//
-
 import UIKit
 import Kingfisher
 

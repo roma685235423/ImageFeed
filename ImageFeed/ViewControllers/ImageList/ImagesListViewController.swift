@@ -1,37 +1,16 @@
-//
-//  ViewController.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 11/19/22.
-//
-
 import UIKit
 import Kingfisher
 
-
-
 final class ImagesListViewController: UIViewController {
-    
     // MARK: - Properties
     private var photos = [Photo]()
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
     var imagesListService = ImagesListService.shared
-    
     private var imagesListViewControllerObserver: NSObjectProtocol?
-    
     static let shared = ImagesListViewController()
     
     // MARK: - Layout
     @IBOutlet weak var imagesListTableView: UITableView!
-    
-    
-    // MARK: - Helpers
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        return formatter
-    }()
     
     
     // MARK: - Life Cycle
@@ -133,15 +112,12 @@ extension ImagesListViewController {
     private func configureCell (cell: ImagesListCell, indexPath: IndexPath) {
         let gradient = CAGradientLayer()
         let photo = photos[indexPath.row]
-        let createdAt = dateFormatter.string(from: photo.createdAt ?? Date())
-        cell.configureCurrentCellContent(photo: photo, createdAt: createdAt)
+        cell.configureCurrentCellContent(photo: photo)
         cell.imagesListCellImage.configureGragient(gradient: gradient, cornerRadius: 16)
-        
         guard let thumbImageUrl = URL(string: photo.thumbImageURL),
               let placeholderImage = UIImage(named: "card") else {
             return
         }
-        //cell.imagesListCellImage.kf.indicatorType = .activity
         cell.imagesListCellImage.kf.setImage(
             with: thumbImageUrl,
             placeholder: placeholderImage

@@ -1,10 +1,3 @@
-//
-//  ProfileViewController.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 12/1/22.
-//
-
 import UIKit
 import Kingfisher
 
@@ -39,7 +32,6 @@ class ProfileViewController: UIViewController {
                          queue: .main
             ){[weak self] _ in
                 guard let self = self else { return }
-                
                 //self.nameLabel.removeGradient(gradient: self.nameLabelGradient)
                 //self.loginNameLabel.removeGradient(gradient: self.loginNameLabelGradient)
                 //self.descriptionLabel.removeGradient(gradient: self.descriptionLabelGradient)
@@ -148,7 +140,7 @@ extension ProfileViewController {
                 let url = URL(string: profileImageURL)
             else { return }
             self.avatarImageView.configureGragient(gradient: self.avatarImageViewGradient, cornerRadius: 35)
-            let processor = RoundCornerImageProcessor(cornerRadius: 35,backgroundColor: .clear)            
+            let processor = RoundCornerImageProcessor(cornerRadius: 35,backgroundColor: .clear)
             self.avatarImageView.kf.setImage(with: url,
                                              placeholder: UIImage(named: "userpick_placeholder"),
                                              options: [.processor(processor),

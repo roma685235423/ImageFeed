@@ -1,10 +1,3 @@
-//
-//  UIView+GradientExtension.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 2/4/23.
-//
-
 import UIKit
 
 

@@ -1,10 +1,3 @@
-//
-//  ImageListCells.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 11/23/22.
-//
-
 import UIKit
 import Kingfisher
 
@@ -35,10 +28,12 @@ final class ImagesListCell: UITableViewCell {
 
 // MARK: - Extension
 extension ImagesListCell {
-    func configureCurrentCellContent(photo: Photo, createdAt: String) {
+    func configureCurrentCellContent(photo: Photo) {
         configureImageView()
         createGradient()
-        imagesListCellTextLabel.text = createdAt
+        if let createdAt = photo.createdAt {
+            imagesListCellTextLabel.text = Formatter.dateToString(dateForConvertation: createdAt)
+        }
         changeLikeButtonImage(isLiked: photo.isLiked )
         imagesListCellImage.layer.masksToBounds = true
         prepareForReuse()
@@ -78,7 +73,6 @@ extension ImagesListCell {
         
         imagesListCellImage.layer.masksToBounds = true
         imagesListCellGradient.layer.addSublayer(gradient)
-        print("\n‼️✅‼️\nwidthDif = \(widthDif)\nwidth = \(width)\ncell size = \(cellSize)\ngradient size is: \(gradient.bounds.size)")
     }
     
     

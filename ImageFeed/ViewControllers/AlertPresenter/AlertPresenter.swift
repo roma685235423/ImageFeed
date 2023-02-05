@@ -1,10 +1,3 @@
-//
-//  AlertPresenter.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 1/11/23.
-//
-
 import UIKit
 
 class AlertPresenter {

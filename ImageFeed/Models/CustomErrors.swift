@@ -1,10 +1,3 @@
-//
-//  CustomErrors.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 1/11/23.
-//
-
 import Foundation
 
 fileprivate var descriptionError: String = ""

@@ -1,10 +1,3 @@
-//
-//  UserResult.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 1/8/23.
-//
-
 import Foundation
 
 fileprivate enum CodingKeys: String, CodingKey {

@@ -1,10 +1,3 @@
-//
-//  ImagesListService.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 1/23/23.
-//
-
 import Foundation
 
 final class ImagesListService {
@@ -73,8 +66,7 @@ extension ImagesListService {
     
     private func convertPhotoResultToPhoto(result: PhotoResult) -> Photo {
         let size = CGSize(width: Double(result.width), height: Double(result.height))
-        let createdAt = Formater().stringToDate(stringForConvertation: result.createdAt)
-        
+        let createdAt = Formatter.stringToDate(stringForConvertation: result.createdAt)
         let photo = Photo(
             id: result.id,
             size: size,

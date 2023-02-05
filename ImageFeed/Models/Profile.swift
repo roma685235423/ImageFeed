@@ -1,10 +1,3 @@
-//
-//  Profile.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 1/3/23.
-//
-
 import Foundation
 
 struct Profile {
