@@ -8,7 +8,7 @@ class SplashViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     
-    private let queue = DispatchQueue(label: "splash.vc.queue", qos: .unspecified)
+    //private let queue = DispatchQueue(label: "splash.vc.queue", qos: .unspecified)
     
     
     //MARK: - Life Cicle
@@ -48,9 +48,11 @@ class SplashViewController: UIViewController {
     }
     
     private func bearerTokenAvailabilityCheck() {
-        if let token = profileImageService.keychainWrapper.getBearerToken(){
-            UIBlockingProgressHUD.show()
-            self.fetchProfile(token: token)
+        //if let token = profileImageService.keychainWrapper.getBearerToken(){
+        if profileImageService.keychainWrapper.getBearerToken() != nil{
+            //UIBlockingProgressHUD.show()
+            //self.fetchProfile(token: token)
+            self.switchToTabBarController()
         } else {
             let storyboard = UIStoryboard(name: "Main", bundle: .main)
             guard let authViewController = storyboard.instantiateViewController(
@@ -102,7 +104,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success(let bearerToken):
                 DispatchQueue.main.async {
                     self.profileImageService.keychainWrapper.setBearerToken(token: bearerToken)
-                    self.fetchProfile(token: bearerToken)
+                    //self.fetchProfile(token: bearerToken)
                 }
             case .failure(let error):
                 self.showAlert(error: error.localizedDescription)
@@ -113,33 +115,33 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     
-    private func fetchProfile (token: String) {
-        profileService.fetchProfile(token) {[weak self] result in
-            guard let self = self else {return}
-            switch result {
-            case .success(let profile):
-                self.queue.sync {
-                    self.profileService.setProfile(profile: profile)
-                }
-                self.queue.sync {
-                    ProfileImageService.shared.fetchProfileImageURL(
-                        username: self.profileService.profile?.username ?? "NIL") { result in
-                            switch result {
-                            case .success(let avatarURL):
-                                DispatchQueue.main.async {
-                                    self.profileImageService.setAvatarUrlString(avatarUrl: avatarURL)
-                                }
-                            case .failure:
-                                return
-                            }
-                        }
-                }
-                self.switchToTabBarController()
-                return
-            case .failure(let error):
-                self.showAlert(error: error.localizedDescription)
-                return
-            }
-        }
-    }
+   // private func fetchProfile (token: String) {
+   //     profileService.fetchProfile(token) {[weak self] result in
+   //         guard let self = self else {return}
+   //         switch result {
+   //         case .success(let profile):
+   //             self.queue.sync {
+   //                 self.profileService.setProfile(profile: profile)
+   //             }
+   //             self.queue.sync {
+   //                 ProfileImageService.shared.fetchProfileImageURL(
+   //                     username: self.profileService.profile?.username ?? "NIL") { result in
+   //                         switch result {
+   //                         case .success(let avatarURL):
+   //                             DispatchQueue.main.async {
+   //                                 self.profileImageService.setAvatarUrlString(avatarUrl: avatarURL)
+   //                             }
+   //                         case .failure:
+   //                             return
+   //                         }
+   //                     }
+   //             }
+   //             self.switchToTabBarController()
+   //             return
+   //         case .failure(let error):
+   //             self.showAlert(error: error.localizedDescription)
+   //             return
+   //         }
+   //     }
+   // }
 }

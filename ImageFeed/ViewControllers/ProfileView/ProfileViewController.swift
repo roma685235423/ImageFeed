@@ -17,6 +17,10 @@ class ProfileViewController: UIViewController {
     private let profileImageService = ProfileImageService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
     private let imagesListViewController = ImagesListViewController.shared
+    private let profileService = ProfileService.shared
+    
+    private let queue = DispatchQueue(label: "profile.vc.queue", qos: .unspecified)
+
     
     // MARK: - Life Cycle
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -26,6 +30,8 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setNeedsStatusBarAppearanceUpdate()
+        let token = profileImageService.keychainWrapper.getBearerToken()
+        fetchProfile (token: token!)
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(forName: ProfileImageService.didChangeNotification,
                          object: nil,
@@ -35,16 +41,18 @@ class ProfileViewController: UIViewController {
                 //self.nameLabel.removeGradient(gradient: self.nameLabelGradient)
                 //self.loginNameLabel.removeGradient(gradient: self.loginNameLabelGradient)
                 //self.descriptionLabel.removeGradient(gradient: self.descriptionLabelGradient)
+                print("\n🪹🌞\nupdate avatar in observer was called!!!\n")
                 self.updateAvatar()
             }
         self.updateAvatar()
         //loginNameLabel.configureGragient(gradient: nameLabelGradient, cornerRadius: 9)
         //nameLabel.configureGragient(gradient: nameLabelGradient, cornerRadius: 9)
         //descriptionLabel.configureGragient(gradient: descriptionLabelGradient, cornerRadius: 9)
-        guard let profile = ProfileService.shared.profile else {
-            return
-        }
-        self.updateProfileDetails(profile: profile)
+        //guard let profile = ProfileService.shared.profile else {
+        //    return
+        //}
+        //self.updateProfileDetails(profile: profile)
+        self.configureProfileDetails()
     }
     
     
@@ -63,6 +71,7 @@ extension ProfileViewController {
     private func configureAvatarImageView() {
         view.addSubview(self.avatarImageView)
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
+        avatarImageView.image = UIImage(named: "userpick_placeholder")
         NSLayoutConstraint.activate([
             avatarImageView.heightAnchor.constraint(equalToConstant: 70),
             avatarImageView.widthAnchor.constraint(equalToConstant: 70),
@@ -76,12 +85,14 @@ extension ProfileViewController {
     private func configureNameLabel() {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
+        nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = UIColor(named: "white")
         nameLabel.font = UIFont(name: "YSDisplay-Medium", size: 23.0)
         NSLayoutConstraint.activate([
             nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
             nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8),
         ])
+        nameLabel.configureGragient(gradient: nameLabelGradient, cornerRadius: 9)
     }
     
     
@@ -89,12 +100,14 @@ extension ProfileViewController {
     private func configureLoginNameLabel() {
         loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loginNameLabel)
+        loginNameLabel.text = "@ekaterina_nov"
         loginNameLabel.textColor = UIColor(named: "gray")
         loginNameLabel.font = UIFont.systemFont(ofSize: 13.0)
         NSLayoutConstraint.activate([
             loginNameLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
             loginNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8)
         ])
+        loginNameLabel.configureGragient(gradient: nameLabelGradient, cornerRadius: 9)
     }
     
     
@@ -102,6 +115,7 @@ extension ProfileViewController {
     private func configureDescriptionLabel() {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(descriptionLabel)
+        descriptionLabel.text = "Hello, world!"
         descriptionLabel.textColor = UIColor(named: "white")
         descriptionLabel.font = UIFont.systemFont(ofSize: 13.0)
         descriptionLabel.minimumScaleFactor = 0.5
@@ -112,6 +126,9 @@ extension ProfileViewController {
             descriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8),
             descriptionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
+        DispatchQueue.main.async {
+            self.descriptionLabel.configureGragient(gradient: self.descriptionLabelGradient, cornerRadius: 9)
+        }
     }
     
     
@@ -174,17 +191,61 @@ extension ProfileViewController {
 extension ProfileViewController {
     
     private func updateProfileDetails(profile: Profile) {
+        //configureAvatarImageView()
+        //configureNameLabel()
+        //configureLoginNameLabel()
+        //configureDescriptionLabel()
+        //configureLogoutButon()
+        
+        self.nameLabel.text = profile.name
+        self.loginNameLabel.text = profile.loginName
+        self.descriptionLabel.text = profile.bio
+    }
+    
+    private func configureProfileDetails() {
         configureAvatarImageView()
         configureNameLabel()
         configureLoginNameLabel()
         configureDescriptionLabel()
         configureLogoutButon()
-        
-        self.nameLabel.text = profile.name
-        self.loginNameLabel.text = profile.loginName
-        self.descriptionLabel.text = profile.bio
-        
         view.backgroundColor = UIColor(named: "black")
+    }
+    
+    
+    private func fetchProfile (token: String) {
+        loginNameLabel.configureGragient(gradient: nameLabelGradient, cornerRadius: 9)
+        profileService.fetchProfile(token) {[weak self] result in
+            guard let self = self else {return}
+            switch result {
+            case .success(let profile):
+                self.queue.sync {
+                    self.profileService.setProfile(profile: profile)
+                    self.updateProfileDetails(profile: profile)
+                }
+                self.queue.sync {
+                    ProfileImageService.shared.fetchProfileImageURL(
+                        username: self.profileService.profile?.username ?? "NIL") { result in
+                            switch result {
+                            case .success(let avatarURL):
+                                DispatchQueue.main.async {
+                                    self.profileImageService.setAvatarUrlString(avatarUrl: avatarURL)
+                                    //self.updateAvatar()
+                                }
+                            case .failure:
+                                return
+                            }
+                        }
+                }
+                //TODO: Здесь нужно будет удалить градиенты
+                //self.switchToTabBarController()
+                //self.avatarImageView.removeGradient(gradient: self.avatarImageViewGradient)
+                return
+            case .failure:
+                AlertPresenter.showError(in: self)
+                //self.showAlert(error: error.localizedDescription)
+                return
+            }
+        }
     }
 }
 
