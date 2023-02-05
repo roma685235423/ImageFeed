@@ -113,7 +113,12 @@ extension ImagesListViewController {
         let gradient = CAGradientLayer()
         let photo = photos[indexPath.row]
         cell.configureCurrentCellContent(photo: photo)
-        cell.imagesListCellImage.configureGragient(gradient: gradient, cornerRadius: 16)
+        cell.imagesListCellImage.configureGragient(
+            gradient: gradient,
+            cornerRadius: 16,
+            size: cell.imagesListCellImage.frame.size,
+            position: .bottom
+        )
         guard let thumbImageUrl = URL(string: photo.thumbImageURL),
               let placeholderImage = UIImage(named: "card") else {
             return

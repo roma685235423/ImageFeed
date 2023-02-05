@@ -60,13 +60,33 @@ class ProfileViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if profileImageService.avatarURL == nil {
-            avatarImageView.configureGragient(gradient: avatarImageViewGradient, cornerRadius: 35)
+            
+            avatarImageView.configureGragient(
+                gradient: avatarImageViewGradient,
+                cornerRadius: 35,
+                size: CGSize(width: 70, height: 70),
+                position: .center)
         }
         
         if profileService.profile == nil {
-            self.nameLabel.configureGragient(gradient: self.nameLabelGradient, cornerRadius: 12)
-            self.loginNameLabel.configureGragient(gradient: self.loginNameLabelGradient, cornerRadius: 8)
-            self.descriptionLabel.configureGragient(gradient: self.descriptionLabelGradient, cornerRadius: 8)
+            self.nameLabel.configureGragient(
+                gradient: self.nameLabelGradient,
+                cornerRadius: 9,
+                size: CGSize(width: 223, height: 18),
+                position: .bottom
+            )
+            self.loginNameLabel.configureGragient(
+                gradient: self.loginNameLabelGradient,
+                cornerRadius: 9,
+                size: CGSize(width: 89, height: 18),
+                position: .center
+            )
+            self.descriptionLabel.configureGragient(
+                gradient: self.descriptionLabelGradient,
+                cornerRadius: 9,
+                size: CGSize(width: 67, height: 18),
+                position: .center
+            )
         }
     }
 }
@@ -92,14 +112,13 @@ extension ProfileViewController {
     private func configureNameLabel() {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
-        nameLabel.text = "Екатерина Новикова"
+        nameLabel.text = "-"
         nameLabel.textColor = UIColor(named: "white")
         nameLabel.font = UIFont(name: "YSDisplay-Medium", size: 23.0)
         NSLayoutConstraint.activate([
             nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
             nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8),
         ])
-        nameLabel.configureGragient(gradient: nameLabelGradient, cornerRadius: 9)
     }
     
     
@@ -107,14 +126,13 @@ extension ProfileViewController {
     private func configureLoginNameLabel() {
         loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loginNameLabel)
-        loginNameLabel.text = "@ekaterina_nov"
+        loginNameLabel.text = "-"
         loginNameLabel.textColor = UIColor(named: "gray")
         loginNameLabel.font = UIFont.systemFont(ofSize: 13.0)
         NSLayoutConstraint.activate([
             loginNameLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
             loginNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8)
         ])
-        loginNameLabel.configureGragient(gradient: nameLabelGradient, cornerRadius: 9)
     }
     
     
@@ -122,7 +140,7 @@ extension ProfileViewController {
     private func configureDescriptionLabel() {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(descriptionLabel)
-        descriptionLabel.text = "Hello, world!"
+        descriptionLabel.text = "-"
         descriptionLabel.textColor = UIColor(named: "white")
         descriptionLabel.font = UIFont.systemFont(ofSize: 13.0)
         descriptionLabel.minimumScaleFactor = 0.5
@@ -160,7 +178,12 @@ extension ProfileViewController {
                 let profileImageURL = ProfileImageService.shared.avatarURL,
                 let url = URL(string: profileImageURL)
             else { return }
-            self.avatarImageView.configureGragient(gradient: self.avatarImageViewGradient, cornerRadius: 35)
+            self.avatarImageView.configureGragient(
+                gradient: self.avatarImageViewGradient,
+                cornerRadius: 35,
+                size: self.avatarImageView.frame.size,
+                position: .top
+            )
             let processor = RoundCornerImageProcessor(cornerRadius: 35,backgroundColor: .clear)
             self.avatarImageView.kf.setImage(with: url,
                                              placeholder: UIImage(named: "userpick_placeholder"),
@@ -229,7 +252,6 @@ extension ProfileViewController {
     
     
     private func fetchProfile (token: String) {
-        loginNameLabel.configureGragient(gradient: nameLabelGradient, cornerRadius: 9)
         profileService.fetchProfile(token) {[weak self] result in
             guard let self = self else {return}
             switch result {

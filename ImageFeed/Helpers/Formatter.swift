@@ -1,10 +1,3 @@
-//
-//  StringToDateFormater.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 1/24/23.
-//
-
 import Foundation
 
 final class Formatter {

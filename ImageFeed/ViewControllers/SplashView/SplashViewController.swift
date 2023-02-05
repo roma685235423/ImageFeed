@@ -75,7 +75,6 @@ class SplashViewController: UIViewController {
             self.bearerTokenAvailabilityCheck()
         }
         DispatchQueue.main.async {
-            let alertPresenter = AlertPresenter()
             self.showCustomAlertPresenter(model: alerModel) 
             UIBlockingProgressHUD.dismiss()
         }

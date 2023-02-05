@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BA027564296E1A2C00CC3A34 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA027563296E1A2C00CC3A34 /* AlertPresenter.swift */; };
 		BA027566296EAEB200CC3A34 /* CustomErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA027565296EAEB200CC3A34 /* CustomErrors.swift */; };
 		BA057C41298E53B200B78C48 /* UIView+GradientExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA057C40298E53B200B78C48 /* UIView+GradientExtension.swift */; };
 		BA057C45298FC1A400B78C48 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA057C44298FC1A400B78C48 /* UIViewController+Extension.swift */; };
@@ -48,7 +47,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		BA027563296E1A2C00CC3A34 /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 		BA027565296EAEB200CC3A34 /* CustomErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrors.swift; sourceTree = "<group>"; };
 		BA057C40298E53B200B78C48 /* UIView+GradientExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+GradientExtension.swift"; sourceTree = "<group>"; };
 		BA057C44298FC1A400B78C48 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -101,14 +99,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		BA027562296E1A1000CC3A34 /* AlertPresenter */ = {
-			isa = PBXGroup;
-			children = (
-				BA027563296E1A2C00CC3A34 /* AlertPresenter.swift */,
-			);
-			path = AlertPresenter;
-			sourceTree = "<group>";
-		};
 		BA1B8607295DBAEB0082B485 /* WebView */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,7 +111,6 @@
 			isa = PBXGroup;
 			children = (
 				BAED9C6D29791B4500634A26 /* TabBarController */,
-				BA027562296E1A1000CC3A34 /* AlertPresenter */,
 				BA5D56F6292E927300264CC2 /* ImageList */,
 				BAB09AA4293E01CF0032032B /* SingleImageView */,
 				BA918A5C29394A7C00824C21 /* ProfileView */,
@@ -413,7 +402,6 @@
 				BA5D56F5292E924C00264CC2 /* ImagesListCell.swift in Sources */,
 				BA5703F229506BD600FAC403 /* OAuth2Service.swift in Sources */,
 				BADBCE4A298002CC0093B45C /* Formatter.swift in Sources */,
-				BA027564296E1A2C00CC3A34 /* AlertPresenter.swift in Sources */,
 				BA027566296EAEB200CC3A34 /* CustomErrors.swift in Sources */,
 				BAED9C6F29791B5200634A26 /* TabBarController.swift in Sources */,
 				BA384B952955894500000CCE /* SplashViewController.swift in Sources */,
