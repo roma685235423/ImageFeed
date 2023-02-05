@@ -152,7 +152,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
                     UIBlockingProgressHUD.dismiss()
                 }
             case.failure:
-                AlertPresenter.showError(in: self)
+                self.showDefaultAlertPresenter()
                 UIBlockingProgressHUD.dismiss()
                 return
             }

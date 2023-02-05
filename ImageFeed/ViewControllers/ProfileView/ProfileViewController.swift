@@ -20,7 +20,7 @@ class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
     
     private let queue = DispatchQueue(label: "profile.vc.queue", qos: .unspecified)
-
+    
     
     // MARK: - Life Cycle
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -32,19 +32,20 @@ class ProfileViewController: UIViewController {
         setNeedsStatusBarAppearanceUpdate()
         let token = profileImageService.keychainWrapper.getBearerToken()
         fetchProfile (token: token!)
-        profileImageServiceObserver = NotificationCenter.default
-            .addObserver(forName: ProfileImageService.didChangeNotification,
-                         object: nil,
-                         queue: .main
-            ){[weak self] _ in
-                guard let self = self else { return }
-                //self.nameLabel.removeGradient(gradient: self.nameLabelGradient)
-                //self.loginNameLabel.removeGradient(gradient: self.loginNameLabelGradient)
-                //self.descriptionLabel.removeGradient(gradient: self.descriptionLabelGradient)
-                print("\n🪹🌞\nupdate avatar in observer was called!!!\n")
-                self.updateAvatar()
-            }
-        self.updateAvatar()
+        
+        //profileImageServiceObserver = NotificationCenter.default
+        //    .addObserver(forName: ProfileImageService.didChangeNotification,
+        //                 object: nil,
+        //                 queue: .main
+        //    ){[weak self] _ in
+        //        guard let self = self else { return }
+        //        //self.nameLabel.removeGradient(gradient: self.nameLabelGradient)
+        //        //self.loginNameLabel.removeGradient(gradient: self.loginNameLabelGradient)
+        //        //self.descriptionLabel.removeGradient(gradient: self.descriptionLabelGradient)
+        //        print("\n🪹🌞\nupdate avatar in observer was called!!!\n")
+        //        self.updateAvatar()
+        //    }
+        //self.updateAvatar()
         //loginNameLabel.configureGragient(gradient: nameLabelGradient, cornerRadius: 9)
         //nameLabel.configureGragient(gradient: nameLabelGradient, cornerRadius: 9)
         //descriptionLabel.configureGragient(gradient: descriptionLabelGradient, cornerRadius: 9)
@@ -60,6 +61,12 @@ class ProfileViewController: UIViewController {
         super.viewDidAppear(animated)
         if profileImageService.avatarURL == nil {
             avatarImageView.configureGragient(gradient: avatarImageViewGradient, cornerRadius: 35)
+        }
+        
+        if profileService.profile == nil {
+            self.nameLabel.configureGragient(gradient: self.nameLabelGradient, cornerRadius: 12)
+            self.loginNameLabel.configureGragient(gradient: self.loginNameLabelGradient, cornerRadius: 8)
+            self.descriptionLabel.configureGragient(gradient: self.descriptionLabelGradient, cornerRadius: 8)
         }
     }
 }
@@ -126,9 +133,6 @@ extension ProfileViewController {
             descriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8),
             descriptionLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
-        DispatchQueue.main.async {
-            self.descriptionLabel.configureGragient(gradient: self.descriptionLabelGradient, cornerRadius: 9)
-        }
     }
     
     
@@ -162,7 +166,7 @@ extension ProfileViewController {
                                              placeholder: UIImage(named: "userpick_placeholder"),
                                              options: [.processor(processor),
                                                        .cacheSerializer(FormatIndicatedCacheSerializer.png)],
-            completionHandler: { result in
+                                             completionHandler: { result in
                 switch result{
                 case .success:
                     self.avatarImageView.removeGradient(gradient: self.avatarImageViewGradient)
@@ -177,13 +181,25 @@ extension ProfileViewController {
     
     @objc
     private func didTapLogoutButton() {
-        WebViewViewController.clean()
-        profileImageService.keychainWrapper.cleanTokensStorage()
-        imagesListViewController.imagesListService.cleanPhotos()
-        imagesListViewController.cleanPhotos()
-        guard let window = UIApplication.shared.windows.first else {fatalError("Impossible to create window")}
-        window.rootViewController = SplashViewController()
-        window.makeKeyAndVisible()
+        let alert = UIAlertController(
+            title: "Пока, пока!",
+            message: "Уверены, что хотите выйти?",
+            preferredStyle: .alert
+        )
+        let noAction = UIAlertAction(title: "Нет", style: .cancel)
+        let yesAction = UIAlertAction(title: "Да", style: .default){[weak self] _ in
+            guard let self = self else { return }
+            WebViewViewController.clean()
+            self.profileImageService.keychainWrapper.cleanTokensStorage()
+            self.imagesListViewController.imagesListService.cleanPhotos()
+            self.imagesListViewController.cleanPhotos()
+            guard let window = UIApplication.shared.windows.first else {fatalError("Impossible to create window")}
+            window.rootViewController = SplashViewController()
+            window.makeKeyAndVisible()
+        }
+        alert.addAction(noAction)
+        alert.addAction(yesAction)
+        present(alert, animated: true)
     }
 }
 
@@ -229,7 +245,7 @@ extension ProfileViewController {
                             case .success(let avatarURL):
                                 DispatchQueue.main.async {
                                     self.profileImageService.setAvatarUrlString(avatarUrl: avatarURL)
-                                    //self.updateAvatar()
+                                    self.updateAvatar()
                                 }
                             case .failure:
                                 return
@@ -237,11 +253,12 @@ extension ProfileViewController {
                         }
                 }
                 //TODO: Здесь нужно будет удалить градиенты
-                //self.switchToTabBarController()
-                //self.avatarImageView.removeGradient(gradient: self.avatarImageViewGradient)
+                self.descriptionLabel.removeGradient(gradient: self.descriptionLabelGradient)
+                self.nameLabel.removeGradient(gradient: self.nameLabelGradient)
+                self.loginNameLabel.removeGradient(gradient: self.loginNameLabelGradient)
                 return
             case .failure:
-                AlertPresenter.showError(in: self)
+                self.showDefaultAlertPresenter()
                 //self.showAlert(error: error.localizedDescription)
                 return
             }

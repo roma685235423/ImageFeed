@@ -76,7 +76,7 @@ class SplashViewController: UIViewController {
         }
         DispatchQueue.main.async {
             let alertPresenter = AlertPresenter()
-            alertPresenter.show(in: self, model: alerModel)
+            self.showCustomAlertPresenter(model: alerModel) 
             UIBlockingProgressHUD.dismiss()
         }
     }
@@ -105,6 +105,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                 DispatchQueue.main.async {
                     self.profileImageService.keychainWrapper.setBearerToken(token: bearerToken)
                     //self.fetchProfile(token: bearerToken)
+                    self.switchToTabBarController()
                 }
             case .failure(let error):
                 self.showAlert(error: error.localizedDescription)
