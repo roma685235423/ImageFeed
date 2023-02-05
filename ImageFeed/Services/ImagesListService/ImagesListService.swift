@@ -55,7 +55,7 @@ extension ImagesListService {
     private func makeRequest(token: String, nextPage: Int) -> URLRequest {
         var urlComponents = URLComponents(string: self.getPhotosURLString)!
         urlComponents.queryItems = [
-            URLQueryItem(name: "page", value: "\(nextPage)")    // page — номер страницы
+            URLQueryItem(name: "page", value: "\(nextPage)")    // page number
         ]
         guard let url = urlComponents.url else { fatalError("Failed to create URL") }
         var request = URLRequest(url: url)

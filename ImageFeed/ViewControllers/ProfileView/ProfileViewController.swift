@@ -32,27 +32,6 @@ class ProfileViewController: UIViewController {
         setNeedsStatusBarAppearanceUpdate()
         let token = profileImageService.keychainWrapper.getBearerToken()
         fetchProfile (token: token!)
-        
-        //profileImageServiceObserver = NotificationCenter.default
-        //    .addObserver(forName: ProfileImageService.didChangeNotification,
-        //                 object: nil,
-        //                 queue: .main
-        //    ){[weak self] _ in
-        //        guard let self = self else { return }
-        //        //self.nameLabel.removeGradient(gradient: self.nameLabelGradient)
-        //        //self.loginNameLabel.removeGradient(gradient: self.loginNameLabelGradient)
-        //        //self.descriptionLabel.removeGradient(gradient: self.descriptionLabelGradient)
-        //        print("\n🪹🌞\nupdate avatar in observer was called!!!\n")
-        //        self.updateAvatar()
-        //    }
-        //self.updateAvatar()
-        //loginNameLabel.configureGragient(gradient: nameLabelGradient, cornerRadius: 9)
-        //nameLabel.configureGragient(gradient: nameLabelGradient, cornerRadius: 9)
-        //descriptionLabel.configureGragient(gradient: descriptionLabelGradient, cornerRadius: 9)
-        //guard let profile = ProfileService.shared.profile else {
-        //    return
-        //}
-        //self.updateProfileDetails(profile: profile)
         self.configureProfileDetails()
     }
     
@@ -92,7 +71,7 @@ class ProfileViewController: UIViewController {
 }
 
 
-// MARK: - Extension
+// MARK: - Extensions
 extension ProfileViewController {
     // This method is responsible for configure user profile avatar.
     private func configureAvatarImageView() {
@@ -171,6 +150,7 @@ extension ProfileViewController {
         ])
     }
     
+    
     // This method is responsible for upload user avatar.
     private func updateAvatar() {
         DispatchQueue.main.async {
@@ -227,19 +207,14 @@ extension ProfileViewController {
 }
 
 
+
 extension ProfileViewController {
-    
     private func updateProfileDetails(profile: Profile) {
-        //configureAvatarImageView()
-        //configureNameLabel()
-        //configureLoginNameLabel()
-        //configureDescriptionLabel()
-        //configureLogoutButon()
-        
         self.nameLabel.text = profile.name
         self.loginNameLabel.text = profile.loginName
         self.descriptionLabel.text = profile.bio
     }
+    
     
     private func configureProfileDetails() {
         configureAvatarImageView()
@@ -274,14 +249,12 @@ extension ProfileViewController {
                             }
                         }
                 }
-                //TODO: Здесь нужно будет удалить градиенты
                 self.descriptionLabel.removeGradient(gradient: self.descriptionLabelGradient)
                 self.nameLabel.removeGradient(gradient: self.nameLabelGradient)
                 self.loginNameLabel.removeGradient(gradient: self.loginNameLabelGradient)
                 return
             case .failure:
                 self.showDefaultAlertPresenter()
-                //self.showAlert(error: error.localizedDescription)
                 return
             }
         }

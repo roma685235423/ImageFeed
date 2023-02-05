@@ -3,7 +3,7 @@ import UIKit
 
 extension UIView {
     
-    enum GradientPosition: String {
+    enum GradientPosition {
         case top, center, bottom
     }
     

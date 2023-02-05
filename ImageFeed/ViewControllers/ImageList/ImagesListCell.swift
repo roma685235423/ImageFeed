@@ -48,19 +48,17 @@ extension ImagesListCell {
     
     private func createGradient() {
         let cellSize = super.bounds.size
-        let widthDif = (cellSize.width - imagesListCellImage.bounds.width)
+        let widthDif = cellSize.width - imagesListCellImage.bounds.width - 3
         let width = imagesListCellGradient.bounds.width - widthDif
-        
         let gradient = CAGradientLayer()
         let colorTop = UIColor(named: "gradientTop")?.cgColor
-        let colorBottom = UIColor(named: "red")?.cgColor
+        let colorBottom = UIColor(named: "gradientBottom")?.cgColor
         gradient.colors = [colorTop!, colorBottom!]
         gradient.frame = CGRect(
             x: 0,
             y: 0,
             width: width,
             height: imagesListCellGradient.frame.height)
-        
         let maskLayer = CAShapeLayer()
         let path = UIBezierPath(
             roundedRect: gradient.bounds,
@@ -70,7 +68,6 @@ extension ImagesListCell {
                 height: imagesListCellImage.layer.cornerRadius))
         maskLayer.path = path.cgPath
         gradient.mask = maskLayer
-        
         imagesListCellImage.layer.masksToBounds = true
         imagesListCellGradient.layer.addSublayer(gradient)
     }
