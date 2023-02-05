@@ -5,7 +5,6 @@ class SplashViewController: UIViewController {
     //MARK: - Properties
     private let splashScreenView = UIImageView()
     private let oauth2Service = OAuth2Service()
-    private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     
     

@@ -52,9 +52,9 @@ final class ImagesListViewController: UIViewController {
 
 // MARK: - Extensions
 extension ImagesListViewController: UITableViewDelegate {
+    
     // This method is responsible for the action that is performed when tapping on a table cell.
-    func tableView (_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: ShowSingleImageSegueIdentifier, sender: indexPath)
     }
 }
@@ -92,7 +92,6 @@ extension ImagesListViewController: UITableViewDataSource {
 
 
 extension ImagesListViewController {
-    
     func updateTableViewAnimated() {
         let oldCount = photos.count
         let newCount = imagesListService.photos.count
@@ -109,7 +108,7 @@ extension ImagesListViewController {
     }
     
     
-    private func configureCell (cell: ImagesListCell, indexPath: IndexPath) {
+    private func configureCell(cell: ImagesListCell, indexPath: IndexPath) {
         let gradient = CAGradientLayer()
         let photo = photos[indexPath.row]
         cell.configureCurrentCellContent(photo: photo)
@@ -141,7 +140,7 @@ extension ImagesListViewController {
 
 
 
-extension ImagesListViewController: ImagesListCellDelegate {
+extension ImagesListViewController: ImagesListCellDelegate{
     
     func imageListCellDidTapLike(cell: ImagesListCell) {
         guard let indexPath = imagesListTableView.indexPath(for: cell) else {return}

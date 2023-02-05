@@ -46,7 +46,6 @@ class ProfileViewController: UIViewController {
                 size: CGSize(width: 70, height: 70),
                 position: .center)
         }
-        
         if profileService.profile == nil {
             self.nameLabel.configureGragient(
                 gradient: self.nameLabelGradient,
@@ -166,15 +165,18 @@ extension ProfileViewController {
             )
             let processor = RoundCornerImageProcessor(cornerRadius: 35,backgroundColor: .clear)
             self.avatarImageView.kf.setImage(with: url,
-                                             placeholder: UIImage(named: "userpick_placeholder"),
+                                             //placeholder: UIImage(named: "userpick_placeholder"),
                                              options: [.processor(processor),
                                                        .cacheSerializer(FormatIndicatedCacheSerializer.png)],
-                                             completionHandler: { result in
+                                             completionHandler: { [weak self] result in
+                guard let self = self else { return }
                 switch result{
                 case .success:
                     self.avatarImageView.removeGradient(gradient: self.avatarImageViewGradient)
                     return
                 case .failure:
+                    self.avatarImageView.image = UIImage(named: "userpick_placeholder")
+                    self.avatarImageView.removeGradient(gradient: self.avatarImageViewGradient)
                     return
                 }
             }
@@ -196,6 +198,8 @@ extension ProfileViewController {
             self.profileImageService.keychainWrapper.cleanTokensStorage()
             self.imagesListViewController.imagesListService.cleanPhotos()
             self.imagesListViewController.cleanPhotos()
+            self.profileService.cleanProfile()
+            self.profileImageService.cleanAvatarUrl()
             guard let window = UIApplication.shared.windows.first else {fatalError("Impossible to create window")}
             window.rootViewController = SplashViewController()
             window.makeKeyAndVisible()
