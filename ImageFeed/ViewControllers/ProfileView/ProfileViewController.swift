@@ -27,6 +27,7 @@ class ProfileViewController: UIViewController {
         return .lightContent
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setNeedsStatusBarAppearanceUpdate()
@@ -39,7 +40,6 @@ class ProfileViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if profileImageService.avatarURL == nil {
-            
             avatarImageView.configureGragient(
                 gradient: avatarImageViewGradient,
                 cornerRadius: 35,
@@ -63,7 +63,7 @@ class ProfileViewController: UIViewController {
                 gradient: self.descriptionLabelGradient,
                 cornerRadius: 9,
                 size: CGSize(width: 67, height: 18),
-                position: .center
+                position: .top
             )
         }
     }
@@ -165,7 +165,6 @@ extension ProfileViewController {
             )
             let processor = RoundCornerImageProcessor(cornerRadius: 35,backgroundColor: .clear)
             self.avatarImageView.kf.setImage(with: url,
-                                             //placeholder: UIImage(named: "userpick_placeholder"),
                                              options: [.processor(processor),
                                                        .cacheSerializer(FormatIndicatedCacheSerializer.png)],
                                              completionHandler: { [weak self] result in
