@@ -45,7 +45,7 @@ class SplashViewController: UIViewController {
     }
     
     private func bearerTokenAvailabilityCheck() {
-        if profileImageService.keychainWrapper.getBearerToken() != nil{
+        if profileImageService.keychainWrapper.getBearerToken() != nil {
             self.switchToTabBarController()
         } else {
             let storyboard = UIStoryboard(name: "Main", bundle: .main)
@@ -69,8 +69,8 @@ class SplashViewController: UIViewController {
             self.bearerTokenAvailabilityCheck()
         }
         DispatchQueue.main.async {
-            self.showCustomAlertPresenter(model: alerModel) 
             UIBlockingProgressHUD.dismiss()
+            self.showCustomAlertPresenter(model: alerModel)
         }
     }
 }

@@ -23,15 +23,16 @@ final class ImagesListService {
         if task != nil { return }
         guard let token = keychain.getBearerToken() else { return }
         
-        let nextPage = self.lastLoadedPage == nil
-        ? 1
-        : self.lastLoadedPage! + 1
-        
+        var nextPage: Int
+        if let lastLoadedPage {
+            nextPage = lastLoadedPage + 1
+        } else {
+            nextPage = 1
+        }
         let request = makeRequest(token: token, nextPage: nextPage)
         let task = self.session.objectTask(for: request) { [weak self]
             (result: Result<[PhotoResult], Error>) in
             guard let self = self else { return }
-            
             DispatchQueue.main.async {
                 switch result {
                 case .success(let result):
@@ -39,6 +40,7 @@ final class ImagesListService {
                     self.addNewPhotosToArray(photoResults: result)
                     self.task = nil
                 case .failure:
+                    self.task = nil
                     return
                 }
             }
@@ -64,27 +66,9 @@ extension ImagesListService {
     }
     
     
-    private func convertPhotoResultToPhoto(result: PhotoResult) -> Photo {
-        let size = CGSize(width: Double(result.width), height: Double(result.height))
-        let createdAt = Formatter.stringToDate(stringForConvertation: result.createdAt)
-        let photo = Photo(
-            id: result.id,
-            size: size,
-            createdAt: createdAt,
-            welcomeDescription: result.description,
-            thumbImageURL: result.urls.thumbImageURL,
-            largeImageURL: result.urls.largeImageURL,
-            isLiked: result.isLiked
-        )
-        return photo
-    }
-    
-    
     private func addNewPhotosToArray(photoResults: [PhotoResult]) {
-        for photoResult in photoResults {
-            let photo = self.convertPhotoResultToPhoto(result: photoResult)
-            self.photos.append(photo)
-        }
+        let newPhotos = photoResults.map{ $0.convertToViewModel() }
+        photos.append(contentsOf: newPhotos)
         NotificationCenter.default.post(
             name: ImagesListService.didChangeNontification,
             object: self

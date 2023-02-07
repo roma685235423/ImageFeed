@@ -31,8 +31,9 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setNeedsStatusBarAppearanceUpdate()
-        let token = profileImageService.keychainWrapper.getBearerToken()
-        fetchProfile (token: token!)
+        if let token = profileImageService.keychainWrapper.getBearerToken(){
+            fetchProfile(token: token)
+        }
         self.configureProfileDetails()
     }
     
@@ -172,11 +173,9 @@ extension ProfileViewController {
                 switch result{
                 case .success:
                     self.avatarImageView.removeGradient(gradient: self.avatarImageViewGradient)
-                    return
                 case .failure:
                     self.avatarImageView.image = UIImage(named: "userpick_placeholder")
                     self.avatarImageView.removeGradient(gradient: self.avatarImageViewGradient)
-                    return
                 }
             }
             )
@@ -239,28 +238,31 @@ extension ProfileViewController {
                     self.updateProfileDetails(profile: profile)
                 }
                 self.queue.sync {
-                    ProfileImageService.shared.fetchProfileImageURL(
-                        username: self.profileService.profile?.username ?? "NIL") { result in
-                            switch result {
-                            case .success(let avatarURL):
-                                DispatchQueue.main.async {
-                                    self.profileImageService.setAvatarUrlString(avatarUrl: avatarURL)
-                                    self.updateAvatar()
-                                }
-                            case .failure:
-                                return
-                            }
-                        }
+                    self.fetchProfileImageURL()
                 }
                 self.descriptionLabel.removeGradient(gradient: self.descriptionLabelGradient)
                 self.nameLabel.removeGradient(gradient: self.nameLabelGradient)
                 self.loginNameLabel.removeGradient(gradient: self.loginNameLabelGradient)
-                return
             case .failure:
                 self.showDefaultAlertPresenter()
-                return
             }
         }
+    }
+    
+    
+    private func fetchProfileImageURL() {
+        ProfileImageService.shared.fetchProfileImageURL(
+            username: self.profileService.profile?.username ?? "NIL") { result in
+                switch result {
+                case .success(let avatarURL):
+                    DispatchQueue.main.async {
+                        self.profileImageService.setAvatarUrlString(avatarUrl: avatarURL)
+                        self.updateAvatar()
+                    }
+                case .failure:
+                    self.showDefaultAlertPresenter()
+                }
+            }
     }
 }
 

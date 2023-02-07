@@ -111,7 +111,9 @@ extension ImagesListViewController {
     private func configureCell(cell: ImagesListCell, indexPath: IndexPath) {
         let gradient = CAGradientLayer()
         let photo = photos[indexPath.row]
-        cell.configureCurrentCellContent(photo: photo)
+        let date = photo.createdAt
+        guard let createdAt = date?.stringFromDate else { return }
+        cell.configureCurrentCellContent(photo: photo, createdAt: createdAt)
         cell.imagesListCellImage.configureGragient(
             gradient: gradient,
             cornerRadius: 16,

@@ -28,11 +28,11 @@ final class ImagesListCell: UITableViewCell {
 
 // MARK: - Extension
 extension ImagesListCell {
-    func configureCurrentCellContent(photo: Photo) {
+    func configureCurrentCellContent(photo: Photo, createdAt: String) {
         configureImageView()
         createGradient()
         if let createdAt = photo.createdAt {
-            imagesListCellTextLabel.text = Formatter.dateToString(dateForConvertation: createdAt)
+            imagesListCellTextLabel.text = createdAt.stringFromDate
         }
         changeLikeButtonImage(isLiked: photo.isLiked )
         prepareForReuse()
