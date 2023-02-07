@@ -1,10 +1,3 @@
-//
-//  AlertModel.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 1/12/23.
-//
-
 import Foundation
 
 struct AlertModel {
@@ -12,4 +5,12 @@ struct AlertModel {
     let message: String
     let buttonText: String
     var completion: () -> Void
+}
+
+struct AlertModelTwoButtons {
+    let title: String
+    let message: String
+    let buttonText: String
+    var completionForLeftButton: () -> Void
+    var completionFoRightButton: () -> Void
 }

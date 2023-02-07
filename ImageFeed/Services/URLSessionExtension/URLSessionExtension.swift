@@ -1,15 +1,6 @@
-//
-//  URLSessionExtension.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 1/9/23.
-//
-
 import Foundation
 
 extension URLSession {
-    
-    //MARK: - Generic method
     func objectTask<T: Decodable> (
         for request: URLRequest,
         completion: @escaping (Result<T, Error>) -> Void
@@ -27,7 +18,6 @@ extension URLSession {
                     return
                 }
                 guard let data = data else { return }
-                
                 do {
                     let decodedObject = try JSONDecoder().decode(T.self, from: data)
                     completion(.success(decodedObject))

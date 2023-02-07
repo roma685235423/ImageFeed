@@ -1,11 +1,6 @@
-//
-//  CustomErrors.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 1/11/23.
-//
-
 import Foundation
+
+fileprivate var descriptionError: String = ""
 
 enum NetworkError: Error {
     case decodeError
@@ -31,7 +26,21 @@ extension NetworkError: LocalizedError {
         case .decodeError:
             return NSLocalizedString("Decode data error", comment: "Failed to decode received data")
         case .incorrectStatusCode(let code):
-            return NSLocalizedString("Wrong response code: \(code)", comment: "Received an invalid response code: \(code)")
+            switch code {
+            case 400:
+                descriptionError = "Код ошибки: \(code)\nНекорректный запрос. Отсутствует обязательный параметр."
+            case 401:
+                descriptionError = "Код ошибки: \(code)\nНекорректный токен авторизации."
+            case 403:
+                descriptionError = "Код ошибки: \(code)\nОтсутствует разрешение для выполнения запроса."
+            case 404:
+                descriptionError = "Код ошибки: \(code)\nЗапрошенный ресурс не существует."
+            case 500, 503:
+                descriptionError = "Код ошибки: \(code)\nЧто-то не так на стороне сервера."
+            default:
+                descriptionError = "Код ошибки: \(code)."
+            }
+            return NSLocalizedString(descriptionError, comment: "Received an invalid response code: \(code)")
         }
     }
 }

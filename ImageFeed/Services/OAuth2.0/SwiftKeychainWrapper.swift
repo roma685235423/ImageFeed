@@ -1,10 +1,3 @@
-//
-//  SwiftKeychainWrapper.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 1/18/23.
-//
-
 import Foundation
 import SwiftKeychainWrapper
 
@@ -34,5 +27,10 @@ final class KeychainAuthStorage {
     
     func getBearerToken() -> String? {
         return keychain.string(forKey: "Bearer token")
+    }
+    
+    func cleanTokensStorage() {
+        keychain.removeObject(forKey: "Auth token")
+        keychain.removeObject(forKey: "Bearer token")
     }
 }
