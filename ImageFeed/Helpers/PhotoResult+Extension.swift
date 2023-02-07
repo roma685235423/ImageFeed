@@ -14,10 +14,10 @@ extension PhotoResult {
             id: self.id,
             size: size,
             createdAt: createdAt,
-            welcomeDescription: self.description,
-            thumbImageURL: self.urls.thumbImageURL,
-            largeImageURL: self.urls.largeImageURL,
-            isLiked: self.isLiked
+            welcomeDescription: description,
+            thumbImageURL: urls.thumbImageURL,
+            largeImageURL: urls.largeImageURL,
+            isLiked: isLiked
         )
         return photo
     }

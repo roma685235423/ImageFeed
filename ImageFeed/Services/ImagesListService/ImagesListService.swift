@@ -34,17 +34,13 @@ final class ImagesListService {
             (result: Result<[PhotoResult], Error>) in
             guard let self = self else { return }
             DispatchQueue.main.async {
-                switch result {
-                case .success(let result):
+                guard case .success(let result) = result else { return }
                     self.lastLoadedPage = nextPage
                     self.addNewPhotosToArray(photoResults: result)
-                    self.task = nil
-                case .failure:
-                    self.task = nil
-                    return
+                    
                 }
+                self.task = nil
             }
-        }
         self.task = task
         task.resume()
     }

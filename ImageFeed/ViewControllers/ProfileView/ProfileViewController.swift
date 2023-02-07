@@ -255,10 +255,8 @@ extension ProfileViewController {
             username: self.profileService.profile?.username ?? "NIL") { result in
                 switch result {
                 case .success(let avatarURL):
-                    DispatchQueue.main.async {
                         self.profileImageService.setAvatarUrlString(avatarUrl: avatarURL)
                         self.updateAvatar()
-                    }
                 case .failure:
                     self.showDefaultAlertPresenter()
                 }
