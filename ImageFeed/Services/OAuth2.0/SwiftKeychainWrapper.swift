@@ -1,10 +1,3 @@
-//
-//  SwiftKeychainWrapper.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 1/18/23.
-//
-
 import Foundation
 import SwiftKeychainWrapper
 

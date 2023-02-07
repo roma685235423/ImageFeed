@@ -1,16 +1,23 @@
-//
-//  UIView+GradientExtension.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 2/4/23.
-//
-
 import UIKit
 
 
 extension UIView {
-    func configureGragient(gradient: CAGradientLayer, cornerRadius: CGFloat) {
-        gradient.frame = CGRect(origin: .zero, size: self.frame.size)
+    
+    enum GradientPosition {
+        case top, center, bottom
+    }
+    
+    func configureGragient(gradient: CAGradientLayer, cornerRadius: CGFloat, size: CGSize, position: GradientPosition) {
+        var yOffset = CGFloat()
+        switch position {
+        case .top:
+            yOffset = 0
+        case .center:
+            yOffset = (self.frame.height - size.height)/2
+        case .bottom:
+            yOffset = self.frame.height - size.height
+        }
+        gradient.frame = CGRect(origin: CGPoint(x: 0, y: yOffset), size: size)
         gradient.locations = [0, 0.1, 0.3]
         gradient.colors = [
             UIColor(red: 0.682, green: 0.686, blue: 0.706, alpha: 1).cgColor,

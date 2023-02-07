@@ -1,10 +1,3 @@
-//
-//  ProfileService.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 1/3/23.
-//
-
 import Foundation
 
 final class ProfileService {
@@ -29,12 +22,10 @@ final class ProfileService {
     
     //MARK: - Methods
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
-        
         assert(Thread.isMainThread)
         if lastToken == token { return }
         task?.cancel()
         lastToken = token
-        
         let request = self.makeRequest(token: token)
         let task = self.session.objectTask(for: request) { [weak self]
             (result: Result<ProfileResult, Error>) in
@@ -50,6 +41,7 @@ final class ProfileService {
                 case .failure(let error):
                     completion(.failure(error))
                     self.lastToken = nil
+                    self.task = nil
                     return
                 }
             }
@@ -83,5 +75,9 @@ extension ProfileService {
     
     func setProfile (profile: Profile) {
         self.profile = profile
+    }
+    
+    func cleanProfile() {
+        self.profile = nil
     }
 }

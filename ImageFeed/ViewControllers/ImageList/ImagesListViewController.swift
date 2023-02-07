@@ -1,37 +1,16 @@
-//
-//  ViewController.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 11/19/22.
-//
-
 import UIKit
 import Kingfisher
 
-
-
 final class ImagesListViewController: UIViewController {
-    
     // MARK: - Properties
     private var photos = [Photo]()
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
     var imagesListService = ImagesListService.shared
-    
     private var imagesListViewControllerObserver: NSObjectProtocol?
-    
     static let shared = ImagesListViewController()
     
     // MARK: - Layout
     @IBOutlet weak var imagesListTableView: UITableView!
-    
-    
-    // MARK: - Helpers
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        return formatter
-    }()
     
     
     // MARK: - Life Cycle
@@ -73,9 +52,9 @@ final class ImagesListViewController: UIViewController {
 
 // MARK: - Extensions
 extension ImagesListViewController: UITableViewDelegate {
+    
     // This method is responsible for the action that is performed when tapping on a table cell.
-    func tableView (_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: ShowSingleImageSegueIdentifier, sender: indexPath)
     }
 }
@@ -113,7 +92,6 @@ extension ImagesListViewController: UITableViewDataSource {
 
 
 extension ImagesListViewController {
-    
     func updateTableViewAnimated() {
         let oldCount = photos.count
         let newCount = imagesListService.photos.count
@@ -130,18 +108,22 @@ extension ImagesListViewController {
     }
     
     
-    private func configureCell (cell: ImagesListCell, indexPath: IndexPath) {
+    private func configureCell(cell: ImagesListCell, indexPath: IndexPath) {
         let gradient = CAGradientLayer()
         let photo = photos[indexPath.row]
-        let createdAt = dateFormatter.string(from: photo.createdAt ?? Date())
+        let date = photo.createdAt
+        guard let createdAt = date?.stringFromDate else { return }
         cell.configureCurrentCellContent(photo: photo, createdAt: createdAt)
-        cell.imagesListCellImage.configureGragient(gradient: gradient, cornerRadius: 16)
-        
+        cell.imagesListCellImage.configureGragient(
+            gradient: gradient,
+            cornerRadius: 16,
+            size: cell.imagesListCellImage.frame.size,
+            position: .bottom
+        )
         guard let thumbImageUrl = URL(string: photo.thumbImageURL),
               let placeholderImage = UIImage(named: "card") else {
             return
         }
-        //cell.imagesListCellImage.kf.indicatorType = .activity
         cell.imagesListCellImage.kf.setImage(
             with: thumbImageUrl,
             placeholder: placeholderImage
@@ -160,7 +142,7 @@ extension ImagesListViewController {
 
 
 
-extension ImagesListViewController: ImagesListCellDelegate {
+extension ImagesListViewController: ImagesListCellDelegate{
     
     func imageListCellDidTapLike(cell: ImagesListCell) {
         guard let indexPath = imagesListTableView.indexPath(for: cell) else {return}
@@ -176,7 +158,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
                     UIBlockingProgressHUD.dismiss()
                 }
             case.failure:
-                AlertPresenter.showError(in: self)
+                self.showDefaultAlertPresenter()
                 UIBlockingProgressHUD.dismiss()
                 return
             }

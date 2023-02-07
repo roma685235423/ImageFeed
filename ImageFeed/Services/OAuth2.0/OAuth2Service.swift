@@ -1,10 +1,3 @@
-//
-//  OAuth2Service.swift
-//  ImageFeed
-//
-//  Created by Роман Бойко on 12/19/22.
-//
-
 import Foundation
 
 final class OAuth2Service {
@@ -43,6 +36,7 @@ final class OAuth2Service {
                 case .failure(let error):
                     completion(.failure(error))
                     self.lastCode = nil
+                    self.task = nil
                 }
             }
         }
