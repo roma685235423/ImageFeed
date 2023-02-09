@@ -101,7 +101,6 @@ extension SplashViewController: AuthViewControllerDelegate {
                 }
             case .failure(let error):
                 self.showAlert(error: error.localizedDescription)
-                return
             }
             UIBlockingProgressHUD.dismiss()
         }
