@@ -1,12 +1,12 @@
 import WebKit
 import UIKit
 
-//MARK: - fileprivate Propertiesv
+//MARK: - fileprivate Properties
 fileprivate var progress = Float()
 
 
 
-//MARK: - Protocol
+//MARK: - Protocols
 protocol WebViewViewControllerDelegate: AnyObject {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String)
     func webViewViewControllerDidCancel(_ vc: WebViewViewController)

@@ -80,4 +80,8 @@ extension ProfileService {
     func cleanProfile() {
         self.profile = nil
     }
+    
+    func getProfile() -> Profile? {
+        self.profile
+    }
 }
