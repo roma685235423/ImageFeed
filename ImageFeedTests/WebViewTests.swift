@@ -1,10 +1,3 @@
-//
-//  ImageFeedTests.swift
-//  ImageFeedTests
-//
-//  Created by Роман Бойко on 2/10/23.
-//
-
 import XCTest
 import Foundation
 import UIKit
