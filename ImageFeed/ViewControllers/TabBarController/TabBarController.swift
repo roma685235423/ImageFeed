@@ -4,19 +4,24 @@ import UIKit
 final class TabBarController: UITabBarController {
     
     override func awakeFromNib() {
-        
         super.awakeFromNib()
+        
         let profileViewController = ProfileViewController()
-        let helper = ProfileViewHelper()
-        let presenter = ProfileViewPresenter(helper: helper)
-        profileViewController.presenter = presenter
+        let profileViewHelper = ProfileViewHelper()
+        let profileViewPresenter = ProfileViewPresenter(helper: profileViewHelper)
+        profileViewController.presenter = profileViewPresenter
+        
+        let imagesListController = ImagesListViewController()
+        let imagesListService = ImagesListService()
+        let imagesViewPresenter = ImagesListPresenter(imagesListService: imagesListService)
+        imagesListController.presenter = imagesViewPresenter
+        
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         guard let imagesListViewController = storyboard.instantiateViewController(
             withIdentifier: "ImagesListViewController"
         ) as? ImagesListViewController else {
             return
         }
-        
         profileViewController.tabBarItem = UITabBarItem(
             title: nil,
             image: UIImage(named: "profile_active"),

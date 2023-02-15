@@ -20,7 +20,9 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     // MARK: - Methods
     func viewDidLoad() {
         view?.configureProfileDetails()
-        checkTokenAndFetchProfile()
+        if let token = helper.getBearerToken() {
+            fetchProfile(token: token)
+        }
     }
     
     
@@ -28,13 +30,16 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
         helper.cleanCurrentSessionContext()
     }
     
+    
     func getAvatarURL() -> URL? {
         helper.getAvatarURL()
     }
     
+    
     func avatarURLEqualNil() -> Bool {
         helper.avatarURLEqualNil()
     }
+    
     
     func profileEqualNil() -> Bool {
         helper.profileEqualNil()
@@ -53,23 +58,21 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
         })
     }
     
-    private func checkTokenAndFetchProfile() {
-        if let token = helper.getBearerToken() {
-            helper.fetchProfile(token: token) { [weak self] result in
-                guard let self = self else { return }
-                switch result{
-                case .success(let profile):
-                    self.queue.async {
-                        self.helper.setProfile(profile: profile)
-                        self.view?.updateProfileDetails(profile: profile)
-                    }
-                    self.queue.async {
-                        self.fetchProfileImageURL()
-                    }
-                    self.view?.removeProfileGradients()
-                case .failure:
-                    self.view?.showDefaultAlert()
+    
+    private func fetchProfile(token: String) {
+        helper.fetchProfile(token: token) { [weak self] result in
+            guard let self = self else { return }
+            switch result{
+            case .success(let profile):
+                self.queue.async {
+                    self.view?.updateProfileDetails(profile: profile)
                 }
+                self.queue.async {
+                    self.fetchProfileImageURL()
+                }
+                self.view?.removeProfileGradients()
+            case .failure:
+                self.view?.showDefaultAlert()
             }
         }
     }
@@ -78,4 +81,3 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
         self.helper = helper
     }
 }
-

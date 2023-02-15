@@ -6,23 +6,19 @@ protocol ProfileViewHelperProtocol {
     func avatarURLEqualNil() -> Bool
     func profileEqualNil() -> Bool
     func getBearerToken() -> String?
-    func setProfile(profile: Profile)
     func cleanCurrentSessionContext()
     func getAvatarURL() -> URL?
 }
 
-class ProfileViewHelper: ProfileViewHelperProtocol {
+final class ProfileViewHelper: ProfileViewHelperProtocol {
     // MARK: - Properties
     private let profileImageService = ProfileImageService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
     private let imagesListViewController = ImagesListViewController.shared
     private let profileService = ProfileService.shared
+    private var imagesListPresenter: ImagesListPresenterProtocol?
     
     // MARK: - Methods
-    func setProfile(profile: Profile) {
-        profileService.setProfile(profile: profile)
-    }
-    
     func avatarURLEqualNil() -> Bool {
         profileImageService.avatarURL == nil
     }
@@ -44,9 +40,10 @@ class ProfileViewHelper: ProfileViewHelperProtocol {
     
     func cleanCurrentSessionContext() {
         profileImageService.keychainWrapper.cleanTokensStorage()
-        imagesListViewController.imagesListService.cleanPhotos()
-        imagesListViewController.cleanPhotos()
+        //imagesListViewController.imagesListService.cleanPhotos()
+//        imagesListViewController.cleanPhotos()
         profileService.cleanProfile()
+        imagesListPresenter?.cleanPhotos()
         profileImageService.cleanAvatarUrl()
     }
     
@@ -54,6 +51,7 @@ class ProfileViewHelper: ProfileViewHelperProtocol {
         profileService.fetchProfile(token) { result in
             switch result {
             case .success(let profile):
+                self.profileService.setProfile(profile: profile)
                 completion(.success(profile))
             case .failure(let error):
                 completion(.failure(error))

@@ -1,6 +1,13 @@
 import Foundation
 
-final class ImagesListService {
+protocol ImagesListServiceProtocol {
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping(Result<Void, Error>) -> Void)
+    func fetchPhotosNextPage()
+    func getPhotos() -> [Photo]
+    func cleanPhotos()
+}
+
+final class ImagesListService: ImagesListServiceProtocol {
     
     // MARK: - Properties
     private (set) var photos: [Photo] = []
@@ -10,7 +17,7 @@ final class ImagesListService {
     private var task: URLSessionTask?
     
     private let keychain = ProfileImageService.shared.keychainWrapper
-    static let shared = ImagesListService()
+    //static let shared = ImagesListService()
     
     
     //MARK: - Notification
@@ -18,6 +25,11 @@ final class ImagesListService {
     
     
     //MARK: - Methods
+    
+    func getPhotos() -> [Photo] {
+        photos
+    }
+    
     func fetchPhotosNextPage() {
         assert(Thread.isMainThread)
         if task != nil { return }
@@ -44,6 +56,10 @@ final class ImagesListService {
         self.task = task
         task.resume()
     }
+//
+//    init(photos: [Photo] = []) {
+//        self.photos = photos
+//    }
 }
 
 
@@ -133,4 +149,6 @@ extension ImagesListService {
     func cleanPhotos(){
         photos = []
     }
+    
+
 }
