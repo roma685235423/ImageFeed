@@ -10,7 +10,6 @@ protocol ImagesListViewControllerProtocol: AnyObject {
 final class ImagesListViewController: UIViewController & ImagesListViewControllerProtocol{
     // MARK: - Properties
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
-    static let shared = ImagesListViewController()
     
     var presenter: ImagesListPresenterProtocol?
     
@@ -26,11 +25,8 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let imagesListService = ImagesListService()
-        self.presenter = ImagesListPresenter(imagesListService: imagesListService)
         presenter?.view = self
         presenter?.viewDidLoad()
-        //imagesListTableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
     }
     
     
@@ -62,7 +58,7 @@ extension ImagesListViewController: UITableViewDelegate {
 extension ImagesListViewController: UITableViewDataSource {
     // This method is responsible for determining the number of cells in the table
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let photosCount = presenter?.photosInServiceAndPhotosArrayNotEqual() else { fatalError() }
+        guard let photosCount = presenter?.photosInServiceAndPhotosArrayNotEqual() else { fatalError("Presenter not exist") }
         return photosCount.servicePhotosCount
     }
     

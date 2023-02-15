@@ -36,7 +36,7 @@ extension ImagesListCell {
             imagesListCellTextLabel.text = createdAt.stringFromDate
         }
         changeLikeButtonImage(isLiked: photo.isLiked )
-        //self.prepareForReuse()
+        prepareForReuse()
     }
     
     

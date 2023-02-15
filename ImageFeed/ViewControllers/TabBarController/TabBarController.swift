@@ -17,6 +17,8 @@ final class TabBarController: UITabBarController {
         ) as? ImagesListViewController else {
             return
         }
+        imagesListViewController.presenter = ImagesListPresenter(imagesListService: ImagesListService())
+        
         profileViewController.tabBarItem = UITabBarItem(
             title: nil,
             image: UIImage(named: "profile_active"),

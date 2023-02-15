@@ -2,15 +2,17 @@ import UIKit
 
 protocol ImagesListPresenterProtocol {
     var view: ImagesListViewControllerProtocol? { get set }
+    func viewDidLoad()
     func photosInServiceAndPhotosArrayNotEqual() -> photosCounts
     func getPhotoFromArray(index: Int) -> Photo?
-    func changeLike(index: Int)
-    func getCurrentPhotoLike(index: Int) -> Bool
     func changeLikeInPhotosService(photo: Photo, cell: ImagesListCell, index: Int)
-    func viewDidLoad()
     func isNeedToFetchNextPage(actualRow: Int)
     func cleanPhotos()
-    func getPhotosQuantity() -> Int
+}
+
+struct photosCounts {
+    let localPhotosCount: Int
+    let servicePhotosCount: Int
 }
 
 
@@ -41,10 +43,6 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
         }
     }
     
-    func getPhotosQuantity() -> Int {
-        imagesListService.getPhotos().count
-    }
-    
     func getPhotoFromArray(index: Int) -> Photo? {
         if !photos.isEmpty{
             return photos[index]
@@ -61,14 +59,6 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
             localPhotosCount: oldCount,
             servicePhotosCount: newCount)
         return result
-    }
-    
-    func changeLike(index: Int) {
-        photos[index].isLiked.toggle()
-    }
-    
-    func getCurrentPhotoLike(index: Int) -> Bool {
-        photos[index].isLiked
     }
     
     func changeLikeInPhotosService(photo: Photo, cell: ImagesListCell, index: Int) {
@@ -88,16 +78,13 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
             }
         }
     }
-    init(imagesListService: ImagesListServiceProtocol) {
-        self.imagesListService = imagesListService
-    }
     
     func cleanPhotos() {
         photos = []
         imagesListService.cleanPhotos()
     }
-}
-struct photosCounts {
-    let localPhotosCount: Int
-    let servicePhotosCount: Int
+    
+    init(imagesListService: ImagesListServiceProtocol) {
+        self.imagesListService = imagesListService
+    }
 }

@@ -14,7 +14,6 @@ final class ProfileViewHelper: ProfileViewHelperProtocol {
     // MARK: - Properties
     private let profileImageService = ProfileImageService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
-    private let imagesListViewController = ImagesListViewController.shared
     private let profileService = ProfileService.shared
     private var imagesListPresenter: ImagesListPresenterProtocol?
     
@@ -40,8 +39,6 @@ final class ProfileViewHelper: ProfileViewHelperProtocol {
     
     func cleanCurrentSessionContext() {
         profileImageService.keychainWrapper.cleanTokensStorage()
-        //imagesListViewController.imagesListService.cleanPhotos()
-//        imagesListViewController.cleanPhotos()
         profileService.cleanProfile()
         imagesListPresenter?.cleanPhotos()
         profileImageService.cleanAvatarUrl()
