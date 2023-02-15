@@ -11,11 +11,6 @@ final class TabBarController: UITabBarController {
         let profileViewPresenter = ProfileViewPresenter(helper: profileViewHelper)
         profileViewController.presenter = profileViewPresenter
         
-        let imagesListController = ImagesListViewController()
-        let imagesListService = ImagesListService()
-        let imagesViewPresenter = ImagesListPresenter(imagesListService: imagesListService)
-        imagesListController.presenter = imagesViewPresenter
-        
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         guard let imagesListViewController = storyboard.instantiateViewController(
             withIdentifier: "ImagesListViewController"

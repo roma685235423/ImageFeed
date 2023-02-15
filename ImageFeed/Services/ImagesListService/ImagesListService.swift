@@ -15,9 +15,7 @@ final class ImagesListService: ImagesListServiceProtocol {
     private let getPhotosURLString  = "https://api.unsplash.com/photos"
     private let session = URLSession.shared
     private var task: URLSessionTask?
-    
     private let keychain = ProfileImageService.shared.keychainWrapper
-    //static let shared = ImagesListService()
     
     
     //MARK: - Notification
@@ -49,17 +47,12 @@ final class ImagesListService: ImagesListServiceProtocol {
                 guard case .success(let result) = result else { return }
                     self.lastLoadedPage = nextPage
                     self.addNewPhotosToArray(photoResults: result)
-                    
                 }
                 self.task = nil
             }
         self.task = task
         task.resume()
     }
-//
-//    init(photos: [Photo] = []) {
-//        self.photos = photos
-//    }
 }
 
 
@@ -149,6 +142,4 @@ extension ImagesListService {
     func cleanPhotos(){
         photos = []
     }
-    
-
 }

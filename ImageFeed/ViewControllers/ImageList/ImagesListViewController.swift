@@ -8,17 +8,11 @@ protocol ImagesListViewControllerProtocol: AnyObject {
 }
 
 final class ImagesListViewController: UIViewController & ImagesListViewControllerProtocol{
+    // MARK: - Properties
+    private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
+    static let shared = ImagesListViewController()
     
     var presenter: ImagesListPresenterProtocol?
-    // MARK: - Properties
-    //----------------------------------
-    //private var photos = [Photo]()
-    //----------------------------------
-    private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
-    //----------------------------------
-    //var imagesListService = ImagesListService.shared
-    //----------------------------------
-    static let shared = ImagesListViewController()
     
     // MARK: - Layout
     @IBOutlet weak var imagesListTableView: UITableView!
@@ -32,10 +26,10 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("\n✅\nImagesListViewController\n✅ ")
+        let imagesListService = ImagesListService()
+        self.presenter = ImagesListPresenter(imagesListService: imagesListService)
         presenter?.view = self
         presenter?.viewDidLoad()
-        print("\n‼️\nPresenter is : \(presenter)\n‼️\n")
     }
     
     
@@ -67,10 +61,8 @@ extension ImagesListViewController: UITableViewDelegate {
 extension ImagesListViewController: UITableViewDataSource {
     // This method is responsible for determining the number of cells in the table
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //----------------------------------
-        10
-        //imagesListService.photos.count
-        //----------------------------------
+        guard let photosCount = presenter?.photosInServiceAndPhotosArrayNotEqual() else { fatalError() }
+        return photosCount.newCount
     }
     
     
@@ -89,14 +81,7 @@ extension ImagesListViewController: UITableViewDataSource {
     // This method is responsible for call fetchPhotosNextPage
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let presenter = presenter else { return }
-        //----------------------------------
-        //if indexPath.row + 1 == imagesListService.photos.count {
-        //----------------------------------
-        presenter.isNeedToFetchNextpage(actualRow: indexPath.row)
-            //----------------------------------
-            //self.imagesListService.fetchPhotosNextPage()
-            //----------------------------------
-        //}
+        presenter.isNeedToFetchNextPage(actualRow: indexPath.row)
     }
 }
 
@@ -104,14 +89,8 @@ extension ImagesListViewController: UITableViewDataSource {
 
 extension ImagesListViewController {
     func updateTableViewAnimated() {
-        //----------------------------------
-        //let oldCount = photos.count
-        //let newCount = imagesListService.photos.count
-        //photos = imagesListService.photos
-        //if oldCount != newCount {
         guard let photosCount = presenter?.photosInServiceAndPhotosArrayNotEqual() else { return }
         if photosCount.oldCount != photosCount.newCount {
-            //----------------------------------
             self.imagesListTableView.performBatchUpdates {
                 var indexPaths: [IndexPath] = []
                 for i in photosCount.oldCount..<photosCount.newCount {
@@ -122,17 +101,8 @@ extension ImagesListViewController {
         }
     }
     
-   // func showDefaultAlert() {
-   //     self.showDefaultAlert()
-   //     return
-   // }
-    
-    //
     private func configureCell(cell: ImagesListCell, indexPath: IndexPath) {
-        //----------------------------------
         let gradient = CAGradientLayer()
-        //----------------------------------
-        //let photo = photos[indexPath.row]
         guard let photo = presenter?.getPhotoFromArray(index: indexPath.row) else { return }
         let date = photo.createdAt
         guard let createdAt = date?.stringFromDate else { return }
@@ -157,13 +127,7 @@ extension ImagesListViewController {
             cell.imagesListCellImage.removeGradient(gradient: gradient)
             self.imagesListTableView.reloadRows(at: [indexPath], with: .automatic)
         }
-        //----------------------------------
     }
-    
-    
-   // func cleanPhotos(){
-   //     photos = []
-   // }
 }
 
 
@@ -172,26 +136,8 @@ extension ImagesListViewController: ImagesListCellDelegate{
     
     func imageListCellDidTapLike(cell: ImagesListCell) {
         guard let indexPath = imagesListTableView.indexPath(for: cell) else {return}
-        //let photo = photos[indexPath.row]
         guard let photo = presenter?.getPhotoFromArray(index: indexPath.row) else { return }
         UIBlockingProgressHUD.show()
         presenter?.changeLikeInPhotosService(photo: photo, cell: cell, index: indexPath.row)
-//        imagesListService.changeLike(photoId: photo.id, isLike: photo.isLiked) { [weak self] result in
-//            guard let self = self else { return }
-//            switch result {
-//            case .success:
-//                DispatchQueue.main.async {
-//                    //self.photos[indexPath.row].isLiked.toggle()
-//                    self.presenter?.changeLike(index: indexPath.row)
-//                    //cell.changeLikeButtonImage(isLiked: self.photos[indexPath.row].isLiked)
-//                    cell.changeLikeButtonImage(isLiked: presenter?.getCurrentPhotoLike(index: indexPath.row)!)
-//                    UIBlockingProgressHUD.dismiss()
-//                }
-//            case.failure:
-//                self.showDefaultAlertPresenter()
-//                UIBlockingProgressHUD.dismiss()
-//                return
-//            }
-//        }
     }
 }

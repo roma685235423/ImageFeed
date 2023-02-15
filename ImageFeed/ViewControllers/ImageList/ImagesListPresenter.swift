@@ -8,19 +8,19 @@ protocol ImagesListPresenterProtocol {
     func getCurrentPhotoLike(index: Int) -> Bool
     func changeLikeInPhotosService(photo: Photo, cell: ImagesListCell, index: Int)
     func viewDidLoad()
-    func isNeedToFetchNextpage(actualRow: Int)
+    func isNeedToFetchNextPage(actualRow: Int)
     func cleanPhotos()
+    func getPhotosQuantity() -> Int
 }
 
 
 final class ImagesListPresenter: ImagesListPresenterProtocol {
     weak var view: ImagesListViewControllerProtocol?
-    var imagesListService: ImagesListServiceProtocol
+    private var imagesListService: ImagesListServiceProtocol
     private var photos = [Photo]()
     
     
     func viewDidLoad() {
-        print("\n✅\nImagesListPresenter\n✅ ")
         NotificationCenter.default
             .addObserver(
                 forName: ImagesListService.didChangeNontification,
@@ -35,21 +35,27 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
     }
     
     
-    func isNeedToFetchNextpage(actualRow: Int) {
+    func isNeedToFetchNextPage(actualRow: Int) {
         if actualRow + 1 == imagesListService.getPhotos().count {
             imagesListService.fetchPhotosNextPage()
         }
     }
     
+    func getPhotosQuantity() -> Int {
+        imagesListService.getPhotos().count
+    }
     
     func getPhotoFromArray(index: Int) -> Photo? {
-        photos[index]
+        if !photos.isEmpty{
+            return photos[index]
+        } else {
+            return nil
+        }
     }
     
     func photosInServiceAndPhotosArrayNotEqual() -> photosCounts {
         let oldCount = photos.count
         let newCount = imagesListService.getPhotos().count
-        //        helper.updatePhotos()
         photos = imagesListService.getPhotos()
         let result = photosCounts(
             oldCount: oldCount,
