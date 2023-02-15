@@ -3,7 +3,7 @@ import Kingfisher
 
 protocol ImagesListViewControllerProtocol: AnyObject {
     var presenter: ImagesListPresenterProtocol? { get set }
-        //func showDefaultAlert()
+    //func showDefaultAlert()
     func updateTableViewAnimated()
 }
 
@@ -30,6 +30,7 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
         self.presenter = ImagesListPresenter(imagesListService: imagesListService)
         presenter?.view = self
         presenter?.viewDidLoad()
+        imagesListTableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
     }
     
     
@@ -62,19 +63,29 @@ extension ImagesListViewController: UITableViewDataSource {
     // This method is responsible for determining the number of cells in the table
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let photosCount = presenter?.photosInServiceAndPhotosArrayNotEqual() else { fatalError() }
-        return photosCount.newCount
+        return photosCount.servicePhotosCount
     }
     
     
     // This method is responsible for the actions that will be performed when tapping on a table cell.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let id =  String(describing: ImagesListCell.self)
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: id, for: indexPath) as? ImagesListCell else {
-            return UITableViewCell()
-        }
-        cell.delegate = self
-        self.configureCell(cell: cell, indexPath: indexPath)
-        return cell
+        //let id =  String(describing: ImagesListCell.self)
+//        guard let cell = imagesListTableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath) as? ImagesListCell else {
+//            return UITableViewCell()
+//        }
+        let cell = imagesListTableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath) // 1
+
+                guard let imageListCell = cell as? ImagesListCell else { // 2
+                    return UITableViewCell()
+                }
+
+//                configCell(for: imageListCell) // 3
+//                return imageListCell // 4
+        imageListCell.delegate = self
+        print("\n✅\nimageListCell: \(imageListCell)\n")
+        self.configureCell(cell: imageListCell, indexPath: indexPath)
+        return imageListCell
+        
     }
     
     
@@ -90,10 +101,10 @@ extension ImagesListViewController: UITableViewDataSource {
 extension ImagesListViewController {
     func updateTableViewAnimated() {
         guard let photosCount = presenter?.photosInServiceAndPhotosArrayNotEqual() else { return }
-        if photosCount.oldCount != photosCount.newCount {
+        if photosCount.localPhotosCount != photosCount.servicePhotosCount {
             self.imagesListTableView.performBatchUpdates {
                 var indexPaths: [IndexPath] = []
-                for i in photosCount.oldCount..<photosCount.newCount {
+                for i in photosCount.localPhotosCount..<photosCount.servicePhotosCount {
                     indexPaths.append(IndexPath(row: i, section: 0))
                 }
                 imagesListTableView.insertRows(at: indexPaths, with: .automatic)
@@ -102,30 +113,31 @@ extension ImagesListViewController {
     }
     
     private func configureCell(cell: ImagesListCell, indexPath: IndexPath) {
-        let gradient = CAGradientLayer()
-        guard let photo = presenter?.getPhotoFromArray(index: indexPath.row) else { return }
-        let date = photo.createdAt
-        guard let createdAt = date?.stringFromDate else { return }
-        cell.configureCurrentCellContent(photo: photo, createdAt: createdAt)
-        cell.imagesListCellImage.configureGragient(
-            gradient: gradient,
-            cornerRadius: 16,
-            size: cell.imagesListCellImage.frame.size,
-            position: .bottom
-        )
-        //----------------------------------
-        guard let thumbImageUrl = URL(string: photo.thumbImageURL),
-              let placeholderImage = UIImage(named: "card") else {
-            return
-        }
-        //----------------------------------
-        cell.imagesListCellImage.kf.setImage(
-            with: thumbImageUrl,
-            placeholder: placeholderImage
-        ) { [weak self] _ in
-            guard let self = self else { return }
-            cell.imagesListCellImage.removeGradient(gradient: gradient)
-            self.imagesListTableView.reloadRows(at: [indexPath], with: .automatic)
+        guard let photo = self.presenter?.getPhotoFromArray(index: indexPath.row) else { return }
+            let gradient = CAGradientLayer()
+            let date = photo.createdAt
+            guard let createdAt = date?.stringFromDate else { return }
+            cell.configureCurrentCellContent(photo: photo, createdAt: createdAt)
+            cell.imagesListCellImage.configureGragient(
+                gradient: gradient,
+                cornerRadius: 16,
+                size: cell.imagesListCellImage.frame.size,
+                position: .bottom
+            )
+            //----------------------------------
+            guard let thumbImageUrl = URL(string: photo.thumbImageURL),
+                  let placeholderImage = UIImage(named: "card") else {
+                return
+            }
+            //----------------------------------
+            print("\nphoto.id: = \(photo.id)")
+            cell.imagesListCellImage.kf.setImage(
+                with: thumbImageUrl,
+                placeholder: placeholderImage
+            ) { [weak self] _ in
+                guard let self = self else { return }
+                cell.imagesListCellImage.removeGradient(gradient: gradient)
+                self.imagesListTableView.reloadRows(at: [indexPath], with: .automatic)
         }
     }
 }

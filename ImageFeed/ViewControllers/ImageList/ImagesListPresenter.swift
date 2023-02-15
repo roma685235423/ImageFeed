@@ -58,8 +58,8 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
         let newCount = imagesListService.getPhotos().count
         photos = imagesListService.getPhotos()
         let result = photosCounts(
-            oldCount: oldCount,
-            newCount: newCount)
+            localPhotosCount: oldCount,
+            servicePhotosCount: newCount)
         return result
     }
     
@@ -98,6 +98,6 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
     }
 }
 struct photosCounts {
-    let oldCount: Int
-    let newCount: Int
+    let localPhotosCount: Int
+    let servicePhotosCount: Int
 }

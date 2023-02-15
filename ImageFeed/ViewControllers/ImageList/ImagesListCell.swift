@@ -10,6 +10,7 @@ protocol ImagesListCellDelegate: AnyObject {
 final class ImagesListCell: UITableViewCell {
     // MARK: - Properties
     weak var delegate: ImagesListCellDelegate?
+    static let reuseIdentifier = "ImagesListCell"
     
     // MARK: - Layout
     @IBOutlet weak var imagesListCellImage: UIImageView!
