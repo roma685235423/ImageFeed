@@ -30,7 +30,7 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
         self.presenter = ImagesListPresenter(imagesListService: imagesListService)
         presenter?.view = self
         presenter?.viewDidLoad()
-        imagesListTableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
+        //imagesListTableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
     }
     
     
@@ -69,23 +69,13 @@ extension ImagesListViewController: UITableViewDataSource {
     
     // This method is responsible for the actions that will be performed when tapping on a table cell.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //let id =  String(describing: ImagesListCell.self)
-//        guard let cell = imagesListTableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath) as? ImagesListCell else {
-//            return UITableViewCell()
-//        }
-        let cell = imagesListTableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath) // 1
-
-                guard let imageListCell = cell as? ImagesListCell else { // 2
-                    return UITableViewCell()
-                }
-
-//                configCell(for: imageListCell) // 3
-//                return imageListCell // 4
-        imageListCell.delegate = self
-        print("\n✅\nimageListCell: \(imageListCell)\n")
-        self.configureCell(cell: imageListCell, indexPath: indexPath)
-        return imageListCell
-        
+        let id =  String(describing: ImagesListCell.self)
+        guard let cell = imagesListTableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath) as? ImagesListCell else {
+            return UITableViewCell()
+        }
+        cell.delegate = self
+        self.configureCell(cell: cell, indexPath: indexPath)
+        return cell
     }
     
     
@@ -112,6 +102,7 @@ extension ImagesListViewController {
         }
     }
     
+    
     private func configureCell(cell: ImagesListCell, indexPath: IndexPath) {
         guard let photo = self.presenter?.getPhotoFromArray(index: indexPath.row) else { return }
             let gradient = CAGradientLayer()
@@ -130,7 +121,6 @@ extension ImagesListViewController {
                 return
             }
             //----------------------------------
-            print("\nphoto.id: = \(photo.id)")
             cell.imagesListCellImage.kf.setImage(
                 with: thumbImageUrl,
                 placeholder: placeholderImage
@@ -138,6 +128,7 @@ extension ImagesListViewController {
                 guard let self = self else { return }
                 cell.imagesListCellImage.removeGradient(gradient: gradient)
                 self.imagesListTableView.reloadRows(at: [indexPath], with: .automatic)
+                cell.prepareForReuse()
         }
     }
 }

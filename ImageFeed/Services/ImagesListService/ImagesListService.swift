@@ -45,6 +45,7 @@ final class ImagesListService: ImagesListServiceProtocol {
             guard let self = self else { return }
             DispatchQueue.main.async {
                 guard case .success(let result) = result else { return }
+                print("\n✅  RESULT !!!!!\n\(result)")
                     self.lastLoadedPage = nextPage
                     self.addNewPhotosToArray(photoResults: result)
                 }
@@ -62,6 +63,7 @@ extension ImagesListService {
     private func makeRequest(token: String, nextPage: Int) -> URLRequest {
         var urlComponents = URLComponents(string: self.getPhotosURLString)!
         urlComponents.queryItems = [
+            URLQueryItem(name: "per_page", value: "10"),
             URLQueryItem(name: "page", value: "\(nextPage)")    // page number
         ]
         guard let url = urlComponents.url else { fatalError("Failed to create URL") }
@@ -74,6 +76,7 @@ extension ImagesListService {
     private func addNewPhotosToArray(photoResults: [PhotoResult]) {
         let newPhotos = photoResults.map{ $0.convertToViewModel() }
         photos.append(contentsOf: newPhotos)
+//        print("\n‼️ PHOTOS IN SERV ‼️\n\(photos)")
         NotificationCenter.default.post(
             name: ImagesListService.didChangeNontification,
             object: self

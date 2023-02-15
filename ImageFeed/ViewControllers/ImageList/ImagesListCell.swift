@@ -36,7 +36,7 @@ extension ImagesListCell {
             imagesListCellTextLabel.text = createdAt.stringFromDate
         }
         changeLikeButtonImage(isLiked: photo.isLiked )
-        prepareForReuse()
+        //self.prepareForReuse()
     }
     
     
@@ -81,10 +81,6 @@ extension ImagesListCell {
         imagesListCellImage.layer.cornerRadius = 16
         imagesListCellImage.layer.masksToBounds = true
         imagesListCellImage.clipsToBounds = true
-    }
-    
-    private func configureImagesCellSize(photo: Photo) {
-        self.layer.bounds.size = photo.size
     }
     
     
