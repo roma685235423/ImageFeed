@@ -1,5 +1,11 @@
 import UIKit
 
+struct photosCounts {
+    let localPhotosCount: Int
+    let servicePhotosCount: Int
+}
+
+// MARK: - Protocol
 protocol ImagesListPresenterProtocol {
     var view: ImagesListViewControllerProtocol? { get set }
     func viewDidLoad()
@@ -8,20 +14,17 @@ protocol ImagesListPresenterProtocol {
     func changeLikeInPhotosService(photo: Photo, cell: ImagesListCell, index: Int)
     func isNeedToFetchNextPage(actualRow: Int)
     func cleanPhotos()
-}
-
-struct photosCounts {
-    let localPhotosCount: Int
-    let servicePhotosCount: Int
+    func getLargeImageCellURL(indexPath: IndexPath) -> URL
 }
 
 
 final class ImagesListPresenter: ImagesListPresenterProtocol {
+    // MARK: - Properties
     weak var view: ImagesListViewControllerProtocol?
     private var imagesListService: ImagesListServiceProtocol
     private var photos = [Photo]()
     
-    
+    // MARK: - Methods
     func viewDidLoad() {
         NotificationCenter.default
             .addObserver(
@@ -36,6 +39,14 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
         imagesListService.fetchPhotosNextPage()
     }
     
+    func getLargeImageCellURL(indexPath: IndexPath) -> URL {
+        imagesListService.getLargeImageCellURL(indexPath: indexPath)
+    }
+    
+    func cleanPhotos() {
+        photos = []
+        imagesListService.cleanPhotos()
+    }
     
     func isNeedToFetchNextPage(actualRow: Int) {
         if actualRow + 1 == imagesListService.getPhotos().count {
@@ -50,6 +61,7 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
             return nil
         }
     }
+    
     
     func photosInServiceAndPhotosArrayNotEqual() -> photosCounts {
         let oldCount = photos.count
@@ -72,18 +84,14 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
                     UIBlockingProgressHUD.dismiss()
                 }
             case.failure:
-                //self.showDefaultAlertPresenter()
+                self.view?.showDefaultAlert()
                 UIBlockingProgressHUD.dismiss()
                 return
             }
         }
     }
     
-    func cleanPhotos() {
-        photos = []
-        imagesListService.cleanPhotos()
-    }
-    
+    // MARK: - Initializer
     init(imagesListService: ImagesListServiceProtocol) {
         self.imagesListService = imagesListService
     }

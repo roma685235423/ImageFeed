@@ -10,7 +10,6 @@ protocol ImagesListCellDelegate: AnyObject {
 final class ImagesListCell: UITableViewCell {
     // MARK: - Properties
     weak var delegate: ImagesListCellDelegate?
-    static let reuseIdentifier = "ImagesListCell"
     
     // MARK: - Layout
     @IBOutlet weak var imagesListCellImage: UIImageView!
@@ -19,6 +18,7 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet private weak var imagesListCellGradient: UIView!
     
     private var gradientWasAdded = false
+    private var imagesListCellImageGradient = CAGradientLayer()
     // MARK: - Actions
     @IBAction func didTapLikeButton(_ sender: Any) {
         likeButtonClicked()
@@ -29,9 +29,24 @@ final class ImagesListCell: UITableViewCell {
 
 // MARK: - Extension
 extension ImagesListCell {
+    
+    func resizeImageGradient(){
+        if imagesListCellImageGradient.frame.size != imagesListCellImage.frame.size {
+            imagesListCellImageGradient.frame.size = imagesListCellImage.frame.size
+        }
+    }
+    func removeimagesListCellImageGradient() {
+        imagesListCellImage.removeGradient(gradient: imagesListCellImageGradient)
+    }
+    
     func configureCurrentCellContent(photo: Photo, createdAt: String) {
         configureImageView()
         createGradient()
+        imagesListCellImage.configureGragient(
+            gradient: imagesListCellImageGradient,
+            cornerRadius: 16,
+            size: imagesListCellImage.frame.size,
+            position: .center)
         if let createdAt = photo.createdAt {
             imagesListCellTextLabel.text = createdAt.stringFromDate
         }
@@ -45,6 +60,23 @@ extension ImagesListCell {
         self.imagesListCellLikeButton.setImage(likeButtonImage, for: .normal)
     }
     
+    
+    private func configureImageView() {
+        imagesListCellImage.layer.cornerRadius = 16
+        imagesListCellImage.layer.masksToBounds = true
+        imagesListCellImage.clipsToBounds = true
+    }
+    
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.imageView?.kf.cancelDownloadTask()
+    }
+    
+    
+    @objc private func likeButtonClicked(){
+        delegate?.imageListCellDidTapLike(cell: self)
+    }
     
     private func createGradient() {
         if gradientWasAdded == true {
@@ -74,23 +106,5 @@ extension ImagesListCell {
             imagesListCellGradient.layer.addSublayer(gradient)
             gradientWasAdded = true
         }
-    }
-    
-    
-    private func configureImageView() {
-        imagesListCellImage.layer.cornerRadius = 16
-        imagesListCellImage.layer.masksToBounds = true
-        imagesListCellImage.clipsToBounds = true
-    }
-    
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        self.imageView?.kf.cancelDownloadTask()
-    }
-    
-    
-    @objc private func likeButtonClicked(){
-        delegate?.imageListCellDidTapLike(cell: self)
     }
 }
