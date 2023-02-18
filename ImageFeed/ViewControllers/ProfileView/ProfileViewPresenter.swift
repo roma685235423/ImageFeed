@@ -59,7 +59,7 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
     }
     
     
-    private func fetchProfile(token: String) {
+     func fetchProfile(token: String) {
         helper.fetchProfile(token: token) { [weak self] result in
             guard let self = self else { return }
             switch result{
