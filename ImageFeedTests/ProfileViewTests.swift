@@ -197,6 +197,8 @@ final class ProfileViewHelperSpy: ProfileViewHelperProtocol {
     }
 }
 
+
+
 fileprivate struct ProfileImageService {
     var avatarURL: URL?
     var token: String

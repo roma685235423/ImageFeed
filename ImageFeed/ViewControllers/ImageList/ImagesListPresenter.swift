@@ -9,7 +9,7 @@ struct photosCounts {
 protocol ImagesListPresenterProtocol {
     var view: ImagesListViewControllerProtocol? { get set }
     func viewDidLoad()
-    func photosInServiceAndPhotosArrayNotEqual() -> photosCounts
+    func photosInServiceAndPhotosArrayCounters() -> photosCounts
     func getPhotoFromArray(index: Int) -> Photo?
     func changeLikeInPhotosService(photo: Photo, cell: ImagesListCell, index: Int)
     func isNeedToFetchNextPage(actualRow: Int)
@@ -63,7 +63,7 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
     }
     
     
-    func photosInServiceAndPhotosArrayNotEqual() -> photosCounts {
+    func photosInServiceAndPhotosArrayCounters() -> photosCounts {
         let oldCount = photos.count
         let newCount = imagesListService.getPhotos().count
         photos = imagesListService.getPhotos()

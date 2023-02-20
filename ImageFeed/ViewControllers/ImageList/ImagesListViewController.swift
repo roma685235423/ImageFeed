@@ -56,7 +56,7 @@ extension ImagesListViewController: UITableViewDataSource {
     }
     // This method is responsible for determining the number of cells in the table
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let photosCount = presenter?.photosInServiceAndPhotosArrayNotEqual() else { fatalError("Presenter not exist") }
+        guard let photosCount = presenter?.photosInServiceAndPhotosArrayCounters() else { fatalError("Presenter not exist") }
         return photosCount.servicePhotosCount
     }
     
@@ -95,7 +95,7 @@ extension ImagesListViewController {
     }
     
     func updateTableViewAnimated() {
-        guard let photosCount = presenter?.photosInServiceAndPhotosArrayNotEqual() else { return }
+        guard let photosCount = presenter?.photosInServiceAndPhotosArrayCounters() else { return }
         if photosCount.localPhotosCount != photosCount.servicePhotosCount {
             self.imagesListTableView.performBatchUpdates {
                 var indexPaths: [IndexPath] = []
