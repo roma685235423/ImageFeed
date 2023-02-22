@@ -6,12 +6,12 @@ import UIKit
 
 final class ImagesListTests: XCTestCase {
     let photos = [Photo(id: "test id 1",
-                      size: CGSize(width: 50, height: 50),
-                      createdAt: nil,
-                      welcomeDescription: "test 1 welcomeDescription",
-                      thumbImageURL: "test 1 thumbImageURL",
-                      largeImageURL: "test 1 largeImageURL",
-                      isLiked: true)]
+                        size: CGSize(width: 50, height: 50),
+                        createdAt: nil,
+                        welcomeDescription: "test 1 welcomeDescription",
+                        thumbImageURL: "test 1 thumbImageURL",
+                        largeImageURL: "test 1 largeImageURL",
+                        isLiked: true)]
     func testViewControllerCallsViewDidLoad() {
         //given
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

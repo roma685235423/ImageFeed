@@ -161,6 +161,7 @@ extension ProfileViewController {
         nameLabel.text = "-"
         nameLabel.textColor = UIColor(named: "white")
         nameLabel.font = UIFont(name: "YSDisplay-Medium", size: 23.0)
+        nameLabel.accessibilityIdentifier = "Name Lastname"
         NSLayoutConstraint.activate([
             nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
             nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8),
@@ -174,6 +175,7 @@ extension ProfileViewController {
         loginNameLabel.text = "-"
         loginNameLabel.textColor = UIColor(named: "gray")
         loginNameLabel.font = UIFont.systemFont(ofSize: 13.0)
+        loginNameLabel.accessibilityIdentifier = "@username"
         NSLayoutConstraint.activate([
             loginNameLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
             loginNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8)
@@ -206,6 +208,7 @@ extension ProfileViewController {
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoutButton)
         logoutButton.tintColor = UIColor(named: "red")
+        logoutButton.accessibilityIdentifier = "logout button"
         NSLayoutConstraint.activate([
             logoutButton.widthAnchor.constraint(equalToConstant: 20),
             logoutButton.heightAnchor.constraint(equalToConstant: 22),
@@ -232,6 +235,7 @@ extension ProfileViewController {
         }
         alert.addAction(noAction)
         alert.addAction(yesAction)
+        alert.restorationIdentifier = "Bye bye!"
         present(alert, animated: true)
     }
     

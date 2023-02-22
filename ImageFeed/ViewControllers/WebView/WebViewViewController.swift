@@ -32,7 +32,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
     
     
     //MARK: - Layout
-    @IBOutlet private var webView: WKWebView!
+    @IBOutlet  var webView: WKWebView!
     @IBOutlet weak var progressView: UIProgressView!
     
     
@@ -45,6 +45,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
         super.viewDidLoad()
         setNeedsStatusBarAppearanceUpdate()
         webView.navigationDelegate = self
+        webView.accessibilityIdentifier = "UnsplashWebView"
         presenter?.viewDidload()
     }
     

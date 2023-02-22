@@ -172,6 +172,7 @@
                                                 </view>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0m3-a5-vPa" userLabel="Like Button">
                                                     <rect key="frame" x="366" y="3" width="42" height="42"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="like button"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="42" id="Ikq-iv-a03"/>
                                                         <constraint firstAttribute="height" constant="42" id="eHW-od-6in"/>
@@ -273,8 +274,9 @@
                                     <action selector="didTapShareButton:" destination="ojc-FU-vQ5" eventType="touchUpInside" id="ofX-4p-crt"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ak-cg-UfS" userLabel="Backward Button">
+                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="nav back button white" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ak-cg-UfS" userLabel="Backward Button">
                                 <rect key="frame" x="8" y="55" width="48" height="48"/>
+                                <accessibility key="accessibilityConfiguration" identifier="nav back button white"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="lvW-kN-CVX"/>
                                     <constraint firstAttribute="height" constant="48" id="zci-hI-zQA"/>
