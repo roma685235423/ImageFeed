@@ -6,9 +6,7 @@ protocol AuthHelperProtocol {
     func code(from url: URL) -> String?
 }
 
-
-
-class AuthHelper: AuthHelperProtocol {
+final class AuthHelper: AuthHelperProtocol {
     // MARK: - Properties
     let configuration: AuthConfiguration
     
@@ -33,7 +31,7 @@ class AuthHelper: AuthHelperProtocol {
     
     func code(from url: URL) -> String?{
         if let urlComponents = URLComponents(string: url.absoluteString),
-           urlComponents.path == "/oauth/authorize/native",
+           urlComponents.path == Constants().authorize,
            let items = urlComponents.queryItems,
            let codeItem = items.first(where: { $0.name == "code" })
         {

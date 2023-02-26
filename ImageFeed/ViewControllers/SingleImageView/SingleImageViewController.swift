@@ -3,7 +3,7 @@ import Kingfisher
 
 
 
-class SingleImageViewController: UIViewController {
+final class SingleImageViewController: UIViewController {
     // MARK: - Properties
     var largeImageUrl: URL?
     

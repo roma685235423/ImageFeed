@@ -11,7 +11,7 @@ protocol ProfileViewControllerProtocol: AnyObject {
     func updateProfileDetails(profile: Profile)
 }
 
-class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
+final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
     //MARK: - Layout
     private var avatarImageView = UIImageView()
     private let nameLabel = UILabel()
@@ -86,7 +86,8 @@ extension ProfileViewController {
     
     // This method is responsible for upload user avatar.
     func updateAvatar() {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             guard let url = self.presenter?.getAvatarURL() else { return }
             self.avatarImageView.configureGragient(
                 gradient: self.avatarImageViewGradient,
@@ -98,8 +99,7 @@ extension ProfileViewController {
             self.avatarImageView.kf.setImage(with: url,
                                              options: [.processor(processor),
                                                        .cacheSerializer(FormatIndicatedCacheSerializer.png)],
-                                             completionHandler: { [weak self] result in
-                guard let self = self else { return }
+                                             completionHandler: { result in
                 switch result{
                 case .success:
                     self.avatarImageView.removeGradient(gradient: self.avatarImageViewGradient)

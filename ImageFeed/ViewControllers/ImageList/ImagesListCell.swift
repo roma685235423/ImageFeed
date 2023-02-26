@@ -18,7 +18,7 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet private weak var imagesListCellGradient: UIView!
     
     private var gradientWasAdded = false
-    private var imagesListCellImageGradient = CAGradientLayer()
+    private let imagesListCellImageGradient = CAGradientLayer()
     // MARK: - Actions
     @IBAction func didTapLikeButton(_ sender: Any) {
         likeButtonClicked()

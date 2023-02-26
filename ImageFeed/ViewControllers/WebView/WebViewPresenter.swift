@@ -1,7 +1,7 @@
 import UIKit
 
 // MARK: - Protocol
-public protocol WebViewPresenterProtocol {
+internal protocol WebViewPresenterProtocol {
     var view: WebViewViewControllerProtocol? { get set }
     func viewDidload()
     func didUpdateProgressValue(_ newValue: Double)

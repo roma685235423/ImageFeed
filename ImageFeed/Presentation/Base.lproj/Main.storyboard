@@ -13,7 +13,7 @@
         <!--Authenticator View Controller-->
         <scene sceneID="zbj-xc-oj6">
             <objects>
-                <viewController storyboardIdentifier="AuthViewControllerStoryboard" definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" modalPresentationStyle="fullScreen" id="Wym-h9-3Sx" userLabel="Authenticator View Controller" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthViewControllerStoryboard" definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Wym-h9-3Sx" userLabel="Authenticator View Controller" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dK2-wY-GfO">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -29,7 +29,7 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Войти">
-                                    <fontDescription key="titleFontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="17"/>
+                                    <fontDescription key="titleFontDescription" name="YSDisplay-Bold" family="YS Display" pointSize="17"/>
                                     <color key="baseForegroundColor" name="black"/>
                                     <color key="baseBackgroundColor" name="white"/>
                                 </buttonConfiguration>

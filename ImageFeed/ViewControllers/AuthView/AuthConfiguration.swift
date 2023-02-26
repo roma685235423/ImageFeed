@@ -22,17 +22,8 @@ struct AuthConfiguration {
             secretKey: SecretKey,
             redirectURI: RedirectURI,
             accessScope: AccessScope,
-            authURLString: UnsplashAuthorizeURLString,
-            defaultBaseURL: DefaultBaseURL
+            defaultBaseURL: DefaultBaseURL,
+            authURLString: UnsplashAuthorizeURLString
         )
-    }
-    
-    init(accessKey: String, secretKey: String, redirectURI: String, accessScope: String, authURLString: String, defaultBaseURL: URL) {
-        self.accessKey = accessKey
-        self.secretKey = secretKey
-        self.redirectURI = redirectURI
-        self.accessScope = accessScope
-        self.defaultBaseURL = defaultBaseURL
-        self.authURLString = authURLString
     }
 }

@@ -21,7 +21,6 @@ final class ImageFeedUITests: XCTestCase {
     
     
     func testAuth() throws {
-        print(app.debugDescription)
         app.buttons["Authenticate"].tap()
         
         let webView = app.webViews["UnsplashWebView"]
@@ -32,7 +31,7 @@ final class ImageFeedUITests: XCTestCase {
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 10))
         
         loginTextField.tap()
-        loginTextField.typeText("")
+        loginTextField.typeText("roma685235423@icloud.com")
         loginTextField.swipeUp()
         
         let passwordTextField = webView.descendants(matching: .secureTextField).element
@@ -40,7 +39,7 @@ final class ImageFeedUITests: XCTestCase {
         
         
         passwordTextField.tap()
-        let password = ""
+        let password = "nogsab-bexcoq-3hutBa"
         passwordTextField.typeText(password)
         webView.swipeUp()
         sleep(1)
@@ -93,5 +92,7 @@ final class ImageFeedUITests: XCTestCase {
         app.buttons["logout button"].tap()
         
         app.alerts["Пока, пока!"].scrollViews.otherElements.buttons["Да"].tap()
+        sleep(2)
+        XCTAssertTrue(app.windows.firstMatch.otherElements["SplashViewControllerIdentifier"].exists)
     }
 }

@@ -123,7 +123,7 @@ extension ImagesListService {
     
     private func makeRequest(photoId: String, isLike: Bool) -> URLRequest {
         var urlComponents = URLComponents(string: self.getPhotosURLString)!
-        urlComponents.path = "/photos/\(photoId)/like"
+        urlComponents.path =  Constants().photos + photoId + Constants().like
         guard let url = urlComponents.url else { fatalError("Failed to create URL") }
         var request = URLRequest(url: url)
         let token = keychain.getBearerToken()

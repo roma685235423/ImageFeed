@@ -13,7 +13,7 @@ protocol WebViewViewControllerDelegate: AnyObject {
 }
 
 
-public protocol WebViewViewControllerProtocol: AnyObject {
+internal protocol WebViewViewControllerProtocol: AnyObject {
     var presenter: WebViewPresenterProtocol? { get set }
     func load(request: URLRequest)
     func setProgressValue(_ newValue: Float)
@@ -32,7 +32,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
     
     
     //MARK: - Layout
-    @IBOutlet  var webView: WKWebView!
+    @IBOutlet private var webView: WKWebView!
     @IBOutlet weak var progressView: UIProgressView!
     
     

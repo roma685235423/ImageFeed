@@ -45,7 +45,8 @@ final class ProfileViewHelper: ProfileViewHelperProtocol {
     }
     
     func fetchProfile (token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
-        profileService.fetchProfile(token) { result in
+        profileService.fetchProfile(token) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let profile):
                 self.profileService.setProfile(profile: profile)
@@ -58,7 +59,7 @@ final class ProfileViewHelper: ProfileViewHelperProtocol {
     
     func fetchProfileImageURL(completion: @escaping (Result <String, Error>) -> Void) {
         ProfileImageService.shared.fetchProfileImageURL(
-            username: self.profileService.profile?.username ?? "NIL") {[weak self] result in
+            username: self.profileService.profile?.username ?? "NIL") { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success(let avatarURL):

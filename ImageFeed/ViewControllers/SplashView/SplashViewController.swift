@@ -1,6 +1,6 @@
 import UIKit
 
-class SplashViewController: UIViewController {
+final class SplashViewController: UIViewController {
     
     //MARK: - Properties
     private let splashScreenView = UIImageView()
@@ -18,6 +18,7 @@ class SplashViewController: UIViewController {
         setNeedsStatusBarAppearanceUpdate()
         configureSplashScreenLogo()
         view.backgroundColor = UIColor(named: "black")
+        view.accessibilityIdentifier = "SplashViewControllerIdentifier"
     }
     
     override func viewDidAppear(_ animated: Bool) {
