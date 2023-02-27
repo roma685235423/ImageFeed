@@ -9,7 +9,7 @@ enum NetworkError: Error {
 
 
 extension NetworkError: CustomStringConvertible {
-    public var description: String {
+    internal var description: String {
         switch self {
         case .decodeError:
             return "Decode data error"
@@ -21,7 +21,7 @@ extension NetworkError: CustomStringConvertible {
 
 
 extension NetworkError: LocalizedError {
-    public var errorDescription: String? {
+    internal var errorDescription: String? {
         switch self {
         case .decodeError:
             return NSLocalizedString("Decode data error", comment: "Failed to decode received data")

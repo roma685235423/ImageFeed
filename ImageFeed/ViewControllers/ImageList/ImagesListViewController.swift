@@ -1,13 +1,16 @@
 import UIKit
 import Kingfisher
 
-final class ImagesListViewController: UIViewController {
+protocol ImagesListViewControllerProtocol: AnyObject {
+    var presenter: ImagesListPresenterProtocol? { get set }
+    func showDefaultAlert()
+    func updateTableViewAnimated()
+}
+
+final class ImagesListViewController: UIViewController & ImagesListViewControllerProtocol{
     // MARK: - Properties
-    private var photos = [Photo]()
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
-    var imagesListService = ImagesListService.shared
-    private var imagesListViewControllerObserver: NSObjectProtocol?
-    static let shared = ImagesListViewController()
+    var presenter: ImagesListPresenterProtocol?
     
     // MARK: - Layout
     @IBOutlet weak var imagesListTableView: UITableView!
@@ -18,21 +21,10 @@ final class ImagesListViewController: UIViewController {
         return .lightContent
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNeedsStatusBarAppearanceUpdate()
-        NotificationCenter.default
-            .addObserver(
-                forName: ImagesListService.didChangeNontification,
-                object: nil,
-                queue: .main
-            ){ [weak self] _ in
-                guard let self = self else { return }
-                self.updateTableViewAnimated()
-                UIBlockingProgressHUD.dismiss()
-            }
-        imagesListService.fetchPhotosNextPage()
+        presenter?.view = self
+        presenter?.viewDidLoad()
     }
     
     
@@ -41,7 +33,7 @@ final class ImagesListViewController: UIViewController {
         if segue.identifier == ShowSingleImageSegueIdentifier {
             let vc = segue.destination as! SingleImageViewController
             let indexPath = sender as! IndexPath
-            vc.largeImageUrl = imagesListService.getLargeImageCellURL(indexPath: indexPath)
+            vc.largeImageUrl = presenter?.getLargeImageCellURL(indexPath: indexPath)
         } else {
             super.prepare(for: segue, sender: sender)
         }
@@ -49,10 +41,8 @@ final class ImagesListViewController: UIViewController {
 }
 
 
-
 // MARK: - Extensions
 extension ImagesListViewController: UITableViewDelegate {
-    
     // This method is responsible for the action that is performed when tapping on a table cell.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: ShowSingleImageSegueIdentifier, sender: indexPath)
@@ -60,19 +50,20 @@ extension ImagesListViewController: UITableViewDelegate {
 }
 
 
-
 extension ImagesListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
     // This method is responsible for determining the number of cells in the table
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return imagesListService.photos.count
+        guard let photosCount = presenter?.photosInServiceAndPhotosArrayCounters() else { fatalError("Presenter not exist") }
+        return photosCount.servicePhotosCount
     }
-    
     
     // This method is responsible for the actions that will be performed when tapping on a table cell.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let id =  String(describing: ImagesListCell.self)
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: id, for: indexPath) as? ImagesListCell else {
+        guard let cell = imagesListTableView.dequeueReusableCell(withIdentifier: id, for: indexPath) as? ImagesListCell else {
             return UITableViewCell()
         }
         cell.delegate = self
@@ -80,26 +71,35 @@ extension ImagesListViewController: UITableViewDataSource {
         return cell
     }
     
-    
     // This method is responsible for call fetchPhotosNextPage
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row + 1 == imagesListService.photos.count {
-            self.imagesListService.fetchPhotosNextPage()
-        }
+        guard let presenter = presenter else { return }
+        presenter.isNeedToFetchNextPage(actualRow: indexPath.row)
     }
 }
 
 
+extension ImagesListViewController: ImagesListCellDelegate{
+    func imageListCellDidTapLike(cell: ImagesListCell) {
+        guard let indexPath = imagesListTableView.indexPath(for: cell) else {return}
+        guard let photo = presenter?.getPhotoFromArray(index: indexPath.row) else { return }
+        UIBlockingProgressHUD.show()
+        presenter?.changeLikeInPhotosService(photo: photo, cell: cell, index: indexPath.row)
+    }
+}
+
 
 extension ImagesListViewController {
+    func showDefaultAlert() {
+        self.showDefaultAlertPresenter()
+    }
+    
     func updateTableViewAnimated() {
-        let oldCount = photos.count
-        let newCount = imagesListService.photos.count
-        photos = imagesListService.photos
-        if oldCount != newCount {
+        guard let photosCount = presenter?.photosInServiceAndPhotosArrayCounters() else { return }
+        if photosCount.localPhotosCount != photosCount.servicePhotosCount {
             self.imagesListTableView.performBatchUpdates {
                 var indexPaths: [IndexPath] = []
-                for i in oldCount..<newCount {
+                for i in photosCount.localPhotosCount..<photosCount.servicePhotosCount {
                     indexPaths.append(IndexPath(row: i, section: 0))
                 }
                 imagesListTableView.insertRows(at: indexPaths, with: .automatic)
@@ -107,19 +107,11 @@ extension ImagesListViewController {
         }
     }
     
-    
     private func configureCell(cell: ImagesListCell, indexPath: IndexPath) {
-        let gradient = CAGradientLayer()
-        let photo = photos[indexPath.row]
+        guard let photo = self.presenter?.getPhotoFromArray(index: indexPath.row) else { return }
         let date = photo.createdAt
         guard let createdAt = date?.stringFromDate else { return }
         cell.configureCurrentCellContent(photo: photo, createdAt: createdAt)
-        cell.imagesListCellImage.configureGragient(
-            gradient: gradient,
-            cornerRadius: 16,
-            size: cell.imagesListCellImage.frame.size,
-            position: .bottom
-        )
         guard let thumbImageUrl = URL(string: photo.thumbImageURL),
               let placeholderImage = UIImage(named: "card") else {
             return
@@ -129,39 +121,10 @@ extension ImagesListViewController {
             placeholder: placeholderImage
         ) { [weak self] _ in
             guard let self = self else { return }
-            cell.imagesListCellImage.removeGradient(gradient: gradient)
             self.imagesListTableView.reloadRows(at: [indexPath], with: .automatic)
+            cell.removeimagesListCellImageGradient()
+            cell.prepareForReuse()
         }
-    }
-    
-    
-    func cleanPhotos(){
-        photos = []
-    }
-}
-
-
-
-extension ImagesListViewController: ImagesListCellDelegate{
-    
-    func imageListCellDidTapLike(cell: ImagesListCell) {
-        guard let indexPath = imagesListTableView.indexPath(for: cell) else {return}
-        let photo = photos[indexPath.row]
-        UIBlockingProgressHUD.show()
-        imagesListService.changeLike(photoId: photo.id, isLike: photo.isLiked) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    self.photos[indexPath.row].isLiked.toggle()
-                    cell.changeLikeButtonImage(isLiked: self.photos[indexPath.row].isLiked)
-                    UIBlockingProgressHUD.dismiss()
-                }
-            case.failure:
-                self.showDefaultAlertPresenter()
-                UIBlockingProgressHUD.dismiss()
-                return
-            }
-        }
+        cell.resizeImageGradient()
     }
 }

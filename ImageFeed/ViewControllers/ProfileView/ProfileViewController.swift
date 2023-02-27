@@ -1,8 +1,17 @@
 import UIKit
 import Kingfisher
 
-class ProfileViewController: UIViewController {
-    
+
+protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfileViewPresenterProtocol? { get set }
+    func configureProfileDetails()
+    func updateAvatar()
+    func showDefaultAlert()
+    func removeProfileGradients()
+    func updateProfileDetails(profile: Profile)
+}
+
+final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
     //MARK: - Layout
     private var avatarImageView = UIImageView()
     private let nameLabel = UILabel()
@@ -14,40 +23,46 @@ class ProfileViewController: UIViewController {
     private var loginNameLabelGradient = CAGradientLayer()
     private var descriptionLabelGradient = CAGradientLayer()
     
-    private let profileImageService = ProfileImageService.shared
-    private var profileImageServiceObserver: NSObjectProtocol?
-    private let imagesListViewController = ImagesListViewController.shared
-    private let profileService = ProfileService.shared
-    
-    private let queue = DispatchQueue(label: "profile.vc.queue", qos: .unspecified)
-    
+    var presenter: ProfileViewPresenterProtocol?
     
     // MARK: - Life Cycle
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setNeedsStatusBarAppearanceUpdate()
-        if let token = profileImageService.keychainWrapper.getBearerToken(){
-            fetchProfile(token: token)
-        }
-        self.configureProfileDetails()
+        presenter?.view = self
+        presenter?.viewDidLoad()
     }
-    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if profileImageService.avatarURL == nil {
+        view.backgroundColor = UIColor(named: "black")
+        configureProfileImageGradient()
+        configureProfileLabelsGradients()
+    }
+}
+
+
+// MARK: - Extensions
+extension ProfileViewController {
+    
+    func configureProfileImageGradient() {
+        guard let presenter = presenter else { return }
+        if presenter.avatarURLEqualNil() {
             avatarImageView.configureGragient(
                 gradient: avatarImageViewGradient,
                 cornerRadius: 35,
                 size: CGSize(width: 70, height: 70),
                 position: .center)
         }
-        if profileService.profile == nil {
+    }
+    
+    func configureProfileLabelsGradients() {
+        guard let presenter = presenter else { return }
+        if presenter.profileEqualNil() {
             self.nameLabel.configureGragient(
                 gradient: self.nameLabelGradient,
                 cornerRadius: 9,
@@ -68,10 +83,63 @@ class ProfileViewController: UIViewController {
             )
         }
     }
+    
+    // This method is responsible for upload user avatar.
+    func updateAvatar() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            guard let url = self.presenter?.getAvatarURL() else { return }
+            self.avatarImageView.configureGragient(
+                gradient: self.avatarImageViewGradient,
+                cornerRadius: 35,
+                size: self.avatarImageView.frame.size,
+                position: .top
+            )
+            let processor = RoundCornerImageProcessor(cornerRadius: 35,backgroundColor: .clear)
+            self.avatarImageView.kf.setImage(with: url,
+                                             options: [.processor(processor),
+                                                       .cacheSerializer(FormatIndicatedCacheSerializer.png)],
+                                             completionHandler: { result in
+                switch result{
+                case .success:
+                    self.avatarImageView.removeGradient(gradient: self.avatarImageViewGradient)
+                case .failure:
+                    self.avatarImageView.image = UIImage(named: "userpick_placeholder")
+                    self.avatarImageView.removeGradient(gradient: self.avatarImageViewGradient)
+                }
+            }
+            )
+        }
+    }
+    
+    func updateProfileDetails(profile: Profile) {
+        DispatchQueue.main.async {
+            self.nameLabel.text = profile.name
+            self.loginNameLabel.text = profile.loginName
+            self.descriptionLabel.text = profile.bio
+        }
+    }
+    
+    func showDefaultAlert() {
+        self.showDefaultAlertPresenter()
+    }
+    
+    func removeProfileGradients() {
+        descriptionLabel.removeGradient(gradient: descriptionLabelGradient)
+        nameLabel.removeGradient(gradient: nameLabelGradient)
+        loginNameLabel.removeGradient(gradient: loginNameLabelGradient)
+    }
+    func configureProfileDetails() {
+        configureAvatarImageView()
+        configureNameLabel()
+        configureLoginNameLabel()
+        configureDescriptionLabel()
+        configureLogoutButon()
+    }
 }
 
 
-// MARK: - Extensions
+
 extension ProfileViewController {
     // This method is responsible for configure user profile avatar.
     private func configureAvatarImageView() {
@@ -86,7 +154,6 @@ extension ProfileViewController {
         ])
     }
     
-    
     // This method is responsible for configure user name label.
     private func configureNameLabel() {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -94,12 +161,12 @@ extension ProfileViewController {
         nameLabel.text = "-"
         nameLabel.textColor = UIColor(named: "white")
         nameLabel.font = UIFont(name: "YSDisplay-Medium", size: 23.0)
+        nameLabel.accessibilityIdentifier = "Name Lastname"
         NSLayoutConstraint.activate([
             nameLabel.leadingAnchor.constraint(equalTo: avatarImageView.leadingAnchor),
             nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8),
         ])
     }
-    
     
     // This method is responsible for configure user login name label.
     private func configureLoginNameLabel() {
@@ -108,12 +175,12 @@ extension ProfileViewController {
         loginNameLabel.text = "-"
         loginNameLabel.textColor = UIColor(named: "gray")
         loginNameLabel.font = UIFont.systemFont(ofSize: 13.0)
+        loginNameLabel.accessibilityIdentifier = "@username"
         NSLayoutConstraint.activate([
             loginNameLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
             loginNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8)
         ])
     }
-    
     
     // This method is responsible for configure user profile description label.
     private func configureDescriptionLabel() {
@@ -132,7 +199,6 @@ extension ProfileViewController {
         ])
     }
     
-    
     // This method is responsible for configure logout button.
     private func configureLogoutButon() {
         let logoutButton: UIButton
@@ -142,6 +208,7 @@ extension ProfileViewController {
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoutButton)
         logoutButton.tintColor = UIColor(named: "red")
+        logoutButton.accessibilityIdentifier = "logout button"
         NSLayoutConstraint.activate([
             logoutButton.widthAnchor.constraint(equalToConstant: 20),
             logoutButton.heightAnchor.constraint(equalToConstant: 22),
@@ -150,37 +217,6 @@ extension ProfileViewController {
         ])
     }
     
-    
-    // This method is responsible for upload user avatar.
-    private func updateAvatar() {
-        DispatchQueue.main.async {
-            guard
-                let profileImageURL = ProfileImageService.shared.avatarURL,
-                let url = URL(string: profileImageURL)
-            else { return }
-            self.avatarImageView.configureGragient(
-                gradient: self.avatarImageViewGradient,
-                cornerRadius: 35,
-                size: self.avatarImageView.frame.size,
-                position: .top
-            )
-            let processor = RoundCornerImageProcessor(cornerRadius: 35,backgroundColor: .clear)
-            self.avatarImageView.kf.setImage(with: url,
-                                             options: [.processor(processor),
-                                                       .cacheSerializer(FormatIndicatedCacheSerializer.png)],
-                                             completionHandler: { [weak self] result in
-                guard let self = self else { return }
-                switch result{
-                case .success:
-                    self.avatarImageView.removeGradient(gradient: self.avatarImageViewGradient)
-                case .failure:
-                    self.avatarImageView.image = UIImage(named: "userpick_placeholder")
-                    self.avatarImageView.removeGradient(gradient: self.avatarImageViewGradient)
-                }
-            }
-            )
-        }
-    }
     
     @objc
     private func didTapLogoutButton() {
@@ -192,75 +228,20 @@ extension ProfileViewController {
         let noAction = UIAlertAction(title: "Нет", style: .cancel)
         let yesAction = UIAlertAction(title: "Да", style: .default){[weak self] _ in
             guard let self = self else { return }
-            WebViewViewController.clean()
-            self.profileImageService.keychainWrapper.cleanTokensStorage()
-            self.imagesListViewController.imagesListService.cleanPhotos()
-            self.imagesListViewController.cleanPhotos()
-            self.profileService.cleanProfile()
-            self.profileImageService.cleanAvatarUrl()
+            self.cleanCurrentSessionContext()
             guard let window = UIApplication.shared.windows.first else {fatalError("Impossible to create window")}
             window.rootViewController = SplashViewController()
             window.makeKeyAndVisible()
         }
         alert.addAction(noAction)
         alert.addAction(yesAction)
+        alert.restorationIdentifier = "Bye bye!"
         present(alert, animated: true)
     }
-}
-
-
-
-extension ProfileViewController {
-    private func updateProfileDetails(profile: Profile) {
-        self.nameLabel.text = profile.name
-        self.loginNameLabel.text = profile.loginName
-        self.descriptionLabel.text = profile.bio
-    }
     
     
-    private func configureProfileDetails() {
-        configureAvatarImageView()
-        configureNameLabel()
-        configureLoginNameLabel()
-        configureDescriptionLabel()
-        configureLogoutButon()
-        view.backgroundColor = UIColor(named: "black")
-    }
-    
-    
-    private func fetchProfile (token: String) {
-        profileService.fetchProfile(token) {[weak self] result in
-            guard let self = self else {return}
-            switch result {
-            case .success(let profile):
-                self.queue.sync {
-                    self.profileService.setProfile(profile: profile)
-                    self.updateProfileDetails(profile: profile)
-                }
-                self.queue.sync {
-                    self.fetchProfileImageURL()
-                }
-                self.descriptionLabel.removeGradient(gradient: self.descriptionLabelGradient)
-                self.nameLabel.removeGradient(gradient: self.nameLabelGradient)
-                self.loginNameLabel.removeGradient(gradient: self.loginNameLabelGradient)
-            case .failure:
-                self.showDefaultAlertPresenter()
-            }
-        }
-    }
-    
-    
-    private func fetchProfileImageURL() {
-        ProfileImageService.shared.fetchProfileImageURL(
-            username: self.profileService.profile?.username ?? "NIL") { result in
-                switch result {
-                case .success(let avatarURL):
-                        self.profileImageService.setAvatarUrlString(avatarUrl: avatarURL)
-                        self.updateAvatar()
-                case .failure:
-                    self.showDefaultAlertPresenter()
-                }
-            }
+    private func cleanCurrentSessionContext() {
+        WebViewViewController.clean()
+        presenter?.cleanCurrentSessionContext()
     }
 }
-

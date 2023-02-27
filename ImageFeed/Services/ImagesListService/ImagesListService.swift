@@ -1,6 +1,14 @@
 import Foundation
 
-final class ImagesListService {
+protocol ImagesListServiceProtocol {
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping(Result<Void, Error>) -> Void)
+    func fetchPhotosNextPage()
+    func getPhotos() -> [Photo]
+    func cleanPhotos()
+    func getLargeImageCellURL(indexPath: IndexPath) -> URL
+}
+
+final class ImagesListService: ImagesListServiceProtocol {
     
     // MARK: - Properties
     private (set) var photos: [Photo] = []
@@ -8,9 +16,7 @@ final class ImagesListService {
     private let getPhotosURLString  = "https://api.unsplash.com/photos"
     private let session = URLSession.shared
     private var task: URLSessionTask?
-    
     private let keychain = ProfileImageService.shared.keychainWrapper
-    static let shared = ImagesListService()
     
     
     //MARK: - Notification
@@ -18,6 +24,11 @@ final class ImagesListService {
     
     
     //MARK: - Methods
+    
+    func getPhotos() -> [Photo] {
+        photos
+    }
+    
     func fetchPhotosNextPage() {
         assert(Thread.isMainThread)
         if task != nil { return }
@@ -37,7 +48,6 @@ final class ImagesListService {
                 guard case .success(let result) = result else { return }
                     self.lastLoadedPage = nextPage
                     self.addNewPhotosToArray(photoResults: result)
-                    
                 }
                 self.task = nil
             }
@@ -53,6 +63,7 @@ extension ImagesListService {
     private func makeRequest(token: String, nextPage: Int) -> URLRequest {
         var urlComponents = URLComponents(string: self.getPhotosURLString)!
         urlComponents.queryItems = [
+            URLQueryItem(name: "per_page", value: "10"),
             URLQueryItem(name: "page", value: "\(nextPage)")    // page number
         ]
         guard let url = urlComponents.url else { fatalError("Failed to create URL") }
@@ -112,7 +123,7 @@ extension ImagesListService {
     
     private func makeRequest(photoId: String, isLike: Bool) -> URLRequest {
         var urlComponents = URLComponents(string: self.getPhotosURLString)!
-        urlComponents.path = "/photos/\(photoId)/like"
+        urlComponents.path =  Constants().photos + photoId + Constants().like
         guard let url = urlComponents.url else { fatalError("Failed to create URL") }
         var request = URLRequest(url: url)
         let token = keychain.getBearerToken()
