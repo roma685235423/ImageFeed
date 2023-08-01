@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 final class TabBarController: UITabBarController {
-    
+    // MARK: - Life cicle
     override func awakeFromNib() {
         super.awakeFromNib()
         

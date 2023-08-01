@@ -11,3 +11,4 @@ private let dateToStringFormatter: DateFormatter = {
     formatter.timeStyle = .none
     return formatter
 }()
+

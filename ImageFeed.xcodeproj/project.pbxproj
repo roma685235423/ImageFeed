@@ -21,8 +21,6 @@
 		BA5B52AC29A55D7B00257C17 /* ImagesListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B52AB29A55D7B00257C17 /* ImagesListTests.swift */; };
 		BA5B52AF29A5608200257C17 /* ProfileViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B52AE29A5608200257C17 /* ProfileViewTests.swift */; };
 		BA5D56F5292E924C00264CC2 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D56F4292E924C00264CC2 /* ImagesListCell.swift */; };
-		BA5D852A292AAA34000D3168 /* YS Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BA5D8528292AAA34000D3168 /* YS Display-Bold.ttf */; };
-		BA5D852B292AAA34000D3168 /* YS Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BA5D8529292AAA34000D3168 /* YS Display-Medium.ttf */; };
 		BA6F4E5F2929171D0026FC74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6F4E5E2929171D0026FC74 /* AppDelegate.swift */; };
 		BA6F4E612929171D0026FC74 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6F4E602929171D0026FC74 /* SceneDelegate.swift */; };
 		BA6F4E632929171D0026FC74 /* ImagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6F4E622929171D0026FC74 /* ImagesListViewController.swift */; };
@@ -42,6 +40,7 @@
 		BAC49F3C2996E01600E87D9F /* WebViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC49F3B2996E01600E87D9F /* WebViewTests.swift */; };
 		BAC49F452998295700E87D9F /* ProfileViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC49F442998295700E87D9F /* ProfileViewPresenter.swift */; };
 		BAC49F56299BD36F00E87D9F /* ImagesListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC49F55299BD36F00E87D9F /* ImagesListPresenter.swift */; };
+		BACD49282A7996020094B342 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BACD49272A7996020094B342 /* Kingfisher */; };
 		BAD5A08029923AFD000D0613 /* PhotoResult+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD5A07F29923AFD000D0613 /* PhotoResult+Extension.swift */; };
 		BADBCE43297E82470093B45C /* ImagesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADBCE42297E82470093B45C /* ImagesListService.swift */; };
 		BADBCE45297E828A0093B45C /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADBCE44297E828A0093B45C /* Photo.swift */; };
@@ -53,7 +52,6 @@
 		BAE3E1482964954E002E1B69 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE3E1472964954E002E1B69 /* Profile.swift */; };
 		BAE794BF2979C6090030EC92 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = BAE794BE2979C6090030EC92 /* ProgressHUD */; };
 		BAE794C22979C6230030EC92 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = BAE794C12979C6230030EC92 /* SwiftKeychainWrapper */; };
-		BAE794C82979C64F0030EC92 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BAE794C72979C64F0030EC92 /* Kingfisher */; };
 		BAED9C6C297885D600634A26 /* SwiftKeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED9C6B297885D600634A26 /* SwiftKeychainWrapper.swift */; };
 		BAED9C6F29791B5200634A26 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED9C6E29791B5200634A26 /* TabBarController.swift */; };
 /* End PBXBuildFile section */
@@ -91,8 +89,6 @@
 		BA5B52AB29A55D7B00257C17 /* ImagesListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListTests.swift; sourceTree = "<group>"; };
 		BA5B52AE29A5608200257C17 /* ProfileViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewTests.swift; sourceTree = "<group>"; };
 		BA5D56F4292E924C00264CC2 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
-		BA5D8528292AAA34000D3168 /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Bold.ttf"; sourceTree = "<group>"; };
-		BA5D8529292AAA34000D3168 /* YS Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Medium.ttf"; sourceTree = "<group>"; };
 		BA6F4E5B2929171D0026FC74 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA6F4E5E2929171D0026FC74 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA6F4E602929171D0026FC74 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -140,7 +136,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BAE794C82979C64F0030EC92 /* Kingfisher in Frameworks */,
+				BACD49282A7996020094B342 /* Kingfisher in Frameworks */,
 				BAE794BF2979C6090030EC92 /* ProgressHUD in Frameworks */,
 				BAE794C22979C6230030EC92 /* SwiftKeychainWrapper in Frameworks */,
 			);
@@ -245,7 +241,6 @@
 		BA5D8525292AA954000D3168 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				BA5D8527292AA9E2000D3168 /* Fonts */,
 				BA6F4E692929171E0026FC74 /* LaunchScreen.storyboard */,
 				BA6F4E672929171E0026FC74 /* Assets.xcassets */,
 				BA6F4E6C2929171E0026FC74 /* Info.plist */,
@@ -261,15 +256,6 @@
 			path = Presentation;
 			sourceTree = "<group>";
 		};
-		BA5D8527292AA9E2000D3168 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				BA5D8528292AAA34000D3168 /* YS Display-Bold.ttf */,
-				BA5D8529292AAA34000D3168 /* YS Display-Medium.ttf */,
-			);
-			path = Fonts;
-			sourceTree = "<group>";
-		};
 		BA6F4E522929171D0026FC74 = {
 			isa = PBXGroup;
 			children = (
@@ -277,6 +263,7 @@
 				BAC49F3A2996E01600E87D9F /* ImageFeedTests */,
 				BA233BC429A40CE100B83D4E /* ImageFeedUITests */,
 				BA6F4E5C2929171D0026FC74 /* Products */,
+				BACD49222A79954C0094B342 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -347,6 +334,13 @@
 				BA5B52AE29A5608200257C17 /* ProfileViewTests.swift */,
 			);
 			path = ImageFeedTests;
+			sourceTree = "<group>";
+		};
+		BACD49222A79954C0094B342 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		BADBCE41297E82230093B45C /* ImagesListService */ = {
@@ -433,7 +427,7 @@
 			packageProductDependencies = (
 				BAE794BE2979C6090030EC92 /* ProgressHUD */,
 				BAE794C12979C6230030EC92 /* SwiftKeychainWrapper */,
-				BAE794C72979C64F0030EC92 /* Kingfisher */,
+				BACD49272A7996020094B342 /* Kingfisher */,
 			);
 			productName = ImageFeed;
 			productReference = BA6F4E5B2929171D0026FC74 /* ImageFeed.app */;
@@ -492,7 +486,7 @@
 			packageReferences = (
 				BAE794BD2979C6090030EC92 /* XCRemoteSwiftPackageReference "ProgressHUD" */,
 				BAE794C02979C6230030EC92 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
-				BAE794C62979C64F0030EC92 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				BACD49262A7996020094B342 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = BA6F4E5C2929171D0026FC74 /* Products */;
 			projectDirPath = "";
@@ -520,8 +514,6 @@
 				BA6F4E6B2929171E0026FC74 /* LaunchScreen.storyboard in Resources */,
 				BA6F4E682929171E0026FC74 /* Assets.xcassets in Resources */,
 				BA6F4E662929171D0026FC74 /* Main.storyboard in Resources */,
-				BA5D852A292AAA34000D3168 /* YS Display-Bold.ttf in Resources */,
-				BA5D852B292AAA34000D3168 /* YS Display-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -933,6 +925,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BACD49262A7996020094B342 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = exactVersion;
+				version = 7.9.0;
+			};
+		};
 		BAE794BD2979C6090030EC92 /* XCRemoteSwiftPackageReference "ProgressHUD" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/relatedcode/ProgressHUD";
@@ -949,17 +949,14 @@
 				version = 4.0.1;
 			};
 		};
-		BAE794C62979C64F0030EC92 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher";
-			requirement = {
-				kind = exactVersion;
-				version = 7.5.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BACD49272A7996020094B342 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BACD49262A7996020094B342 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		BAE794BE2979C6090030EC92 /* ProgressHUD */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BAE794BD2979C6090030EC92 /* XCRemoteSwiftPackageReference "ProgressHUD" */;
@@ -969,11 +966,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BAE794C02979C6230030EC92 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
 			productName = SwiftKeychainWrapper;
-		};
-		BAE794C72979C64F0030EC92 /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BAE794C62979C64F0030EC92 /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
